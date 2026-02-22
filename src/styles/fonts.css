@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* SF Pro font - using system fonts fallback */
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: 400;
+  font-style: normal;
+  src: local('SF Pro Text'), local('SF Pro Display'), local('-apple-system'), local('BlinkMacSystemFont');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: 590;
+  font-style: normal;
+  src: local('SF Pro Text Semibold'), local('SF Pro Display Semibold'), local('-apple-system'), local('BlinkMacSystemFont');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: 700;
+  font-style: normal;
+  src: local('SF Pro Text Bold'), local('SF Pro Display Bold'), local('-apple-system'), local('BlinkMacSystemFont');
+}
