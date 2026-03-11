@@ -353,7 +353,7 @@ app.post('/api/upload', requireAdminKey, upload.single('file'), async (req, res)
       // Upload to Cloudinary
       const isPdf = req.file.mimetype === 'application/pdf';
       const result = await new Promise((resolve, reject) => {
-        const originalName = path.parse(req.file.originalname).name;
+        const originalName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
         const stream = cloudinary.uploader.upload_stream(
           {
             resource_type: isPdf ? 'raw' : 'image',
