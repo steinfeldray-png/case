@@ -132,10 +132,10 @@ export default function CaseStudy() {
 
           {/* Hero Image */}
           {project.imageUrl && (
-            <div className="rounded-[16px] md:rounded-[24px] overflow-hidden mb-[32px] md:mb-[64px]">
+            <div className="rounded-[16px] md:rounded-[24px] overflow-hidden mb-[32px] md:mb-[64px] h-[240px] md:h-[479px]">
               <img
                 alt={project.title}
-                className="w-full h-auto block"
+                className="w-full h-full object-cover block"
                 src={project.imageUrl}
               />
             </div>
