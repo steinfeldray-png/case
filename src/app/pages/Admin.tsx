@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase } from 'lucide-react';
 import { API_ENDPOINTS } from '/src/config/api';
+
+const getAdminKey = () => sessionStorage.getItem('adminKey') || '';
+
+const adminHeaders = () => ({
+  'Content-Type': 'application/json',
+  'X-Admin-Key': getAdminKey(),
+});
+
+const adminFetchHeaders = () => ({
+  'X-Admin-Key': getAdminKey(),
+});
 
 interface Project {
   id: number;
@@ -28,11 +39,39 @@ interface Profile {
 }
 
 export default function Admin() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [authorized, setAuthorized] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [activeTab, setActiveTab] = useState<'projects' | 'profile'>('projects');
+
+  useEffect(() => {
+    const urlKey = searchParams.get('key');
+    const storedKey = sessionStorage.getItem('adminKey');
+    const validKey = import.meta.env.VITE_ADMIN_KEY;
+
+    if (!validKey) {
+      setAuthorized(true);
+    } else if (urlKey === validKey) {
+      sessionStorage.setItem('adminKey', urlKey);
+      navigate('/admin', { replace: true });
+      setAuthorized(true);
+    } else if (storedKey === validKey) {
+      setAuthorized(true);
+    } else {
+      navigate('/', { replace: true });
+    }
+  }, []);
+
+  // Все хуки должны быть до условного return
+  useEffect(() => {
+    if (authorized) fetchProjects();
+  }, [authorized]);
+
+  if (!authorized) return null;
 
   const emptyProject: Omit<Project, 'id'> = {
     slug: '',
@@ -46,10 +85,6 @@ export default function Admin() {
     results: [''],
     tags: ['']
   };
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
 
   const fetchProjects = async () => {
     try {
@@ -75,9 +110,7 @@ export default function Admin() {
 
       const response = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: adminHeaders(),
         body: JSON.stringify(project)
       });
 
@@ -97,7 +130,8 @@ export default function Admin() {
 
     try {
       const response = await fetch(API_ENDPOINTS.projectById(id), {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: adminFetchHeaders(),
       });
 
       const result = await response.json();
@@ -109,23 +143,6 @@ export default function Admin() {
     }
   };
 
-  const initializeDatabase = async () => {
-    if (!confirm('Это загрузит демо-проекты в базу данных. Продолжить?')) return;
-
-    try {
-      const response = await fetch(API_ENDPOINTS.init, {
-        method: 'POST'
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        await fetchProjects();
-        alert('База данных инициализирована!');
-      }
-    } catch (error) {
-      console.error('Error initializing database:', error);
-    }
-  };
 
   return (
     <div className="bg-[#fffbfa] min-h-screen">
@@ -143,12 +160,6 @@ export default function Admin() {
           </Link>
         </div>
         <div className="flex gap-[12px]">
-          <button
-            onClick={initializeDatabase}
-            className="bg-[#f5f0ef] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#281d1b] text-[17px] hover:bg-[#e5e0df] transition-colors"
-          >
-            Загрузить демо-данные
-          </button>
           <button
             onClick={() => {
               setIsCreating(true);
@@ -239,9 +250,7 @@ export default function Admin() {
                       src={project.imageUrl}
                       alt={project.title}
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Нет+изображения';
-                      }}
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
                   </div>
                 )}
@@ -314,6 +323,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         API_ENDPOINTS.upload,
         {
           method: 'POST',
+          headers: adminFetchHeaders(),
           body: formData
         }
       );
@@ -371,6 +381,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         API_ENDPOINTS.upload,
         {
           method: 'POST',
+          headers: adminFetchHeaders(),
           body: formData
         }
       );
@@ -520,9 +531,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
                 src={project.imageUrl}
                 alt="Превью"
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/280x280?text=Ошибка+загрузки';
-                }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
               <button
                 type="button"
@@ -810,6 +819,7 @@ function ProfileSettings() {
         API_ENDPOINTS.upload,
         {
           method: 'POST',
+          headers: adminFetchHeaders(),
           body: formData
         }
       );
@@ -867,6 +877,7 @@ function ProfileSettings() {
         API_ENDPOINTS.upload,
         {
           method: 'POST',
+          headers: adminFetchHeaders(),
           body: formData
         }
       );
@@ -900,9 +911,7 @@ function ProfileSettings() {
         API_ENDPOINTS.profile,
         {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: adminHeaders(),
           body: JSON.stringify(profile)
         }
       );
@@ -926,7 +935,7 @@ function ProfileSettings() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px] max-w-[1200px] mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px]">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[34px]">
           Настройки профиля
@@ -956,9 +965,7 @@ function ProfileSettings() {
                 src={profile.photoUrl}
                 alt="Превью"
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/280x280?text=Ошибка+загрузки';
-                }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
               <button
                 type="button"
@@ -1029,25 +1036,36 @@ function ProfileSettings() {
           </label>
           
           {profile.cvUrl ? (
-            <div className="relative rounded-[12px] overflow-hidden border border-[#ccc] w-[280px] h-[280px]">
-              <img
-                src={profile.cvUrl}
-                alt="Превью"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/280x280?text=Ошибка+загрузки';
-                }}
-              />
+            <div className="flex items-center gap-[12px] p-[16px] border border-[#ccc] rounded-[12px] bg-[#f5f0ef] w-fit">
+              <a
+                href={profile.cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-['SF_Pro',sans-serif] text-[#007AFF] text-[15px] underline max-w-[200px] truncate"
+              >
+                {profile.cvUrl.split('/').pop() || 'Резюме'}
+              </a>
+              <label className="cursor-pointer p-[8px] bg-white rounded-[8px] hover:bg-[#e5e0df] transition-colors" title="Заменить">
+                <Upload className="size-[16px] text-[#281d1b]" />
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleCVUpload}
+                  disabled={uploadingCV}
+                  className="hidden"
+                />
+              </label>
               <button
                 type="button"
                 onClick={() => updateField('cvUrl', '')}
-                className="absolute top-[8px] right-[8px] p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors"
+                className="p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors"
+                title="Удалить"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
             </div>
           ) : (
-            <label className="w-[280px] h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
+            <label className="w-[280px] h-[120px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
               <Upload className="size-[32px] text-[#281d1b]" />
               <span className="text-[#281d1b] text-center px-[16px]">
                 {uploadingCV ? 'Загрузка...' : 'Выбрать резюме'}

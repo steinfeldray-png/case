@@ -4,12 +4,26 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+// Middleware: проверка admin-ключа для мутирующих запросов
+const requireAdminKey = (req, res, next) => {
+  const adminKey = process.env.ADMIN_KEY;
+  if (!adminKey) return next(); // Ключ не настроен — открытый доступ (dev)
+  const provided = req.headers['x-admin-key'];
+  if (provided !== adminKey) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+  }
+  next();
+};
 
 // Middleware
 app.use(express.json());
@@ -158,16 +172,14 @@ app.get('/api/projects/:slug', (req, res) => {
   res.json({ success: true, data: project });
 });
 
-app.post('/api/projects', (req, res) => {
-  const newProject = {
-    id: projects.length + 1,
-    ...req.body
-  };
+app.post('/api/projects', requireAdminKey, (req, res) => {
+  const newId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
+  const newProject = { id: newId, ...req.body };
   projects.push(newProject);
   res.json({ success: true, data: newProject });
 });
 
-app.put('/api/projects/:id', (req, res) => {
+app.put('/api/projects/:id', requireAdminKey, (req, res) => {
   const id = parseInt(req.params.id);
   const index = projects.findIndex(p => p.id === id);
   
@@ -179,7 +191,7 @@ app.put('/api/projects/:id', (req, res) => {
   res.json({ success: true, data: projects[index] });
 });
 
-app.delete('/api/projects/:id', (req, res) => {
+app.delete('/api/projects/:id', requireAdminKey, (req, res) => {
   const id = parseInt(req.params.id);
   projects = projects.filter(p => p.id !== id);
   res.json({ success: true });
@@ -189,17 +201,18 @@ app.get('/api/profile', (req, res) => {
   res.json({ success: true, data: profile });
 });
 
-app.put('/api/profile', (req, res) => {
+app.put('/api/profile', requireAdminKey, (req, res) => {
   profile = { ...profile, ...req.body };
   res.json({ success: true, data: profile });
 });
 
-app.post('/api/upload', upload.single('file'), (req, res) => {
+app.post('/api/upload', requireAdminKey, upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, error: 'No file provided' });
   }
 
-  const fileUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+  const baseUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get('host')}`;
+  const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
   res.json({
     success: true,
     data: {
@@ -209,7 +222,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   });
 });
 
-app.post('/api/init', (req, res) => {
+app.post('/api/init', requireAdminKey, (req, res) => {
   res.json({ success: true, message: 'Demo data already loaded' });
 });
 

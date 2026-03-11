@@ -27,6 +27,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware: проверка admin-ключа для мутирующих запросов
+const requireAdminKey = (req, res, next) => {
+  const adminKey = process.env.ADMIN_KEY;
+  if (!adminKey) return next(); // Ключ не настроен — открытый доступ (dev)
+  const provided = req.headers['x-admin-key'];
+  if (provided !== adminKey) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+  }
+  next();
+};
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -171,7 +182,7 @@ app.get('/api/projects/:slug', async (req, res) => {
 });
 
 // Create new project
-app.post('/api/projects', async (req, res) => {
+app.post('/api/projects', requireAdminKey, async (req, res) => {
   try {
     const projectData = {
       slug: req.body.slug,
@@ -215,7 +226,7 @@ app.post('/api/projects', async (req, res) => {
 });
 
 // Update project
-app.put('/api/projects/:id', async (req, res) => {
+app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     
@@ -265,7 +276,7 @@ app.put('/api/projects/:id', async (req, res) => {
 });
 
 // Delete project
-app.delete('/api/projects/:id', async (req, res) => {
+app.delete('/api/projects/:id', requireAdminKey, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     await deleteProject(id);
@@ -298,7 +309,7 @@ app.get('/api/profile', async (req, res) => {
 });
 
 // Update profile
-app.put('/api/profile', async (req, res) => {
+app.put('/api/profile', requireAdminKey, async (req, res) => {
   try {
     const profileData = {
       photoUrl: req.body.photoUrl,
@@ -327,7 +338,7 @@ app.put('/api/profile', async (req, res) => {
 });
 
 // Upload image/file
-app.post('/api/upload', upload.single('file'), (req, res) => {
+app.post('/api/upload', requireAdminKey, upload.single('file'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, error: 'No file provided' });
@@ -353,7 +364,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 });
 
 // Initialize database with demo data
-app.post('/api/init', async (req, res) => {
+app.post('/api/init', requireAdminKey, async (req, res) => {
   try {
     await seedDemoData();
     res.json({ success: true, message: 'Database initialized with demo data' });

@@ -133,13 +133,15 @@ export default function CaseStudy() {
           </div>
 
           {/* Hero Image */}
-          <div className="relative rounded-[24px] overflow-hidden h-[600px] mb-[64px]">
-            <img 
-              alt={project.title}
-              className="absolute max-w-none object-cover size-full" 
-              src={project.imageUrl || `https://images.unsplash.com/photo-${1460925895917 + index * 1000}-${index === 0 ? '15a4b203' : index === 1 ? '2a7b7b2c' : index === 2 ? '3c8d8d3d' : '4e9e9e4e'}-${(index + 1) * 12345}a?w=1600&h=900&fit=crop`}
-            />
-          </div>
+          {project.imageUrl && (
+            <div className="relative rounded-[24px] overflow-hidden h-[600px] mb-[64px]">
+              <img
+                alt={project.title}
+                className="absolute max-w-none object-cover size-full"
+                src={project.imageUrl}
+              />
+            </div>
+          )}
 
           {/* Content Sections */}
           <div className="grid grid-cols-12 gap-[48px]">
@@ -174,9 +176,7 @@ export default function CaseStudy() {
                           alt={`${project.title} - скриншот ${imgIndex + 1}`}
                           className="w-full h-auto object-contain" 
                           src={imageUrl}
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Изображение+не+найдено';
-                          }}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />
                       </div>
                     ))}

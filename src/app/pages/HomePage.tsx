@@ -47,7 +47,7 @@ export default function HomePage() {
         const projectsResult = await projectsResponse.json();
         console.log('✅ Projects loaded:', projectsResult);
         if (projectsResult.success) {
-          setProjects(projectsResult.data);
+          setProjects([...projectsResult.data].reverse());
         }
       }
 
@@ -99,12 +99,6 @@ export default function HomePage() {
           >
             Обо мне
           </button>
-          <Link 
-            to="/admin"
-            className="relative shrink-0 cursor-pointer hover:opacity-60 transition-opacity text-[#007AFF]"
-          >
-            Админка
-          </Link>
         </div>
       </div>
 
@@ -213,12 +207,20 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="flex-[1_0_0] min-h-px min-w-px relative rounded-[24px] w-full overflow-hidden">
-                  <img 
-                    alt={project.title}
-                    className="absolute max-w-none object-cover rounded-[24px] size-full group-hover:scale-[1.02] transition-transform duration-300" 
-                    src={project.imageUrl || `https://images.unsplash.com/photo-${1460925895917 + index * 1000}-${index === 0 ? '15a4b203' : index === 1 ? '2a7b7b2c' : index === 2 ? '3c8d8d3d' : '4e9e9e4e'}-${(index + 1) * 12345}a?w=800&h=600&fit=crop`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {project.imageUrl ? (
+                    <>
+                      <img
+                        alt={project.title}
+                        className="absolute max-w-none object-cover rounded-[24px] size-full group-hover:scale-[1.02] transition-transform duration-300"
+                        src={project.imageUrl}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 bg-[#f5f0ef] rounded-[24px] flex items-center justify-center">
+                      <span className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[20px]">{project.title}</span>
+                    </div>
+                  )}
                 </div>
               </Link>
             ))
@@ -232,7 +234,11 @@ export default function HomePage() {
           </div>
           <div className="flex flex-[1_0_0] flex-col font-['Roboto',sans-serif] justify-center leading-[1.2] min-h-px min-w-px relative text-[24px] whitespace-pre-wrap">
             {profile.about ? (
-              <div dangerouslySetInnerHTML={{ __html: profile.about.replace(/\n/g, '<br />') }} />
+              <div>
+                {profile.about.split('\n').map((line, i, arr) => (
+                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                ))}
+              </div>
             ) : (
               <>
                 <p className="mb-[32px]">Продуктовый дизайнер с опытом в B2B e-commerce и внутренних сервисах. Проектирую сложные сценарии с высокой бизнес-нагрузкой.</p>

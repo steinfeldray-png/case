@@ -2,7 +2,9 @@
 // В production этот URL будет вашим VPS сервером на Timeweb
 // В development - локальный сервер
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// В dev без VITE_API_URL используем пустой base — Vite proxy перенаправит /api/* на localhost:3000
+// В production задай VITE_API_URL=https://your-backend-url
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const API_ENDPOINTS = {
   projects: `${API_BASE_URL}/api/projects`,

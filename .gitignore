@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Build
+dist/
+
+# Environment variables (contain secrets!)
+.env
+.env.local
+backend/.env
+backend/.env.local
+
+# Uploads (user files)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Claude internal
+.claude/
+
+# OS
+.DS_Store
