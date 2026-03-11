@@ -193,7 +193,7 @@ export default function CaseStudy() {
                   Результаты
                 </h3>
                 <ul className="space-y-[16px]">
-                  {project.results.map((result, idx) => (
+                  {(project.results || []).map((result, idx) => (
                     <li key={idx} className="flex items-start gap-[12px]">
                       <span className="text-[#007AFF] text-[24px] mt-[-4px]">✓</span>
                       <span className="font-['Roboto',sans-serif] text-[#000000] text-[20px] leading-[1.4]">
@@ -210,7 +210,7 @@ export default function CaseStudy() {
                   Технологии и методы
                 </h3>
                 <div className="flex flex-wrap gap-[8px]">
-                  {project.tags.map((tag, idx) => (
+                  {(project.tags || []).map((tag, idx) => (
                     <span 
                       key={idx}
                       className="bg-[#f5f0ef] px-[16px] py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px]"
