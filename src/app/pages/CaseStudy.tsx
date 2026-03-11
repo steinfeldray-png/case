@@ -84,7 +84,7 @@ export default function CaseStudy() {
     <div className="bg-[#fffbfa] min-h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
-      <div className="bg-[#fffbfa] flex items-center justify-between px-5 md:px-[48px] py-[16px] sticky top-0 z-10">
+      <div className="bg-[#fffbfa] flex items-center justify-between px-5 md:px-[80px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
@@ -103,7 +103,7 @@ export default function CaseStudy() {
       </div>
 
       {/* Hero Section */}
-      <div className="px-5 md:px-[48px] py-[32px] md:py-[64px]">
+      <div className="px-5 md:px-[80px] py-[32px] md:py-[64px]">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-[16px] md:mb-[24px]">
             <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[40px] md:text-[72px] leading-[1.1] tracking-[-1.5px] md:tracking-[-3px]">
