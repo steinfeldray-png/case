@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '/src/config/api';
 
@@ -98,7 +98,7 @@ export default function CaseStudy() {
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
         >
-          <ArrowLeft className="size-[20px] md:size-[24px]" />
+          <ChevronLeft className="size-[20px] md:size-[24px]" />
           <p className="font-['SF_Pro',sans-serif] font-normal text-[18px] md:text-[28px] tracking-[0.38px]">
             Назад
           </p>
@@ -243,7 +243,7 @@ export default function CaseStudy() {
                     to={`/case/${allProjects[index - 1].slug}`}
                     className="group flex items-center gap-[12px] hover:opacity-60 transition-opacity"
                   >
-                    <ArrowLeft className="size-[24px] text-[#000000]" />
+                    <ChevronLeft className="size-[24px] text-[#000000]" />
                     <div>
                       <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[17px] mb-[4px]">
                         Предыдущий проект
@@ -269,7 +269,7 @@ export default function CaseStudy() {
                         {allProjects[index + 1].title}
                       </p>
                     </div>
-                    <ArrowLeft className="size-[24px] text-[#000000] rotate-180" />
+                    <ChevronLeft className="size-[24px] text-[#000000] rotate-180" />
                   </Link>
                 )}
               </div>
