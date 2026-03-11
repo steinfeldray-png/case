@@ -135,7 +135,7 @@ export default function CaseStudy() {
             <div className="rounded-[16px] md:rounded-[24px] overflow-hidden mb-[32px] md:mb-[64px]">
               <img
                 alt={project.title}
-                className="w-full block max-h-[380px] object-contain"
+                className="w-full h-auto block"
                 src={project.imageUrl}
               />
             </div>
