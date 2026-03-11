@@ -101,7 +101,7 @@ export default function HomePage() {
       <div className="flex flex-col items-start py-[24px] md:py-[48px] relative shrink-0 w-full z-[1]">
 
         {/* Title Section */}
-        <div ref={heroRef} className="bg-[#fffbfa] flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
+        <div ref={heroRef} className="bg-[#fffbfa] flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center md:items-stretch py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
           {/* Text */}
           <div className="flex flex-1 flex-col items-start justify-between w-full min-w-0 gap-[24px] md:gap-0 md:h-full">
             <p className="font-['SF_Pro',sans-serif] font-bold leading-[1] md:leading-[100px] text-[#000000] text-[56px] md:text-[100px] tracking-[-1.5px] md:tracking-[-2px] w-full">
