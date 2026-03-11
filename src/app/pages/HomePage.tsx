@@ -103,11 +103,11 @@ export default function HomePage() {
         {/* Title Section */}
         <div ref={heroRef} className="bg-[#fffbfa] flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center md:items-stretch py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
           {/* Text */}
-          <div className="flex flex-1 flex-col items-start justify-between w-full min-w-0 gap-[24px] md:gap-0 md:h-full">
+          <div className="flex flex-1 flex-col items-start w-full min-w-0 gap-[24px] md:gap-0 md:min-h-[416px]">
             <p className="font-['SF_Pro',sans-serif] font-bold leading-[1] md:leading-[100px] text-[#000000] text-[56px] md:text-[100px] tracking-[-1.5px] md:tracking-[-2px] w-full">
               Product Designer
             </p>
-            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[12px] items-start md:items-end w-full">
+            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[12px] items-start md:items-end w-full md:mt-auto">
               <div className="flex flex-col gap-[4px] items-start text-[#000000]">
                 <p className="font-['SF_Pro',sans-serif] font-bold text-[24px] md:text-[34px] tracking-[-0.5px]">
                   Александр Петров
@@ -164,7 +164,7 @@ export default function HomePage() {
         </div>
 
         {/* Projects Row */}
-        <div ref={casesRef} className="bg-[#fffbfa] flex flex-wrap gap-[24px] md:gap-[48px] items-start py-[24px] md:py-[48px] relative shrink-0 w-full z-[2]">
+        <div ref={casesRef} className="bg-[#fffbfa] grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[48px] py-[24px] md:py-[48px] relative shrink-0 w-full z-[2]">
           {loading ? (
             <div className="w-full text-center py-[48px]">
               <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[20px] md:text-[24px]">Загрузка проектов...</p>
@@ -178,7 +178,7 @@ export default function HomePage() {
               <Link
                 key={project.id}
                 to={`/case/${project.slug}`}
-                className="flex flex-col gap-[12px] md:gap-[16px] h-[280px] md:h-[548px] items-start w-full md:flex-1 md:min-w-[648px] relative group cursor-pointer"
+                className="flex flex-col gap-[12px] md:gap-[16px] h-[280px] md:h-[548px] items-start w-full relative group cursor-pointer"
               >
                 <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-[#ccc] group-hover:border-[#000000] transition-colors duration-300">
                   <p className="flex-1 font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
