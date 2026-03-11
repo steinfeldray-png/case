@@ -83,47 +83,47 @@ export default function CaseStudy() {
   return (
     <div className="bg-[#fffbfa] min-h-screen overflow-y-auto">
       {/* Header */}
-      <div className="bg-[#fffbfa] content-stretch flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10">
+      <div className="bg-[#fffbfa] flex items-center justify-between px-5 md:px-[48px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
         >
-          <ArrowLeft className="size-[24px]" />
-          <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[28px] tracking-[0.38px]">
+          <ArrowLeft className="size-[20px] md:size-[24px]" />
+          <p className="font-['SF_Pro',sans-serif] font-normal text-[18px] md:text-[28px] tracking-[0.38px]">
             Назад
           </p>
         </button>
-        <Link 
+        <Link
           to="/"
-          className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[#000000] text-[28px] tracking-[0.38px]"
+          className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]"
         >
           Alexander Petrov
         </Link>
       </div>
 
       {/* Hero Section */}
-      <div className="px-[48px] py-[64px]">
+      <div className="px-5 md:px-[48px] py-[32px] md:py-[64px]">
         <div className="max-w-[1400px] mx-auto">
-          <div className="mb-[24px]">
-            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[72px] leading-[1.1] tracking-[-3px]">
+          <div className="mb-[16px] md:mb-[24px]">
+            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[40px] md:text-[72px] leading-[1.1] tracking-[-1.5px] md:tracking-[-3px]">
               {project.title}
             </h1>
           </div>
-          
-          <div className="flex gap-[48px] mb-[48px]">
+
+          <div className="flex gap-[24px] md:gap-[48px] mb-[32px] md:mb-[48px]">
             <div>
-              <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px] mb-[8px]">
+              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
                 Продукт
               </p>
-              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#000000] text-[22px]">
+              <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
                 {project.product}
               </p>
             </div>
             <div>
-              <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px] mb-[8px]">
+              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
                 Платформа
               </p>
-              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#000000] text-[22px]">
+              <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
                 {project.platform}
               </p>
             </div>
@@ -131,7 +131,7 @@ export default function CaseStudy() {
 
           {/* Hero Image */}
           {project.imageUrl && (
-            <div className="relative rounded-[24px] overflow-hidden h-[600px] mb-[64px]">
+            <div className="relative rounded-[16px] md:rounded-[24px] overflow-hidden h-[220px] md:h-[600px] mb-[32px] md:mb-[64px]">
               <img
                 alt={project.title}
                 className="absolute max-w-none object-cover size-full"
@@ -141,37 +141,37 @@ export default function CaseStudy() {
           )}
 
           {/* Content Sections */}
-          <div className="grid grid-cols-12 gap-[48px]">
-            <div className="col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-[32px] md:gap-[48px]">
+            <div className="col-span-1 md:col-span-8">
               {/* Challenge */}
-              <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] tracking-[-1px] mb-[24px]">
+              <section className="mb-[40px] md:mb-[64px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
                   Задача
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
+                <p className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6]">
                   {project.challenge}
                 </p>
               </section>
 
               {/* Solution */}
-              <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] tracking-[-1px] mb-[24px]">
+              <section className="mb-[40px] md:mb-[64px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
                   Решение
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
+                <p className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6]">
                   {project.solution}
                 </p>
               </section>
 
               {/* Images */}
               {project.caseImages && project.caseImages.length > 0 && (
-                <section className="mb-[64px]">
-                  <div className="flex flex-col gap-[24px]">
+                <section className="mb-[40px] md:mb-[64px]">
+                  <div className="flex flex-col gap-[16px] md:gap-[24px]">
                     {project.caseImages.map((imageUrl, imgIndex) => (
-                      <div key={imgIndex} className="rounded-[24px] overflow-hidden w-full">
-                        <img 
+                      <div key={imgIndex} className="rounded-[16px] md:rounded-[24px] overflow-hidden w-full">
+                        <img
                           alt={`${project.title} - скриншот ${imgIndex + 1}`}
-                          className="w-full h-auto object-contain" 
+                          className="w-full h-auto object-contain"
                           src={imageUrl}
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />
@@ -183,17 +183,17 @@ export default function CaseStudy() {
             </div>
 
             {/* Sidebar */}
-            <div className="col-span-4">
+            <div className="col-span-1 md:col-span-4">
               {/* Results */}
-              <div className="bg-[#f5f0ef] rounded-[24px] p-[32px] mb-[32px]">
-                <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] mb-[24px]">
+              <div className="bg-[#f5f0ef] rounded-[16px] md:rounded-[24px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
+                <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   Результаты
                 </h3>
-                <ul className="space-y-[16px]">
+                <ul className="space-y-[12px] md:space-y-[16px]">
                   {(project.results || []).map((result, idx) => (
-                    <li key={idx} className="flex items-start gap-[12px]">
-                      <span className="text-[#007AFF] text-[24px] mt-[-4px]">✓</span>
-                      <span className="font-['Roboto',sans-serif] text-[#000000] text-[20px] leading-[1.4]">
+                    <li key={idx} className="flex items-start gap-[10px] md:gap-[12px]">
+                      <span className="text-[#007AFF] text-[18px] md:text-[24px] mt-[-2px] md:mt-[-4px]">✓</span>
+                      <span className="font-['Roboto',sans-serif] text-[#000000] text-[15px] md:text-[20px] leading-[1.4]">
                         {result}
                       </span>
                     </li>
@@ -203,14 +203,14 @@ export default function CaseStudy() {
 
               {/* Tags */}
               <div>
-                <h3 className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[17px] mb-[12px]">
+                <h3 className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] mb-[10px] md:mb-[12px]">
                   Технологии и методы
                 </h3>
                 <div className="flex flex-wrap gap-[8px]">
                   {(project.tags || []).map((tag, idx) => (
-                    <span 
+                    <span
                       key={idx}
-                      className="bg-[#f5f0ef] px-[16px] py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px]"
+                      className="bg-[#f5f0ef] px-[12px] md:px-[16px] py-[6px] md:py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[13px] md:text-[17px]"
                     >
                       {tag}
                     </span>
@@ -221,7 +221,7 @@ export default function CaseStudy() {
           </div>
 
           {/* Next/Previous Projects */}
-          <div className="border-t border-[#ccc] pt-[48px] mt-[64px]">
+          <div className="border-t border-[#ccc] pt-[32px] md:pt-[48px] mt-[40px] md:mt-[64px]">
             <div className="flex justify-between items-center">
               <div>
                 {index > 0 && (
