@@ -145,9 +145,9 @@ export default function Admin() {
 
 
   return (
-    <div className="bg-[#fffbfa] min-h-screen">
+    <div className="bg-[#fcfcfc] min-h-screen">
       {/* Header */}
-      <div className="bg-[#fffbfa] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10 border-b border-[#ccc]">
+      <div className="bg-[#fcfcfc] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10 border-b border-[#ccc]">
         <div className="flex items-center gap-[24px]">
           <Link
             to="/"

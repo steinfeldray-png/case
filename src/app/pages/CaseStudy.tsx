@@ -54,7 +54,7 @@ export default function CaseStudy() {
 
   if (loading) {
     return (
-      <div className="bg-[#fffbfa] size-full flex items-center justify-center">
+      <div className="bg-[#fcfcfc] size-full flex items-center justify-center">
         <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[24px]">Загрузка...</p>
       </div>
     );
@@ -62,7 +62,7 @@ export default function CaseStudy() {
 
   if (!project) {
     return (
-      <div className="bg-[#fffbfa] size-full flex items-center justify-center">
+      <div className="bg-[#fcfcfc] size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
@@ -81,10 +81,10 @@ export default function CaseStudy() {
   const index = allProjects.findIndex(p => p.slug === slug);
 
   return (
-    <div className="bg-[#fffbfa] min-h-screen overflow-y-auto">
+    <div className="bg-[#fcfcfc] min-h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
-      <div className="bg-[#fffbfa] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+      <div className="bg-[#fcfcfc] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
