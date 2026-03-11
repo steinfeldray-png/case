@@ -225,42 +225,22 @@ export default function HomePage() {
         </div>
 
         {/* About Me Section */}
-        <div ref={aboutRef} className="flex flex-col md:flex-row font-normal gap-[16px] md:gap-[24px] items-start py-[24px] md:py-[48px] relative shrink-0 text-black w-full z-[1]">
-          <div className="font-['SF_Pro',sans-serif] text-[32px] md:text-[42px] tracking-[-1px] w-full md:w-[324px] shrink-0">
-            <p className="leading-none">Обо мне</p>
-          </div>
-          <div className="flex flex-col font-['Roboto',sans-serif] min-w-0 text-[16px] md:text-[24px] leading-[1.4] md:leading-[1.2] whitespace-pre-wrap">
+        <div ref={aboutRef} className="flex flex-col font-normal gap-[24px] items-start py-[24px] md:py-[48px] relative shrink-0 text-black w-full z-[1]">
+          <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[32px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] leading-none">
+            Обо мне
+          </p>
+          <div className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.4] md:leading-[1.2]">
             {profile.about ? (
-              <div>
-                {profile.about.split('\n').map((line, i, arr) => (
-                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                ))}
-              </div>
+              profile.about.split('\n\n').map((para, i, arr) => (
+                <p key={i} className={i < arr.length - 1 ? 'mb-[24px] md:mb-[32px]' : ''}>
+                  {para}
+                </p>
+              ))
             ) : (
               <>
-                <p className="mb-[24px] md:mb-[32px]">Продуктовый дизайнер с опытом в B2B e-commerce и внутренних сервисах. Проектирую сложные сценарии с высокой бизнес-нагрузкой.</p>
-                <p className="mb-[24px] md:mb-[32px]">Работаю по end-to-end циклу: исследование - гипотезы - прототипирование - запуск - аналитика - итерации. Принимаю решения на основе исследований и бизнес-метрик.</p>
-
-                <h3 className="font-bold text-[20px] md:text-[28px] mt-[32px] md:mt-[40px] mb-[12px] md:mb-[16px]">Soft Skills</h3>
-                <ul className="list-disc pl-[20px] md:pl-[24px] mb-[24px] md:mb-[32px] space-y-[6px] md:space-y-[8px]">
-                  <li>Сильное продуктовое мышление, ориентация на метрики и impact;</li>
-                  <li>Работа в кросс-функциональных командах (PM, аналитика, разработка);</li>
-                  <li>Умение аргументровать и защищать решения;</li>
-                  <li>Участие в discovery, приоритизации и формировании roadmap;</li>
-                  <li>Системность, структурность, самостоятельность.</li>
-                </ul>
-
-                <h3 className="font-bold text-[20px] md:text-[28px] mt-[20px] md:mt-[24px] mb-[12px] md:mb-[16px]">Hard Skills</h3>
-                <ul className="list-disc pl-[20px] md:pl-[24px] space-y-[6px] md:space-y-[8px]">
-                  <li>Проектирование сложных интерфейсов;</li>
-                  <li>Оптимизация пользовательских сценариев с измеримым результатом;</li>
-                  <li>Проведение интервью, A/B-тестов, юзабилити-исследований, количественных исследований;</li>
-                  <li>Low-fi / High-fi прототипирование;</li>
-                  <li>Работа с дизайн-системами: развитие, документация, масштабирование;</li>
-                  <li>Подготовка UI к разработке и контроль реализации (design review);</li>
-                  <li>Работа с аналитикой (GA, Яндекс.Метрика);</li>
-                  <li>Базовый HTML/CSS.</li>
-                </ul>
+                <p className="mb-[24px] md:mb-[32px]">Продуктовый дизайнер с фокусом на B2B e-commerce и внутренние сервисы. Проектирую сложные сценарии с высокой бизнес-нагрузкой и помогаю командам принимать решения на основе данных.</p>
+                <p className="mb-[24px] md:mb-[32px]">Работаю по полному циклу: от исследования и формирования гипотез до прототипирования, запуска и итераций на основе метрик. Участвую в discovery, приоритизации задач и формировании roadmap вместе с PM и аналитикой.</p>
+                <p>Использую аналитику, интервью и A/B-тесты, чтобы улучшать продукт измеримо. Выстраиваю дизайн-системы, веду design review и слежу за качеством реализации.</p>
               </>
             )}
           </div>
