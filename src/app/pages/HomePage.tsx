@@ -75,7 +75,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#fffbfa] w-full h-full overflow-y-auto">
-    <div className="flex flex-col items-start px-5 md:px-[80px] max-w-[1440px] mx-auto w-full">
+    <div className="flex flex-col items-start px-5 md:px-[120px] max-w-[1440px] mx-auto w-full">
       {/* Header */}
       <div className="bg-[#fffbfa] flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2] sticky top-0">
         <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
