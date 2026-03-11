@@ -229,7 +229,7 @@ export default function HomePage() {
           <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[32px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] leading-none">
             Обо мне
           </p>
-          <div className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.4] md:leading-[1.2]">
+          <div className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.4] md:leading-[1.2] max-w-[996px]">
             {profile.about ? (
               profile.about.split('\n\n').map((para, i, arr) => (
                 <p key={i} className={i < arr.length - 1 ? 'mb-[24px] md:mb-[32px]' : ''}>
