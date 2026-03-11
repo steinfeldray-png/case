@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { v2 as cloudinary } from 'cloudinary';
 import {
   initDatabase,
   getAllProjects,
@@ -20,6 +21,15 @@ import {
 
 // Load environment variables
 dotenv.config();
+
+// Configure Cloudinary if credentials are provided
+if (process.env.CLOUDINARY_CLOUD_NAME) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -75,33 +85,26 @@ if (!fs.existsSync(uploadsDir)) {
 // Serve uploaded files statically
 app.use('/uploads', express.static(uploadsDir));
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, uniqueSuffix + ext);
-  }
-});
+// Configure multer — memory storage for Cloudinary, disk for local fallback
+const useCloudinary = !!process.env.CLOUDINARY_CLOUD_NAME;
 
 const upload = multer({
-  storage: storage,
+  storage: useCloudinary ? multer.memoryStorage() : multer.diskStorage({
+    destination: (req, file, cb) => cb(null, uploadsDir),
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+  }),
   limits: {
-    fileSize: parseInt(process.env.MAX_FILE_SIZE || '5242880') // 5MB default
+    fileSize: parseInt(process.env.MAX_FILE_SIZE || '5242880')
   },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif|webp|pdf/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Invalid file type. Only images and PDF files are allowed.'));
-    }
+    if (mimetype && extname) return cb(null, true);
+    cb(new Error('Invalid file type. Only images and PDF files are allowed.'));
   }
 });
 
@@ -338,25 +341,34 @@ app.put('/api/profile', requireAdminKey, async (req, res) => {
 });
 
 // Upload image/file
-app.post('/api/upload', requireAdminKey, upload.single('file'), (req, res) => {
+app.post('/api/upload', requireAdminKey, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, error: 'No file provided' });
     }
 
-    // Generate public URL for the uploaded file
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${PORT}`;
-    const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+    let fileUrl;
 
-    console.log('✅ File uploaded:', req.file.filename);
+    if (useCloudinary) {
+      // Upload to Cloudinary
+      const isPdf = req.file.mimetype === 'application/pdf';
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: isPdf ? 'raw' : 'image', folder: 'portfolio' },
+          (error, result) => error ? reject(error) : resolve(result)
+        );
+        stream.end(req.file.buffer);
+      });
+      fileUrl = result.secure_url;
+      console.log('✅ File uploaded to Cloudinary:', fileUrl);
+    } else {
+      // Local fallback
+      const baseUrl = process.env.BACKEND_URL || `http://localhost:${PORT}`;
+      fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+      console.log('✅ File uploaded locally:', req.file.filename);
+    }
 
-    res.json({
-      success: true,
-      data: {
-        url: fileUrl,
-        fileName: req.file.filename
-      }
-    });
+    res.json({ success: true, data: { url: fileUrl } });
   } catch (error) {
     console.error('Error uploading file:', error);
     res.status(500).json({ success: false, error: error.message });
