@@ -25,6 +25,15 @@ export default function CaseStudy() {
   const [project, setProject] = useState<Project | null>(null);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxSrc(null);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -169,7 +178,11 @@ export default function CaseStudy() {
                 <section className="mb-[40px] md:mb-[64px]">
                   <div className="flex flex-col gap-[16px] md:gap-[24px]">
                     {project.caseImages.map((imageUrl, imgIndex) => (
-                      <div key={imgIndex} className="rounded-[16px] md:rounded-[24px] overflow-hidden w-full">
+                      <div
+                        key={imgIndex}
+                        className="rounded-[16px] md:rounded-[24px] overflow-hidden w-full cursor-zoom-in"
+                        onClick={() => setLightboxSrc(imageUrl)}
+                      >
                         <img
                           alt={`${project.title} - скриншот ${imgIndex + 1}`}
                           className="w-full h-auto object-contain"
@@ -266,5 +279,26 @@ export default function CaseStudy() {
       </div>
       </div>
     </div>
+
+    {/* Lightbox */}
+    {lightboxSrc && (
+      <div
+        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 md:p-8"
+        onClick={() => setLightboxSrc(null)}
+      >
+        <img
+          src={lightboxSrc}
+          alt="Полный размер"
+          className="max-w-full max-h-full object-contain rounded-[8px]"
+          onClick={(e) => e.stopPropagation()}
+        />
+        <button
+          onClick={() => setLightboxSrc(null)}
+          className="absolute top-4 right-4 text-white hover:opacity-60 transition-opacity text-[32px] leading-none"
+        >
+          ×
+        </button>
+      </div>
+    )}
   );
 }
