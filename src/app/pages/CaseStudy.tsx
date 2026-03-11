@@ -104,13 +104,10 @@ export default function CaseStudy() {
       {/* Hero Section */}
       <div className="px-[48px] py-[64px]">
         <div className="max-w-[1400px] mx-auto">
-          <div className="flex gap-[24px] items-center mb-[24px]">
+          <div className="mb-[24px]">
             <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[72px] leading-[1.1] tracking-[-3px]">
               {project.title}
             </h1>
-            <span className="font-['SF_Pro',sans-serif] font-normal text-[#9d9ea2] text-[28px]">
-              {project.year}
-            </span>
           </div>
           
           <div className="flex gap-[48px] mb-[48px]">
