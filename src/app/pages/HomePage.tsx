@@ -108,7 +108,7 @@ export default function HomePage() {
         <div className="bg-[#fffbfa] content-stretch flex gap-[48px] items-center py-[48px] relative shrink-0 w-full z-[3]">
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <div className="content-stretch flex flex-[1_0_0] flex-col h-full items-start justify-between min-h-px min-w-px relative">
-              <p className="font-['SF_Pro',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#000000] text-[100px] tracking-[0.4px] w-full whitespace-pre-wrap">
+              <p className="font-['SF_Pro',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#000000] text-[100px] tracking-[-2px] w-full whitespace-pre-wrap">
                 Product Designer
               </p>
               <div className="content-stretch flex gap-[12px] items-end relative shrink-0 w-full">
