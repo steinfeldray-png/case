@@ -153,7 +153,7 @@ export default function HomePage() {
           </div>
 
           {/* Photo */}
-          <div className="relative rounded-[24px] md:rounded-[42px] shrink-0 w-full md:w-auto md:size-[416px] h-[240px] md:h-[416px] overflow-hidden">
+          <div className="relative rounded-[24px] md:rounded-[42px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden">
             <img
               alt="Александр Петров"
               className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
