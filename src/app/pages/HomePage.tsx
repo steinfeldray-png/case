@@ -178,7 +178,7 @@ export default function HomePage() {
               <Link
                 key={project.id}
                 to={`/case/${project.slug}`}
-                className="flex flex-col gap-[12px] md:gap-[16px] h-[280px] md:h-[548px] items-start w-full relative group cursor-pointer"
+                className="flex flex-col gap-[12px] md:gap-[16px] h-[220px] md:h-[380px] items-start w-full relative group cursor-pointer"
               >
                 <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-[#ccc] group-hover:border-[#000000] transition-colors duration-300">
                   <p className="flex-1 font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
