@@ -151,7 +151,7 @@ export default function Admin() {
         <div className="flex items-center gap-[24px]">
           <Link
             to="/"
-            className="flex items-center gap-[8px] text-[#281d1b] hover:opacity-60 transition-opacity"
+            className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
           >
             <ArrowLeft className="size-[24px]" />
             <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[28px] tracking-[0.38px]">
@@ -165,7 +165,7 @@ export default function Admin() {
               setIsCreating(true);
               setEditingProject({ ...emptyProject, id: 0 } as Project);
             }}
-            className="bg-[#281d1b] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity flex items-center gap-[8px]"
+            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity flex items-center gap-[8px]"
           >
             <Plus className="size-[20px]" />
             Новый проект
@@ -182,8 +182,8 @@ export default function Admin() {
               onClick={() => setActiveTab('projects')}
               className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
                 activeTab === 'projects'
-                  ? 'bg-white text-[#281d1b] shadow-sm'
-                  : 'text-[#281d1b] hover:opacity-60'
+                  ? 'bg-white text-[#000000] shadow-sm'
+                  : 'text-[#000000] hover:opacity-60'
               }`}
             >
               <Briefcase className="size-[16px]" />
@@ -193,8 +193,8 @@ export default function Admin() {
               onClick={() => setActiveTab('profile')}
               className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
                 activeTab === 'profile'
-                  ? 'bg-white text-[#281d1b] shadow-sm'
-                  : 'text-[#281d1b] hover:opacity-60'
+                  ? 'bg-white text-[#000000] shadow-sm'
+                  : 'text-[#000000] hover:opacity-60'
               }`}
             >
               <User className="size-[16px]" />
@@ -233,7 +233,7 @@ export default function Admin() {
                     onClick={() => setEditingProject(project)}
                     className="p-[8px] rounded-[8px] bg-white/90 hover:bg-[#f5f0ef] transition-colors shadow-sm"
                   >
-                    <Edit className="size-[16px] text-[#281d1b]" />
+                    <Edit className="size-[16px] text-[#000000]" />
                   </button>
                   <button
                     onClick={() => handleDelete(project.id)}
@@ -257,13 +257,13 @@ export default function Admin() {
                 
                 {/* Content */}
                 <div className="flex-1">
-                  <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[22px] mb-[8px]">
+                  <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] mb-[8px]">
                     {project.title}
                   </h2>
                   <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[15px] mb-[12px]">
                     {project.product} • {project.platform} • {project.year}
                   </p>
-                  <p className="font-['Roboto',sans-serif] text-[#281d1b] text-[15px] line-clamp-3">
+                  <p className="font-['Roboto',sans-serif] text-[#000000] text-[15px] line-clamp-3">
                     {project.description}
                   </p>
                 </div>
@@ -446,20 +446,20 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
   return (
     <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px] max-w-[1200px] mx-auto">
       <div className="flex items-center justify-between mb-[32px]">
-        <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[34px]">
+        <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           {isCreating ? 'Новый проект' : 'Редактирование проекта'}
         </h2>
         <div className="flex gap-[12px]">
           <button
             type="button"
             onClick={onCancel}
-            className="bg-[#f5f0ef] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#281d1b] text-[17px] hover:bg-[#e5e0df] transition-colors"
+            className="bg-[#f5f0ef] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px] hover:bg-[#e5e0df] transition-colors"
           >
             Отмена
           </button>
           <button
             type="submit"
-            className="bg-[#281d1b] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
+            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
           >
             Сохранить
           </button>
@@ -468,7 +468,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
       <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
         <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Название проекта *
           </label>
           <input
@@ -481,7 +481,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Slug (URL) *
           </label>
           <input
@@ -495,7 +495,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Продукт *
           </label>
           <input
@@ -508,7 +508,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Платформа *
           </label>
           <input
@@ -521,7 +521,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div className="col-span-2">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Изображение проекта
           </label>
           
@@ -543,8 +543,8 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             </div>
           ) : (
             <label className="w-full h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#281d1b]" />
-              <span className="text-[#281d1b] text-center px-[16px]">
+              <Upload className="size-[32px] text-[#000000]" />
+              <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать файл для загрузки'}
               </span>
               <input
@@ -569,7 +569,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div className="col-span-2">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Краткое описание *
           </label>
           <input
@@ -582,7 +582,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         </div>
 
         <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Год *
           </label>
           <input
@@ -596,7 +596,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       </div>
 
       <div className="mb-[24px]">
-        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
           Задача *
         </label>
         <textarea
@@ -609,7 +609,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       </div>
 
       <div className="mb-[24px]">
-        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[8px]">
+        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
           Решение *
         </label>
         <textarea
@@ -623,7 +623,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
       <div className="mb-[24px]">
         <div className="flex items-center justify-between mb-[8px]">
-          <label className="font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px]">
+          <label className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">
             Результаты
           </label>
           <button
@@ -655,7 +655,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
       <div className="mb-[24px]">
         <div className="flex items-center justify-between mb-[8px]">
-          <label className="font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px]">
+          <label className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">
             Теги
           </label>
           <button
@@ -689,7 +689,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       <div className="mb-[24px] border-t border-[#ccc] pt-[24px]">
         <div className="flex items-center justify-between mb-[12px]">
           <div>
-            <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[4px]">
+            <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[4px]">
               Фотографии кейса
             </label>
             <p className="text-[#9d9ea2] text-[14px] font-['SF_Pro',sans-serif]">
@@ -701,8 +701,8 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         {/* File Upload */}
         <div className="mb-[12px]">
           <label className="w-[280px] h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-            <ImageIcon className="size-[32px] text-[#281d1b]" />
-            <span className="text-[#281d1b] text-center px-[16px]">
+            <ImageIcon className="size-[32px] text-[#000000]" />
+            <span className="text-[#000000] text-center px-[16px]">
               {uploadingCaseImage ? 'Загрузка...' : 'Добавить фото кейса'}
             </span>
             <input
@@ -937,13 +937,13 @@ function ProfileSettings() {
   return (
     <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px]">
       <div className="flex items-center justify-between mb-[32px]">
-        <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[34px]">
+        <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           Настройки профиля
         </h2>
         <div className="flex gap-[12px]">
           <button
             type="submit"
-            className="bg-[#281d1b] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
+            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
           >
             Сохранить
           </button>
@@ -955,7 +955,7 @@ function ProfileSettings() {
         
         {/* Photo Section */}
         <div className="mb-[24px]">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[12px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             Фото профиля
           </label>
           
@@ -977,8 +977,8 @@ function ProfileSettings() {
             </div>
           ) : (
             <label className="w-[280px] h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#281d1b]" />
-              <span className="text-[#281d1b] text-center px-[16px]">
+              <Upload className="size-[32px] text-[#000000]" />
+              <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать фото'}
               </span>
               <input
@@ -1003,7 +1003,7 @@ function ProfileSettings() {
         </div>
 
         <div className="mb-[24px]">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[12px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             О себе
           </label>
           <textarea
@@ -1017,7 +1017,7 @@ function ProfileSettings() {
 
         {/* Telegram URL */}
         <div className="mb-[24px]">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[12px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             Ссылка на Telegram
           </label>
           <input
@@ -1031,7 +1031,7 @@ function ProfileSettings() {
 
         {/* CV Section */}
         <div className="mb-[24px]">
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#281d1b] text-[17px] mb-[12px]">
+          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             Резюме
           </label>
           
@@ -1046,7 +1046,7 @@ function ProfileSettings() {
                 {profile.cvUrl.split('/').pop() || 'Резюме'}
               </a>
               <label className="cursor-pointer p-[8px] bg-white rounded-[8px] hover:bg-[#e5e0df] transition-colors" title="Заменить">
-                <Upload className="size-[16px] text-[#281d1b]" />
+                <Upload className="size-[16px] text-[#000000]" />
                 <input
                   type="file"
                   accept="application/pdf"
@@ -1066,8 +1066,8 @@ function ProfileSettings() {
             </div>
           ) : (
             <label className="w-[280px] h-[120px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#281d1b]" />
-              <span className="text-[#281d1b] text-center px-[16px]">
+              <Upload className="size-[32px] text-[#000000]" />
+              <span className="text-[#000000] text-center px-[16px]">
                 {uploadingCV ? 'Загрузка...' : 'Выбрать резюме'}
               </span>
               <input

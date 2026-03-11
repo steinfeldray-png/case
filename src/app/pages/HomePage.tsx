@@ -83,10 +83,10 @@ export default function HomePage() {
     <div className="bg-[#fffbfa] content-stretch flex flex-col isolate items-start px-[48px] relative size-full overflow-y-auto">
       {/* Header */}
       <div className="bg-[#fffbfa] content-stretch flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2] sticky top-0">
-        <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] relative shrink-0 text-[#281d1b] text-[28px] tracking-[0.38px]">
+        <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] relative shrink-0 text-[#000000] text-[28px] tracking-[0.38px]">
           Alexander Petrov
         </p>
-        <div className="content-stretch flex font-['SF_Pro',sans-serif] font-normal gap-[32px] items-start leading-[34px] relative shrink-0 text-[#281d1b] text-[28px] tracking-[0.38px]">
+        <div className="content-stretch flex font-['SF_Pro',sans-serif] font-normal gap-[32px] items-start leading-[34px] relative shrink-0 text-[#000000] text-[28px] tracking-[0.38px]">
           <button 
             onClick={() => scrollToSection(casesRef)}
             className="relative shrink-0 cursor-pointer hover:opacity-60 transition-opacity"
@@ -108,11 +108,11 @@ export default function HomePage() {
         <div className="bg-[#fffbfa] content-stretch flex gap-[48px] items-center py-[48px] relative shrink-0 w-full z-[3]">
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <div className="content-stretch flex flex-[1_0_0] flex-col h-full items-start justify-between min-h-px min-w-px relative">
-              <p className="font-['SF_Pro',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#281d1b] text-[100px] tracking-[0.4px] w-full whitespace-pre-wrap">
+              <p className="font-['SF_Pro',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#000000] text-[100px] tracking-[0.4px] w-full whitespace-pre-wrap">
                 Product Designer
               </p>
               <div className="content-stretch flex gap-[12px] items-end relative shrink-0 w-full">
-                <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-h-px min-w-px relative text-[#281d1b]">
+                <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-h-px min-w-px relative text-[#000000]">
                   <p className="font-['SF_Pro',sans-serif] font-bold leading-[41px] relative shrink-0 text-[34px] tracking-[0.4px]">
                     Александр Петров
                   </p>
@@ -137,7 +137,7 @@ export default function HomePage() {
                         </linearGradient>
                       </defs>
                     </svg>
-                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#281d1b] text-[17px] tracking-[-0.43px]">
+                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#000000] text-[17px] tracking-[-0.43px]">
                       Telegram
                     </p>
                   </a>
@@ -147,9 +147,9 @@ export default function HomePage() {
                     className="bg-[#fffbfa] content-stretch flex gap-[8px] items-center justify-center px-[24px] py-[12px] relative rounded-[100px] shrink-0 hover:bg-[#f5f0ef] transition-colors cursor-pointer border border-[rgba(120,120,128,0.16)] border-solid"
                   >
                     <svg className="relative shrink-0 size-[28px]" fill="none" viewBox="0 0 28 28">
-                      <path d="M14 2C7.372 2 2 7.372 2 14C2 20.628 7.372 26 14 26C20.628 26 26 20.628 26 14C26 7.372 20.628 2 14 2ZM14 8C14.552 8 15 8.448 15 9V14.586L17.293 12.293C17.684 11.902 18.316 11.902 18.707 12.293C19.098 12.684 19.098 13.316 18.707 13.707L14.707 17.707C14.512 17.902 14.256 18 14 18C13.744 18 13.488 17.902 13.293 17.707L9.293 13.707C8.902 13.316 8.902 12.684 9.293 12.293C9.684 11.902 10.316 11.902 10.707 12.293L13 14.586V9C13 8.448 13.448 8 14 8ZM9 19C8.448 19 8 19.448 8 20C8 20.552 8.448 21 9 21H19C19.552 21 20 20.552 20 20C20 19.448 19.552 19 19 19H9Z" fill="#281d1b" />
+                      <path d="M14 2C7.372 2 2 7.372 2 14C2 20.628 7.372 26 14 26C20.628 26 26 20.628 26 14C26 7.372 20.628 2 14 2ZM14 8C14.552 8 15 8.448 15 9V14.586L17.293 12.293C17.684 11.902 18.316 11.902 18.707 12.293C19.098 12.684 19.098 13.316 18.707 13.707L14.707 17.707C14.512 17.902 14.256 18 14 18C13.744 18 13.488 17.902 13.293 17.707L9.293 13.707C8.902 13.316 8.902 12.684 9.293 12.293C9.684 11.902 10.316 11.902 10.707 12.293L13 14.586V9C13 8.448 13.448 8 14 8ZM9 19C8.448 19 8 19.448 8 20C8 20.552 8.448 21 9 21H19C19.552 21 20 20.552 20 20C20 19.448 19.552 19 19 19H9Z" fill="#000000" />
                     </svg>
-                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#281d1b] text-[17px] tracking-[-0.43px]">
+                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#000000] text-[17px] tracking-[-0.43px]">
                       CV
                     </p>
                   </a>
@@ -174,7 +174,7 @@ export default function HomePage() {
             </div>
           ) : projects.length === 0 ? (
             <div className="w-full text-center py-[48px]">
-              <p className="font-['SF_Pro',sans-serif] text-[#281d1b] text-[24px]">Проекты не найдены</p>
+              <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[24px]">Проекты не найдены</p>
             </div>
           ) : (
             projects.map((project, index) => (
@@ -183,8 +183,8 @@ export default function HomePage() {
                 to={`/case/${project.slug}`}
                 className="content-stretch flex flex-[1_0_0] flex-col gap-[16px] h-[548px] items-start min-h-px min-w-[648px] relative group cursor-pointer"
               >
-                <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full border-b border-[#ccc] border-solid group-hover:border-[#281d1b] transition-colors duration-300">
-                  <p className="flex-[1_0_0] font-['SF_Pro',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#281d1b] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap">
+                <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full border-b border-[#ccc] border-solid group-hover:border-[#000000] transition-colors duration-300">
+                  <p className="flex-[1_0_0] font-['SF_Pro',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#000000] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap">
                     {project.title}
                   </p>
                 </div>
@@ -193,7 +193,7 @@ export default function HomePage() {
                     <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px]">
                       Продукт
                     </p>
-                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[25px] text-[#281d1b] text-[20px] tracking-[-0.45px]">
+                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[25px] text-[#000000] text-[20px] tracking-[-0.45px]">
                       {project.product}
                     </p>
                   </div>
@@ -201,7 +201,7 @@ export default function HomePage() {
                     <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px]">
                       Платформа
                     </p>
-                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[25px] text-[#281d1b] text-[20px] tracking-[-0.45px]">
+                    <p className="font-['SF_Pro',sans-serif] font-normal leading-[25px] text-[#000000] text-[20px] tracking-[-0.45px]">
                       {project.platform}
                     </p>
                   </div>

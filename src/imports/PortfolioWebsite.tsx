@@ -4,7 +4,7 @@ import imgAModernUserInterfaceDesignDisplayedOnASleekTabletWithVibrantColorsAndI
 
 function NavigationLinks() {
   return (
-    <div className="content-stretch flex font-['SF_Pro:Regular',sans-serif] font-normal gap-[32px] items-start leading-[34px] relative shrink-0 text-[#281d1b] text-[28px] tracking-[0.38px]" data-name="Navigation Links">
+    <div className="content-stretch flex font-['SF_Pro:Regular',sans-serif] font-normal gap-[32px] items-start leading-[34px] relative shrink-0 text-[#000000] text-[28px] tracking-[0.38px]" data-name="Navigation Links">
       <p className="relative shrink-0" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Кейсы
       </p>
@@ -18,7 +18,7 @@ function NavigationLinks() {
 function Header() {
   return (
     <div className="bg-[#fffbfa] content-stretch flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2]" data-name="Header">
-      <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] relative shrink-0 text-[#281d1b] text-[28px] tracking-[0.38px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] relative shrink-0 text-[#000000] text-[28px] tracking-[0.38px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Alexander Petrov
       </p>
       <NavigationLinks />
@@ -33,7 +33,7 @@ function Header() {
 
 function NameAndLocation() {
   return (
-    <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-h-px min-w-px relative text-[#281d1b]" data-name="Name and Location">
+    <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-h-px min-w-px relative text-[#000000]" data-name="Name and Location">
       <p className="font-['SF_Pro:Bold',sans-serif] font-bold leading-[41px] relative shrink-0 text-[34px] tracking-[0.4px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Александр Петров
       </p>
@@ -64,7 +64,7 @@ function Buttons() {
             </defs>
           </svg>
         </div>
-        <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#281d1b] text-[17px] tracking-[-0.43px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+        <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#000000] text-[17px] tracking-[-0.43px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
           Telegram
         </p>
       </div>
@@ -85,7 +85,7 @@ function Buttons() {
             </defs>
           </svg>
         </div>
-        <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#281d1b] text-[17px] tracking-[-0.43px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+        <p className="font-['SF_Pro:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#000000] text-[17px] tracking-[-0.43px]" style={{ fontVariationSettings: "\'wdth\' 100" }}>
           CV
         </p>
       </div>
@@ -105,7 +105,7 @@ function ContactInfo() {
 function Title() {
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col h-full items-start justify-between min-h-px min-w-px relative" data-name="Title">
-      <p className="font-['SF_Pro:Bold',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#281d1b] text-[100px] tracking-[0.4px] w-full whitespace-pre-wrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="font-['SF_Pro:Bold',sans-serif] font-bold leading-[100px] relative shrink-0 text-[#000000] text-[100px] tracking-[0.4px] w-full whitespace-pre-wrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Product Designer
       </p>
       <ContactInfo />
@@ -136,7 +136,7 @@ function Header1() {
   return (
     <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full" data-name="Header">
       <div aria-hidden="true" className="absolute border-[#ccc] border-b border-solid inset-0 pointer-events-none" />
-      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#281d1b] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#000000] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Комус
       </p>
     </div>
@@ -149,7 +149,7 @@ function ProductInfo() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Продукт</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">E-commerce</p>
       </div>
     </div>
@@ -162,7 +162,7 @@ function PlatformInfo() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Платформа</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">Web, Mobile</p>
       </div>
     </div>
@@ -194,7 +194,7 @@ function Header2() {
   return (
     <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full" data-name="Header">
       <div aria-hidden="true" className="absolute border-[#ccc] border-b border-solid inset-0 pointer-events-none" />
-      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#281d1b] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#000000] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Комус
       </p>
     </div>
@@ -207,7 +207,7 @@ function ProductInfo1() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Продукт</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">E-commerce</p>
       </div>
     </div>
@@ -220,7 +220,7 @@ function PlatformInfo1() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Платформа</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">Web, Mobile</p>
       </div>
     </div>
@@ -252,7 +252,7 @@ function Header3() {
   return (
     <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full" data-name="Header">
       <div aria-hidden="true" className="absolute border-[#ccc] border-b border-solid inset-0 pointer-events-none" />
-      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#281d1b] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#000000] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Комус
       </p>
     </div>
@@ -265,7 +265,7 @@ function ProductInfo2() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Продукт</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">E-commerce</p>
       </div>
     </div>
@@ -278,7 +278,7 @@ function PlatformInfo2() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Платформа</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">Web, Mobile</p>
       </div>
     </div>
@@ -310,7 +310,7 @@ function Header4() {
   return (
     <div className="content-stretch flex items-center pb-[16px] relative shrink-0 w-full" data-name="Header">
       <div aria-hidden="true" className="absolute border-[#ccc] border-b border-solid inset-0 pointer-events-none" />
-      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#281d1b] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <p className="flex-[1_0_0] font-['SF_Pro:Regular',sans-serif] font-normal leading-[34px] min-h-px min-w-px overflow-hidden relative text-[#000000] text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         Комус
       </p>
     </div>
@@ -323,7 +323,7 @@ function ProductInfo3() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Продукт</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">E-commerce</p>
       </div>
     </div>
@@ -336,7 +336,7 @@ function PlatformInfo3() {
       <div className="flex flex-col font-['SF_Pro:Semibold',sans-serif] font-[590] justify-center relative shrink-0 text-[#9d9ea2] text-[17px] tracking-[-0.43px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[22px] whitespace-pre-wrap">Платформа</p>
       </div>
-      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#281d1b] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
+      <div className="flex flex-col font-['SF_Pro:Regular',sans-serif] font-normal justify-center relative shrink-0 text-[#000000] text-[20px] tracking-[-0.45px] w-full" style={{ fontVariationSettings: "\'wdth\' 100" }}>
         <p className="leading-[25px] whitespace-pre-wrap">Web, Mobile</p>
       </div>
     </div>

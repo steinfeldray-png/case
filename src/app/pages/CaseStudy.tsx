@@ -64,7 +64,7 @@ export default function CaseStudy() {
     return (
       <div className="bg-[#fffbfa] size-full flex items-center justify-center">
         <div className="text-center">
-          <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#281d1b] mb-4">
+          <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
           </h1>
           <Link 
@@ -86,7 +86,7 @@ export default function CaseStudy() {
       <div className="bg-[#fffbfa] content-stretch flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-[8px] text-[#281d1b] hover:opacity-60 transition-opacity"
+          className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
         >
           <ArrowLeft className="size-[24px]" />
           <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[28px] tracking-[0.38px]">
@@ -95,7 +95,7 @@ export default function CaseStudy() {
         </button>
         <Link 
           to="/"
-          className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[#281d1b] text-[28px] tracking-[0.38px]"
+          className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[#000000] text-[28px] tracking-[0.38px]"
         >
           Alexander Petrov
         </Link>
@@ -105,7 +105,7 @@ export default function CaseStudy() {
       <div className="px-[48px] py-[64px]">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex gap-[24px] items-center mb-[24px]">
-            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[72px] leading-[1.1]">
+            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[72px] leading-[1.1]">
               {project.title}
             </h1>
             <span className="font-['SF_Pro',sans-serif] font-normal text-[#9d9ea2] text-[28px]">
@@ -118,7 +118,7 @@ export default function CaseStudy() {
               <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px] mb-[8px]">
                 Продукт
               </p>
-              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#281d1b] text-[22px]">
+              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#000000] text-[22px]">
                 {project.product}
               </p>
             </div>
@@ -126,7 +126,7 @@ export default function CaseStudy() {
               <p className="font-['SF_Pro',sans-serif] font-[590] leading-[22px] text-[#9d9ea2] text-[17px] tracking-[-0.43px] mb-[8px]">
                 Платформа
               </p>
-              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#281d1b] text-[22px]">
+              <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] text-[#000000] text-[22px]">
                 {project.platform}
               </p>
             </div>
@@ -148,20 +148,20 @@ export default function CaseStudy() {
             <div className="col-span-8">
               {/* Challenge */}
               <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[42px] mb-[24px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] mb-[24px]">
                   Задача
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#281d1b] text-[24px] leading-[1.6]">
+                <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
                   {project.challenge}
                 </p>
               </section>
 
               {/* Solution */}
               <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[42px] mb-[24px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] mb-[24px]">
                   Решение
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#281d1b] text-[24px] leading-[1.6]">
+                <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
                   {project.solution}
                 </p>
               </section>
@@ -189,14 +189,14 @@ export default function CaseStudy() {
             <div className="col-span-4">
               {/* Results */}
               <div className="bg-[#f5f0ef] rounded-[24px] p-[32px] mb-[32px]">
-                <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[28px] mb-[24px]">
+                <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] mb-[24px]">
                   Результаты
                 </h3>
                 <ul className="space-y-[16px]">
                   {project.results.map((result, idx) => (
                     <li key={idx} className="flex items-start gap-[12px]">
                       <span className="text-[#007AFF] text-[24px] mt-[-4px]">✓</span>
-                      <span className="font-['Roboto',sans-serif] text-[#281d1b] text-[20px] leading-[1.4]">
+                      <span className="font-['Roboto',sans-serif] text-[#000000] text-[20px] leading-[1.4]">
                         {result}
                       </span>
                     </li>
@@ -213,7 +213,7 @@ export default function CaseStudy() {
                   {project.tags.map((tag, idx) => (
                     <span 
                       key={idx}
-                      className="bg-[#f5f0ef] px-[16px] py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#281d1b] text-[17px]"
+                      className="bg-[#f5f0ef] px-[16px] py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px]"
                     >
                       {tag}
                     </span>
@@ -232,12 +232,12 @@ export default function CaseStudy() {
                     to={`/case/${allProjects[index - 1].slug}`}
                     className="group flex items-center gap-[12px] hover:opacity-60 transition-opacity"
                   >
-                    <ArrowLeft className="size-[24px] text-[#281d1b]" />
+                    <ArrowLeft className="size-[24px] text-[#000000]" />
                     <div>
                       <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[17px] mb-[4px]">
                         Предыдущий проект
                       </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px]">
                         {allProjects[index - 1].title}
                       </p>
                     </div>
@@ -254,11 +254,11 @@ export default function CaseStudy() {
                       <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[17px] mb-[4px]">
                         Следующий проект
                       </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#281d1b] text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px]">
                         {allProjects[index + 1].title}
                       </p>
                     </div>
-                    <ArrowLeft className="size-[24px] text-[#281d1b] rotate-180" />
+                    <ArrowLeft className="size-[24px] text-[#000000] rotate-180" />
                   </Link>
                 )}
               </div>
