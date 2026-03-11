@@ -90,6 +90,7 @@ export default function CaseStudy() {
   const index = allProjects.findIndex(p => p.slug === slug);
 
   return (
+    <>
     <div className="bg-[#fcfcfc] min-h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
@@ -300,5 +301,6 @@ export default function CaseStudy() {
         </button>
       </div>
     )}
+    </>
   );
 }
