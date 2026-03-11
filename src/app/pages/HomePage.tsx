@@ -113,7 +113,7 @@ export default function HomePage() {
               </p>
               <div className="content-stretch flex gap-[12px] items-end relative shrink-0 w-full">
                 <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-h-px min-w-px relative text-[#000000]">
-                  <p className="font-['SF_Pro',sans-serif] font-bold leading-[41px] relative shrink-0 text-[34px] tracking-[0.4px]">
+                  <p className="font-['SF_Pro',sans-serif] font-bold leading-[41px] relative shrink-0 text-[34px] tracking-[-0.5px]">
                     Александр Петров
                   </p>
                   <p className="font-['SF_Pro',sans-serif] font-normal leading-[28px] relative shrink-0 text-[22px] tracking-[-0.26px]">
@@ -229,7 +229,7 @@ export default function HomePage() {
 
         {/* About Me Section */}
         <div ref={aboutRef} className="content-stretch flex font-normal gap-[24px] items-start py-[48px] relative shrink-0 text-black w-full z-[1]">
-          <div className="flex flex-col font-['SF_Pro',sans-serif] justify-center leading-[0] relative shrink-0 text-[42px] tracking-[0.4px] w-[324px]">
+          <div className="flex flex-col font-['SF_Pro',sans-serif] justify-center leading-[0] relative shrink-0 text-[42px] tracking-[-1px] w-[324px]">
             <p className="leading-none whitespace-pre-wrap">Обо мне</p>
           </div>
           <div className="flex flex-[1_0_0] flex-col font-['Roboto',sans-serif] justify-center leading-[1.2] min-h-px min-w-px relative text-[24px] whitespace-pre-wrap">

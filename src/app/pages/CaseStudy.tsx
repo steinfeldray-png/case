@@ -105,7 +105,7 @@ export default function CaseStudy() {
       <div className="px-[48px] py-[64px]">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex gap-[24px] items-center mb-[24px]">
-            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[72px] leading-[1.1]">
+            <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[72px] leading-[1.1] tracking-[-3px]">
               {project.title}
             </h1>
             <span className="font-['SF_Pro',sans-serif] font-normal text-[#9d9ea2] text-[28px]">
@@ -148,7 +148,7 @@ export default function CaseStudy() {
             <div className="col-span-8">
               {/* Challenge */}
               <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] mb-[24px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] tracking-[-1px] mb-[24px]">
                   Задача
                 </h2>
                 <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
@@ -158,7 +158,7 @@ export default function CaseStudy() {
 
               {/* Solution */}
               <section className="mb-[64px]">
-                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] mb-[24px]">
+                <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[42px] tracking-[-1px] mb-[24px]">
                   Решение
                 </h2>
                 <p className="font-['Roboto',sans-serif] text-[#000000] text-[24px] leading-[1.6]">
