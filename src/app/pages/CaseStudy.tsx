@@ -199,7 +199,7 @@ export default function CaseStudy() {
             </div>
 
             {/* Sidebar */}
-            <div className="col-span-1 md:col-span-4 md:sticky md:top-[72px] md:self-start">
+            <div className="col-span-1 md:col-span-4 md:sticky md:top-[104px] md:self-start">
               {/* Results */}
               <div className="bg-white/60 backdrop-blur-md border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.08)] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
