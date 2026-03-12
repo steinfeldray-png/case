@@ -237,7 +237,7 @@ export default function HomePage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-[#f5f0ef] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#f2f2f2] flex items-center justify-center">
                       <span className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[16px] md:text-[20px]">{project.title}</span>
                     </div>
                   )}
