@@ -188,6 +188,7 @@ export default function CaseStudy() {
                           alt={`${project.title} - скриншот ${imgIndex + 1}`}
                           className="w-full h-auto object-contain"
                           src={imageUrl}
+                          loading="lazy"
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />
                       </div>

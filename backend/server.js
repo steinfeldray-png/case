@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -49,6 +50,7 @@ const requireAdminKey = (req, res, next) => {
 };
 
 // Middleware
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -143,6 +145,7 @@ app.get('/api/projects', async (req, res) => {
       caseImages: project.case_images
     }));
 
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProjects });
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -177,6 +180,7 @@ app.get('/api/projects/:slug', async (req, res) => {
       caseImages: project.case_images
     };
 
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProject });
   } catch (error) {
     console.error('Error fetching project:', error);
@@ -304,6 +308,7 @@ app.get('/api/profile', async (req, res) => {
       cvUrl: profile.cv_url
     };
 
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProfile });
   } catch (error) {
     console.error('Error fetching profile:', error);
