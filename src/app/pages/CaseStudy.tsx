@@ -217,22 +217,6 @@ export default function CaseStudy() {
                 </ul>
               </div>
 
-              {/* Tags */}
-              <div>
-                <h3 className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] mb-[10px] md:mb-[12px]">
-                  Технологии и методы
-                </h3>
-                <div className="flex flex-wrap gap-[8px]">
-                  {(project.tags || []).map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-[#f5f0ef] px-[12px] md:px-[16px] py-[6px] md:py-[8px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[13px] md:text-[17px]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
 
