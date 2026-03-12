@@ -159,18 +159,20 @@ export default function Admin() {
             </p>
           </Link>
         </div>
-        <div className="flex gap-[12px]">
-          <button
-            onClick={() => {
-              setIsCreating(true);
-              setEditingProject({ ...emptyProject, id: 0 } as Project);
-            }}
-            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity flex items-center gap-[8px]"
-          >
-            <Plus className="size-[20px]" />
-            Новый проект
-          </button>
-        </div>
+        {!editingProject && !isCreating && (
+          <div className="flex gap-[12px]">
+            <button
+              onClick={() => {
+                setIsCreating(true);
+                setEditingProject({ ...emptyProject, id: 0 } as Project);
+              }}
+              className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity flex items-center gap-[8px]"
+            >
+              <Plus className="size-[20px]" />
+              Новый проект
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Content */}
