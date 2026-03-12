@@ -88,7 +88,7 @@ export default function Admin() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.projects);
+      const response = await fetch(API_ENDPOINTS.projects, { cache: 'no-store' });
       const result = await response.json();
       if (result.success) {
         setProjects(result.data);
@@ -774,7 +774,7 @@ function ProfileSettings() {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.profile);
+      const response = await fetch(API_ENDPOINTS.profile, { cache: 'no-store' });
       const result = await response.json();
       if (result.success && result.data) {
         setProfile(result.data);
