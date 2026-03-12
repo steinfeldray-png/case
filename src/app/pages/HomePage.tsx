@@ -155,10 +155,14 @@ export default function HomePage() {
 
           {/* Photo */}
           <div className="relative rounded-[24px] md:rounded-[42px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden">
+            {loading && (
+              <div className="absolute inset-0 bg-[#e8e8e8] animate-pulse" />
+            )}
             <img
               alt="Александр Петров"
-              className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
+              className={`absolute inset-0 max-w-none object-cover pointer-events-none size-full transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
               src={profile.photoUrl || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
+              onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
             />
           </div>
         </div>
@@ -166,9 +170,29 @@ export default function HomePage() {
         {/* Projects Row */}
         <div ref={casesRef} className="bg-[#fcfcfc] grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[48px] py-[24px] md:py-[48px] relative shrink-0 w-full z-[2]">
           {loading ? (
-            <div className="w-full text-center py-[48px]">
-              <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[20px] md:text-[24px]">Загрузка проектов...</p>
-            </div>
+            <>
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] h-[220px] md:h-[380px] w-full animate-pulse">
+                  {/* Title line */}
+                  <div className="pb-[12px] md:pb-[16px] border-b border-[#e8e8e8]">
+                    <div className="h-[22px] md:h-[28px] bg-[#e8e8e8] rounded-[6px] w-3/4" />
+                  </div>
+                  {/* Meta */}
+                  <div className="flex gap-[24px] md:gap-[42px]">
+                    <div className="flex flex-col gap-[6px]">
+                      <div className="h-[12px] bg-[#e8e8e8] rounded-[4px] w-[48px]" />
+                      <div className="h-[16px] bg-[#e8e8e8] rounded-[4px] w-[80px]" />
+                    </div>
+                    <div className="flex flex-col gap-[6px]">
+                      <div className="h-[12px] bg-[#e8e8e8] rounded-[4px] w-[56px]" />
+                      <div className="h-[16px] bg-[#e8e8e8] rounded-[4px] w-[64px]" />
+                    </div>
+                  </div>
+                  {/* Image placeholder */}
+                  <div className="flex-1 min-h-0 rounded-[16px] md:rounded-[24px] bg-[#e8e8e8]" />
+                </div>
+              ))}
+            </>
           ) : projects.length === 0 ? (
             <div className="w-full text-center py-[48px]">
               <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[24px]">Проекты не найдены</p>
