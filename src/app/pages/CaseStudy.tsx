@@ -91,7 +91,7 @@ export default function CaseStudy() {
 
   return (
     <>
-    <div className="bg-[#fcfcfc] min-h-screen overflow-y-auto">
+    <div className="bg-[#fcfcfc] h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
       <div className="bg-[#fcfcfc] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
