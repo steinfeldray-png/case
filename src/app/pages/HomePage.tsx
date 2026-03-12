@@ -75,28 +75,30 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-br from-white to-[#f5f5f7] w-full h-full overflow-y-auto">
-    <div className="flex flex-col items-start px-5 md:px-[120px] max-w-[1440px] mx-auto w-full">
-      {/* Header */}
-      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2] sticky top-0 -mx-5 md:-mx-[120px] px-5 md:px-[120px]">
-        <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
-          Alexander Petrov
-        </p>
-        <div className="flex font-['SF_Pro',sans-serif] font-normal gap-[16px] md:gap-[32px] items-start text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
-          <button
-            onClick={() => scrollToSection(casesRef)}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            Кейсы
-          </button>
-          <button
-            onClick={() => scrollToSection(aboutRef)}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            Обо мне
-          </button>
+      {/* Header — full width */}
+      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] sticky top-0 z-[10] w-full">
+        <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
+          <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
+            Alexander Petrov
+          </p>
+          <div className="flex font-['SF_Pro',sans-serif] font-normal gap-[16px] md:gap-[32px] items-start text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
+            <button
+              onClick={() => scrollToSection(casesRef)}
+              className="cursor-pointer hover:opacity-60 transition-opacity"
+            >
+              Кейсы
+            </button>
+            <button
+              onClick={() => scrollToSection(aboutRef)}
+              className="cursor-pointer hover:opacity-60 transition-opacity"
+            >
+              Обо мне
+            </button>
+          </div>
         </div>
       </div>
 
+    <div className="flex flex-col items-start px-5 md:px-[120px] max-w-[1440px] mx-auto w-full">
       {/* Main Content */}
       <div className="flex flex-col items-start py-[24px] md:py-[48px] relative shrink-0 w-full z-[1]">
 
