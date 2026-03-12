@@ -170,7 +170,7 @@ export default function HomePage() {
           {loading ? (
             <>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] h-[220px] md:h-[380px] w-full animate-pulse">
+                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse">
                   {/* Title line */}
                   <div className="pb-[12px] md:pb-[16px] border-b border-[#e8e8e8]">
                     <div className="h-[22px] md:h-[28px] bg-[#e8e8e8] rounded-[6px] w-3/4" />
@@ -187,7 +187,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   {/* Image placeholder */}
-                  <div className="flex-1 min-h-0 rounded-[16px] md:rounded-[24px] bg-[#e8e8e8]" />
+                  <div className="aspect-[3/2] rounded-[16px] md:rounded-[24px] bg-[#e8e8e8]" />
                 </div>
               ))}
             </>
@@ -200,7 +200,7 @@ export default function HomePage() {
               <Link
                 key={project.id}
                 to={`/case/${project.slug}`}
-                className="flex flex-col gap-[12px] md:gap-[16px] h-[220px] md:h-[380px] items-start w-full relative group cursor-pointer"
+                className="flex flex-col gap-[12px] md:gap-[16px] items-start w-full relative group cursor-pointer"
               >
                 <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-[#ccc] group-hover:border-[#000000] transition-colors duration-300">
                   <p className="flex-1 font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
@@ -225,7 +225,7 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex-1 min-h-0 relative rounded-[16px] md:rounded-[24px] w-full overflow-hidden">
+                <div className="aspect-[3/2] relative rounded-[16px] md:rounded-[24px] w-full overflow-hidden">
                   {project.imageUrl ? (
                     <>
                       <img
