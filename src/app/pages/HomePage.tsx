@@ -74,10 +74,10 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-[#fcfcfc] w-full h-full overflow-y-auto">
+    <div className="bg-gradient-to-br from-white to-[#f5f5f7] w-full h-full overflow-y-auto">
     <div className="flex flex-col items-start px-5 md:px-[120px] max-w-[1440px] mx-auto w-full">
       {/* Header */}
-      <div className="bg-[#fcfcfc] flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2] sticky top-0">
+      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between py-[16px] relative shrink-0 w-full z-[2] sticky top-0 -mx-5 md:-mx-[120px] px-5 md:px-[120px]">
         <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
           Alexander Petrov
         </p>
@@ -101,7 +101,7 @@ export default function HomePage() {
       <div className="flex flex-col items-start py-[24px] md:py-[48px] relative shrink-0 w-full z-[1]">
 
         {/* Title Section */}
-        <div ref={heroRef} className="bg-[#fcfcfc] flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center md:items-stretch py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
+        <div ref={heroRef} className="flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center md:items-stretch py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
           {/* Text */}
           <div className="flex flex-1 flex-col items-start w-full min-w-0 md:min-h-[416px]">
             <p className="font-['SF_Pro',sans-serif] font-bold leading-[1] md:leading-[100px] text-[#000000] text-[56px] md:text-[100px] tracking-[-1.5px] md:tracking-[-2px] w-full">
@@ -120,7 +120,7 @@ export default function HomePage() {
                 href={profile.telegramUrl || "https://t.me/saneuuu"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#fcfcfc] flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-[#f2f2f2] transition-colors cursor-pointer border border-[rgba(120,120,128,0.16)]"
+                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/80 transition-all cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z" fill="url(#paint0_linear)" />
@@ -139,7 +139,7 @@ export default function HomePage() {
               <a
                 href={profile.cvUrl ? `${API_BASE_URL}/api/download/cv` : "/cv.pdf"}
                 download="CV.pdf"
-                className="bg-[#fcfcfc] flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-[#f2f2f2] transition-colors cursor-pointer border border-[rgba(120,120,128,0.16)]"
+                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/80 transition-all cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 2C7.372 2 2 7.372 2 14C2 20.628 7.372 26 14 26C20.628 26 26 20.628 26 14C26 7.372 20.628 2 14 2ZM14 8C14.552 8 15 8.448 15 9V14.586L17.293 12.293C17.684 11.902 18.316 11.902 18.707 12.293C19.098 12.684 19.098 13.316 18.707 13.707L14.707 17.707C14.512 17.902 14.256 18 14 18C13.744 18 13.488 17.902 13.293 17.707L9.293 13.707C8.902 13.316 8.902 12.684 9.293 12.293C9.684 11.902 10.316 11.902 10.707 12.293L13 14.586V9C13 8.448 13.448 8 14 8ZM9 19C8.448 19 8 19.448 8 20C8 20.552 8.448 21 9 21H19C19.552 21 20 20.552 20 20C20 19.448 19.552 19 19 19H9Z" fill="#000000" />
@@ -152,7 +152,7 @@ export default function HomePage() {
           </div>
 
           {/* Photo */}
-          <div className="relative rounded-[24px] md:rounded-[42px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden">
+          <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
             {loading && (
               <div className="absolute inset-0 bg-[#e8e8e8] animate-pulse" />
             )}
@@ -166,11 +166,11 @@ export default function HomePage() {
         </div>
 
         {/* Projects Row */}
-        <div ref={casesRef} className="bg-[#fcfcfc] grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[48px] py-[24px] md:py-[48px] relative shrink-0 w-full z-[2]">
+        <div ref={casesRef} className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[32px] py-[24px] md:py-[48px] relative shrink-0 w-full z-[2]">
           {loading ? (
             <>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse">
+                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse bg-white/50 rounded-[28px] p-5">
                   {/* Title line */}
                   <div className="pb-[12px] md:pb-[16px] border-b border-[#e8e8e8]">
                     <div className="h-[22px] md:h-[28px] bg-[#e8e8e8] rounded-[6px] w-3/4" />
@@ -187,7 +187,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   {/* Image placeholder */}
-                  <div className="aspect-[3/2] rounded-[16px] md:rounded-[24px] bg-[#e8e8e8]" />
+                  <div className="aspect-[3/2] rounded-[20px] bg-[#e8e8e8]" />
                 </div>
               ))}
             </>
@@ -200,9 +200,9 @@ export default function HomePage() {
               <Link
                 key={project.id}
                 to={`/case/${project.slug}`}
-                className="flex flex-col gap-[12px] md:gap-[16px] items-start w-full relative group cursor-pointer"
+                className="flex flex-col gap-[12px] md:gap-[16px] items-start w-full relative group cursor-pointer bg-white/50 backdrop-blur-sm border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[28px] p-5 hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:bg-white/70 transition-all duration-300"
               >
-                <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-[#ccc] group-hover:border-[#000000] transition-colors duration-300">
+                <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
                   <p className="flex-1 font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
                     {project.title}
                   </p>
@@ -225,7 +225,7 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <div className="aspect-[3/2] relative rounded-[16px] md:rounded-[24px] w-full overflow-hidden">
+                <div className="aspect-[3/2] relative rounded-[20px] w-full overflow-hidden">
                   {project.imageUrl ? (
                     <>
                       <img

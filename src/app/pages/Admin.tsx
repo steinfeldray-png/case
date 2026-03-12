@@ -145,9 +145,9 @@ export default function Admin() {
 
 
   return (
-    <div className="bg-[#fcfcfc] min-h-screen">
+    <div className="bg-gradient-to-br from-white to-[#f5f5f7] min-h-screen">
       {/* Header */}
-      <div className="bg-[#fcfcfc] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10 border-b border-[#ccc]">
+      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10">
         <div className="flex items-center gap-[24px]">
           <Link
             to="/"
@@ -446,7 +446,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px] max-w-[1200px] mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_8px_40px_rgba(0,0,0,0.08)] rounded-[28px] p-[48px] max-w-[1200px] mx-auto">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           {isCreating ? 'Новый проект' : 'Редактирование проекта'}
@@ -925,7 +925,7 @@ function ProfileSettings() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-[#ccc] rounded-[24px] p-[48px]">
+    <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_8px_40px_rgba(0,0,0,0.08)] rounded-[28px] p-[48px]">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           Настройки профиля

@@ -63,7 +63,7 @@ export default function CaseStudy() {
 
   if (loading) {
     return (
-      <div className="bg-[#fcfcfc] size-full flex items-center justify-center">
+      <div className="bg-gradient-to-br from-white to-[#f5f5f7] size-full flex items-center justify-center">
         <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[24px]">Загрузка...</p>
       </div>
     );
@@ -71,12 +71,12 @@ export default function CaseStudy() {
 
   if (!project) {
     return (
-      <div className="bg-[#fcfcfc] size-full flex items-center justify-center">
+      <div className="bg-gradient-to-br from-white to-[#f5f5f7] size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
           </h1>
-          <Link 
+          <Link
             to="/"
             className="text-[#007AFF] hover:opacity-60 transition-opacity font-['SF_Pro',sans-serif] text-[20px]"
           >
@@ -91,10 +91,10 @@ export default function CaseStudy() {
 
   return (
     <>
-    <div className="bg-[#fcfcfc] h-screen overflow-y-auto">
+    <div className="bg-gradient-to-br from-white to-[#f5f5f7] h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
-      <div className="bg-[#fcfcfc] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
@@ -142,7 +142,7 @@ export default function CaseStudy() {
 
           {/* Hero Image */}
           {project.imageUrl && (
-            <div className="rounded-[16px] md:rounded-[24px] overflow-hidden mb-[32px] md:mb-[64px] h-[240px] md:h-[479px]">
+            <div className="rounded-[20px] md:rounded-[28px] overflow-hidden mb-[32px] md:mb-[64px] h-[240px] md:h-[479px] shadow-[0_8px_32px_rgba(0,0,0,0.10)]">
               <img
                 alt={project.title}
                 className="w-full h-full object-cover block"
@@ -181,7 +181,7 @@ export default function CaseStudy() {
                     {project.caseImages.map((imageUrl, imgIndex) => (
                       <div
                         key={imgIndex}
-                        className="rounded-[16px] md:rounded-[24px] overflow-hidden w-full cursor-zoom-in"
+                        className="rounded-[20px] md:rounded-[28px] overflow-hidden w-full cursor-zoom-in shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
                         onClick={() => setLightboxSrc(imageUrl)}
                       >
                         <img
@@ -201,7 +201,7 @@ export default function CaseStudy() {
             {/* Sidebar */}
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[72px] md:self-start">
               {/* Results */}
-              <div className="bg-[#f2f2f2] rounded-[16px] md:rounded-[24px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
+              <div className="bg-white/60 backdrop-blur-md border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.08)] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   Результаты
                 </h3>
@@ -221,20 +221,20 @@ export default function CaseStudy() {
           </div>
 
           {/* Next/Previous Projects */}
-          <div className="border-t border-[#ccc] pt-[32px] md:pt-[48px] mt-[40px] md:mt-[64px]">
-            <div className="flex justify-between items-center">
+          <div className="border-t border-black/[0.08] pt-[32px] md:pt-[48px] mt-[40px] md:mt-[64px]">
+            <div className="flex justify-between items-center gap-[16px]">
               <div>
                 {index > 0 && (
-                  <Link 
+                  <Link
                     to={`/case/${allProjects[index - 1].slug}`}
-                    className="group flex items-center gap-[12px] hover:opacity-60 transition-opacity"
+                    className="group flex items-center gap-[12px] bg-white/50 backdrop-blur-sm border border-black/[0.06] rounded-[20px] px-[20px] py-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:bg-white/70 hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)] transition-all duration-300"
                   >
-                    <ChevronLeft className="size-[24px] text-[#000000]" />
+                    <ChevronLeft className="size-[24px] text-[#000000] shrink-0" />
                     <div>
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[17px] mb-[4px]">
+                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[14px] md:text-[17px] mb-[4px]">
                         Предыдущий проект
                       </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[20px] md:text-[28px]">
                         {allProjects[index - 1].title}
                       </p>
                     </div>
@@ -243,19 +243,19 @@ export default function CaseStudy() {
               </div>
               <div>
                 {index < allProjects.length - 1 && (
-                  <Link 
+                  <Link
                     to={`/case/${allProjects[index + 1].slug}`}
-                    className="group flex items-center gap-[12px] hover:opacity-60 transition-opacity"
+                    className="group flex items-center gap-[12px] bg-white/50 backdrop-blur-sm border border-black/[0.06] rounded-[20px] px-[20px] py-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:bg-white/70 hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)] transition-all duration-300"
                   >
                     <div className="text-right">
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[17px] mb-[4px]">
+                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[14px] md:text-[17px] mb-[4px]">
                         Следующий проект
                       </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[20px] md:text-[28px]">
                         {allProjects[index + 1].title}
                       </p>
                     </div>
-                    <ChevronLeft className="size-[24px] text-[#000000] rotate-180" />
+                    <ChevronLeft className="size-[24px] text-[#000000] rotate-180 shrink-0" />
                   </Link>
                 )}
               </div>
@@ -269,13 +269,13 @@ export default function CaseStudy() {
     {/* Lightbox */}
     {lightboxSrc && (
       <div
-        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 md:p-8"
+        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
         onClick={() => setLightboxSrc(null)}
       >
         <img
           src={lightboxSrc}
           alt="Полный размер"
-          className="max-w-full max-h-full object-contain rounded-[8px]"
+          className="max-w-full max-h-full object-contain rounded-[16px]"
           onClick={(e) => e.stopPropagation()}
         />
         <button
