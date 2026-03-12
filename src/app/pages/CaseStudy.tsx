@@ -201,7 +201,7 @@ export default function CaseStudy() {
             {/* Sidebar */}
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[72px] md:self-start">
               {/* Results */}
-              <div className="bg-[#f5f0ef] rounded-[16px] md:rounded-[24px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
+              <div className="bg-[#f2f2f2] rounded-[16px] md:rounded-[24px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   Результаты
                 </h3>

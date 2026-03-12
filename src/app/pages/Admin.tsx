@@ -583,18 +583,6 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           />
         </div>
 
-        <div>
-          <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-            Год *
-          </label>
-          <input
-            type="text"
-            value={project.year}
-            onChange={(e) => updateField('year', e.target.value)}
-            required
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
-          />
-        </div>
       </div>
 
       <div className="mb-[24px]">
