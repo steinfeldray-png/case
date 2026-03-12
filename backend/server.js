@@ -316,6 +316,28 @@ app.get('/api/profile', async (req, res) => {
   }
 });
 
+// Download CV — proxy to force correct filename and extension
+app.get('/api/download/cv', async (req, res) => {
+  try {
+    const profile = await getProfile();
+    const cvUrl = profile.cv_url;
+    if (!cvUrl) return res.status(404).send('CV not found');
+
+    const response = await fetch(cvUrl);
+    if (!response.ok) return res.status(502).send('Failed to fetch CV');
+
+    const filename = cvUrl.split('/').pop()?.split('?')[0] || 'CV.pdf';
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', 'application/pdf');
+
+    const { Readable } = await import('stream');
+    Readable.fromWeb(response.body).pipe(res);
+  } catch (error) {
+    console.error('CV download error:', error);
+    res.status(500).send('Download failed');
+  }
+});
+
 // Update profile
 app.put('/api/profile', requireAdminKey, async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { API_ENDPOINTS } from '/src/config/api';
+import { API_ENDPOINTS, API_BASE_URL } from '/src/config/api';
 
 interface Project {
   id: number;
@@ -138,8 +138,8 @@ export default function HomePage() {
                   </p>
                 </a>
                 <a
-                  href={profile.cvUrl || "/cv.pdf"}
-                  download
+                  href={profile.cvUrl ? `${API_BASE_URL}/api/download/cv` : "/cv.pdf"}
+                  download="CV.pdf"
                   className="bg-[#fcfcfc] flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-[#f5f0ef] transition-colors cursor-pointer border border-[rgba(120,120,128,0.16)]"
                 >
                   <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
