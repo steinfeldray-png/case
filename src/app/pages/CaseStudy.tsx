@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '/src/config/api';
+import { cloudinaryOptimize } from '/src/utils/cloudinary';
 
 interface Project {
   id: number;
@@ -146,7 +147,7 @@ export default function CaseStudy() {
               <img
                 alt={project.title}
                 className="w-full h-full object-cover block"
-                src={project.imageUrl}
+                src={cloudinaryOptimize(project.imageUrl, 1200)}
               />
             </div>
           )}
@@ -187,7 +188,7 @@ export default function CaseStudy() {
                         <img
                           alt={`${project.title} - скриншот ${imgIndex + 1}`}
                           className="w-full h-auto object-contain"
-                          src={imageUrl}
+                          src={cloudinaryOptimize(imageUrl, 1200)}
                           loading="lazy"
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />

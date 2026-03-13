@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { API_ENDPOINTS, API_BASE_URL } from '/src/config/api';
+import { cloudinaryOptimize } from '/src/utils/cloudinary';
 
 interface Project {
   id: number;
@@ -21,6 +22,26 @@ interface Profile {
   cvUrl?: string;
 }
 
+const CACHE_TTL = 5 * 60 * 1000; // 5 минут
+
+function readCache<T>(key: string): T | null {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { data, ts } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) return null;
+    return data as T;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(key: string, data: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify({ data, ts: Date.now() }));
+  } catch {}
+}
+
 export default function HomePage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [profile, setProfile] = useState<Profile>({});
@@ -30,40 +51,41 @@ export default function HomePage() {
   const casesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetchData();
+    // Показываем закешированные данные мгновенно
+    const cachedProjects = readCache<Project[]>('hp_projects');
+    const cachedProfile = readCache<Profile>('hp_profile');
+    if (cachedProjects) { setProjects(cachedProjects); setLoading(false); }
+    if (cachedProfile) setProfile(cachedProfile);
+
+    fetchData(!!cachedProjects);
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (hasCache = false) => {
     try {
-      console.log('🔄 Загрузка данных с API:', API_ENDPOINTS.projects);
+      const [projectsResponse, profileResponse] = await Promise.all([
+        fetch(API_ENDPOINTS.projects),
+        fetch(API_ENDPOINTS.profile),
+      ]);
 
-      const projectsResponse = await fetch(API_ENDPOINTS.projects);
-
-      if (!projectsResponse.ok) {
-        console.error('❌ Projects response not ok:', projectsResponse.status);
-      } else {
+      if (projectsResponse.ok) {
         const projectsResult = await projectsResponse.json();
-        console.log('✅ Projects loaded:', projectsResult);
         if (projectsResult.success) {
-          setProjects([...projectsResult.data].reverse());
+          const sorted = [...projectsResult.data].reverse();
+          setProjects(sorted);
+          writeCache('hp_projects', sorted);
         }
       }
 
-      const profileResponse = await fetch(API_ENDPOINTS.profile);
-
-      if (!profileResponse.ok) {
-        console.error('❌ Profile response not ok:', profileResponse.status);
-      } else {
+      if (profileResponse.ok) {
         const profileResult = await profileResponse.json();
-        console.log('✅ Profile loaded:', profileResult);
         if (profileResult.success) {
           setProfile(profileResult.data);
+          writeCache('hp_profile', profileResult.data);
         }
       }
     } catch (error) {
       console.error('❌ Error loading data:', error);
-      setProjects([]);
-      setProfile({});
+      if (!hasCache) { setProjects([]); setProfile({}); }
     } finally {
       setLoading(false);
     }
@@ -74,7 +96,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-white to-[#f5f5f7] w-full h-full overflow-y-auto">
+    <div className="bg-gradient-to-br from-white to-[#f5f5f7] w-full min-h-screen">
       {/* Header — full width */}
       <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] sticky top-0 z-[10] w-full">
         <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
@@ -122,7 +144,7 @@ export default function HomePage() {
                 href={profile.telegramUrl || "https://t.me/saneuuu"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/80 transition-all cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/90 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z" fill="url(#paint0_linear)" />
@@ -141,7 +163,7 @@ export default function HomePage() {
               <a
                 href={profile.cvUrl ? `${API_BASE_URL}/api/download/cv` : "/cv.pdf"}
                 download="CV.pdf"
-                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/80 transition-all cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/90 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 2C7.372 2 2 7.372 2 14C2 20.628 7.372 26 14 26C20.628 26 26 20.628 26 14C26 7.372 20.628 2 14 2ZM14 8C14.552 8 15 8.448 15 9V14.586L17.293 12.293C17.684 11.902 18.316 11.902 18.707 12.293C19.098 12.684 19.098 13.316 18.707 13.707L14.707 17.707C14.512 17.902 14.256 18 14 18C13.744 18 13.488 17.902 13.293 17.707L9.293 13.707C8.902 13.316 8.902 12.684 9.293 12.293C9.684 11.902 10.316 11.902 10.707 12.293L13 14.586V9C13 8.448 13.448 8 14 8ZM9 19C8.448 19 8 19.448 8 20C8 20.552 8.448 21 9 21H19C19.552 21 20 20.552 20 20C20 19.448 19.552 19 19 19H9Z" fill="#000000" />
@@ -161,7 +183,7 @@ export default function HomePage() {
             <img
               alt="Александр Петров"
               className={`absolute inset-0 max-w-none object-cover pointer-events-none size-full transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
-              src={profile.photoUrl || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
+              src={cloudinaryOptimize(profile.photoUrl, 416) || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
               onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
             />
           </div>
@@ -189,7 +211,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   {/* Image placeholder */}
-                  <div className="aspect-[3/2] rounded-[20px] bg-[#e8e8e8]" />
+                  <div className="aspect-[3/2] rounded-[12px] bg-[#e8e8e8]" />
                 </div>
               ))}
             </>
@@ -227,13 +249,13 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <div className="aspect-[3/2] relative rounded-[20px] w-full overflow-hidden">
+                <div className="aspect-[3/2] relative rounded-[12px] w-full overflow-hidden">
                   {project.imageUrl ? (
                     <>
                       <img
                         alt={project.title}
                         className="absolute max-w-none object-cover size-full group-hover:scale-[1.02] transition-transform duration-300"
-                        src={project.imageUrl}
+                        src={cloudinaryOptimize(project.imageUrl, 800)}
                         loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

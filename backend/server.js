@@ -145,7 +145,7 @@ app.get('/api/projects', async (req, res) => {
       caseImages: project.case_images
     }));
 
-    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProjects });
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -180,7 +180,7 @@ app.get('/api/projects/:slug', async (req, res) => {
       caseImages: project.case_images
     };
 
-    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProject });
   } catch (error) {
     console.error('Error fetching project:', error);
@@ -308,7 +308,7 @@ app.get('/api/profile', async (req, res) => {
       cvUrl: profile.cv_url
     };
 
-    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
     res.json({ success: true, data: formattedProfile });
   } catch (error) {
     console.error('Error fetching profile:', error);
@@ -486,3 +486,12 @@ async function startServer() {
 }
 
 startServer();
+
+// Keep-alive: ping self every 14 min so Render free tier doesn't sleep
+if (process.env.NODE_ENV === 'production' && process.env.RENDER_EXTERNAL_URL) {
+  setInterval(() => {
+    fetch(`${process.env.RENDER_EXTERNAL_URL}/health`)
+      .then(() => console.log('🏓 Keep-alive ping sent'))
+      .catch(() => {});
+  }, 14 * 60 * 1000);
+}
