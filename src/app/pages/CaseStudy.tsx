@@ -62,7 +62,7 @@ export default function CaseStudy() {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-white to-[#f5f5f7] h-screen overflow-y-auto">
+      <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] h-screen overflow-y-auto">
         <div className="max-w-[1440px] mx-auto">
           {/* Header skeleton */}
           <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
@@ -123,7 +123,7 @@ export default function CaseStudy() {
 
   if (!project) {
     return (
-      <div className="bg-gradient-to-br from-white to-[#f5f5f7] size-full flex items-center justify-center">
+      <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
@@ -143,7 +143,7 @@ export default function CaseStudy() {
 
   return (
     <>
-    <div className="bg-gradient-to-br from-white to-[#f5f5f7] h-screen overflow-y-auto">
+    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] h-screen overflow-y-auto">
       <div className="max-w-[1440px] mx-auto">
       {/* Header */}
       <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">

@@ -145,7 +145,7 @@ export default function Admin() {
 
 
   return (
-    <div className="bg-gradient-to-br from-white to-[#f5f5f7] min-h-screen">
+    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] min-h-screen">
       {/* Header */}
       <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10">
         <div className="flex items-center gap-[24px]">

@@ -96,7 +96,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-white to-[#f5f5f7] w-full min-h-screen">
+    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] w-full min-h-screen">
       {/* Header — full width */}
       <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] sticky top-0 z-[10] w-full">
         <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
