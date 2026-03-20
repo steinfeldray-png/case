@@ -38,24 +38,22 @@ export default function CaseStudy() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const start = Date.now();
       try {
-        // Fetch current project
-        const projectResponse = await fetch(API_ENDPOINTS.projectBySlug(slug!));
+        const [projectResponse, allResponse] = await Promise.all([
+          fetch(API_ENDPOINTS.projectBySlug(slug!)),
+          fetch(API_ENDPOINTS.projects),
+        ]);
         const projectResult = await projectResponse.json();
-        if (projectResult.success) {
-          setProject(projectResult.data);
-        }
-
-        // Fetch all projects for navigation
-        const allResponse = await fetch(API_ENDPOINTS.projects);
+        if (projectResult.success) setProject(projectResult.data);
         const allResult = await allResponse.json();
-        if (allResult.success) {
-          setAllProjects(allResult.data);
-        }
+        if (allResult.success) setAllProjects(allResult.data);
       } catch (error) {
         console.error('Error loading project:', error);
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, 1000 - elapsed);
+        setTimeout(() => setLoading(false), remaining);
       }
     };
 
