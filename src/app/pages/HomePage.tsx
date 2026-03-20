@@ -128,7 +128,7 @@ export default function HomePage() {
         <div ref={heroRef} className="flex flex-col-reverse md:flex-row gap-[24px] md:gap-[48px] items-center md:items-stretch py-[24px] md:py-[48px] relative shrink-0 w-full z-[3]">
           {/* Text */}
           <div className="flex flex-1 flex-col items-start w-full min-w-0 md:min-h-[416px]">
-            <p className="font-['SF_Pro',sans-serif] font-bold leading-[1] md:leading-[100px] text-[#000000] text-[56px] md:text-[100px] tracking-[-1.5px] md:tracking-[-2px] w-full">
+            <p className="font-['SF_Pro',sans-serif] font-[1000] [font-stretch:130%] leading-[1] md:leading-[100px] text-[#000000] text-[56px] md:text-[100px] tracking-[-1.5px] md:tracking-[-2px] w-full">
               Product Designer
             </p>
             <div className="flex flex-col gap-[4px] items-start text-[#000000] mt-[24px] md:mt-[32px]">
@@ -183,7 +183,7 @@ export default function HomePage() {
             <img
               alt="Александр Петров"
               className={`absolute inset-0 max-w-none object-cover pointer-events-none size-full transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
-              src={cloudinaryOptimize(profile.photoUrl, 416) || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
+              src={cloudinaryOptimize(profile.photoUrl, 832) || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
               onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
             />
           </div>

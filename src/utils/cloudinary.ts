@@ -8,5 +8,5 @@
  */
 export function cloudinaryOptimize(url: string | undefined, width: number): string {
   if (!url || !url.includes('res.cloudinary.com')) return url ?? '';
-  return url.replace('/upload/', `/upload/f_auto,q_auto:eco,w_${width}/`);
+  return url.replace('/upload/', `/upload/f_auto,q_auto:best,w_${width}/`);
 }

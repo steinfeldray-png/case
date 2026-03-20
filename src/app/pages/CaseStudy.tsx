@@ -149,19 +149,13 @@ export default function CaseStudy() {
       <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
+          className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
         >
           <ChevronLeft className="size-[20px] md:size-[24px]" />
           <p className="font-['SF_Pro',sans-serif] font-normal text-[18px] md:text-[28px] tracking-[0.38px]">
             Назад
           </p>
         </button>
-        <Link
-          to="/"
-          className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]"
-        >
-          Alexander Petrov
-        </Link>
       </div>
 
       {/* Hero Section */}
@@ -279,16 +273,14 @@ export default function CaseStudy() {
                 {index > 0 && (
                   <Link
                     to={`/case/${allProjects[index - 1].slug}`}
-                    className="group flex items-center gap-[12px] bg-white/50 backdrop-blur-sm border border-black/[0.06] rounded-[20px] px-[20px] py-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:bg-white/70 hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)] transition-all duration-300"
+                    className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
                   >
-                    <ChevronLeft className="size-[24px] text-[#000000] shrink-0" />
+                    <ChevronLeft className="size-[18px] shrink-0 mt-[18px]" />
                     <div>
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[14px] md:text-[17px] mb-[4px]">
-                        Предыдущий проект
-                      </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[20px] md:text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[13px] mb-[2px]">Предыдущий проект</p>
+                      <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index - 1].title}
-                      </p>
+                      </span>
                     </div>
                   </Link>
                 )}
@@ -297,17 +289,15 @@ export default function CaseStudy() {
                 {index < allProjects.length - 1 && (
                   <Link
                     to={`/case/${allProjects[index + 1].slug}`}
-                    className="group flex items-center gap-[12px] bg-white/50 backdrop-blur-sm border border-black/[0.06] rounded-[20px] px-[20px] py-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:bg-white/70 hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)] transition-all duration-300"
+                    className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
                   >
                     <div className="text-right">
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[14px] md:text-[17px] mb-[4px]">
-                        Следующий проект
-                      </p>
-                      <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[20px] md:text-[28px]">
+                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[13px] mb-[2px]">Следующий проект</p>
+                      <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index + 1].title}
-                      </p>
+                      </span>
                     </div>
-                    <ChevronLeft className="size-[24px] text-[#000000] rotate-180 shrink-0" />
+                    <ChevronLeft className="size-[18px] rotate-180 shrink-0 mt-[18px]" />
                   </Link>
                 )}
               </div>
