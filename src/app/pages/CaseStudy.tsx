@@ -68,51 +68,51 @@ export default function CaseStudy() {
         <div className="max-w-[1440px] mx-auto">
           {/* Header skeleton */}
           <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
-            <div className="h-[28px] w-[80px] bg-black/[0.06] rounded-[8px] animate-pulse" />
+            <div className="h-[28px] w-[80px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
           </div>
           <div className="px-5 md:px-[120px] py-[32px] md:py-[64px]">
             <div className="max-w-[1400px] mx-auto">
               {/* Title */}
               <div className="mb-[24px] space-y-[12px]">
-                <div className="h-[56px] md:h-[72px] w-[70%] bg-black/[0.06] rounded-[12px] animate-pulse" />
-                <div className="h-[56px] md:h-[72px] w-[40%] bg-black/[0.06] rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[70%] bg-[#e8e8e8] rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[40%] bg-[#e8e8e8] rounded-[12px] animate-pulse" />
               </div>
               {/* Meta */}
               <div className="flex gap-[48px] mb-[48px]">
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-black/[0.06] rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[100px] bg-black/[0.06] rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[100px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
                 </div>
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-black/[0.06] rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[120px] bg-black/[0.06] rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[120px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
                 </div>
               </div>
               {/* Hero image */}
-              <div className="rounded-[28px] h-[240px] md:h-[479px] bg-black/[0.06] animate-pulse mb-[64px]" />
+              <div className="rounded-[28px] h-[240px] md:h-[479px] bg-[#e8e8e8] animate-pulse mb-[64px]" />
               {/* Content */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-[48px]">
                 <div className="col-span-8 space-y-[64px]">
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[140px] bg-black/[0.06] rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[90%] bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[75%] bg-black/[0.06] rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[140px] bg-[#e8e8e8] rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[90%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[75%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
                   </div>
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[160px] bg-black/[0.06] rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[85%] bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[80%] bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[60%] bg-black/[0.06] rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[160px] bg-[#e8e8e8] rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[85%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[80%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[60%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
                   </div>
                 </div>
                 <div className="col-span-4">
                   <div className="bg-white/60 border border-white/50 rounded-[28px] p-[32px] space-y-[16px]">
-                    <div className="h-[28px] w-[120px] bg-black/[0.06] rounded-[8px] animate-pulse" />
-                    <div className="h-[18px] w-full bg-black/[0.06] rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[80%] bg-black/[0.06] rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[90%] bg-black/[0.06] rounded-[6px] animate-pulse" />
+                    <div className="h-[28px] w-[120px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[18px] w-full bg-[#e8e8e8] rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[80%] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[90%] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
                   </div>
                 </div>
               </div>
