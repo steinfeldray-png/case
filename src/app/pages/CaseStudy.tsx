@@ -26,6 +26,7 @@ export default function CaseStudy() {
   const [project, setProject] = useState<Project | null>(null);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [phase, setPhase] = useState<'skeleton-in' | 'skeleton' | 'skeleton-out' | 'content-in' | 'content'>('skeleton-in');
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,6 +35,13 @@ export default function CaseStudy() {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  // Skeleton fade-in on mount
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setPhase('skeleton'));
+    });
   }, []);
 
   useEffect(() => {
@@ -53,7 +61,18 @@ export default function CaseStudy() {
       } finally {
         const elapsed = Date.now() - start;
         const remaining = Math.max(0, 1000 - elapsed);
-        setTimeout(() => setLoading(false), remaining);
+        setTimeout(() => {
+          // Start skeleton fade-out
+          setPhase('skeleton-out');
+          setTimeout(() => {
+            setLoading(false);
+            // Content starts invisible, then fades in
+            setPhase('content-in');
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => setPhase('content'));
+            });
+          }, 150);
+        }, remaining);
       }
     };
 
@@ -62,55 +81,53 @@ export default function CaseStudy() {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] h-screen overflow-y-auto">
+      <div className="bg-[#f5f5f7] h-screen overflow-y-auto" style={{
+        opacity: phase === 'skeleton-in' ? 0 : phase === 'skeleton-out' ? 0 : 1,
+        transition: 'opacity 150ms ease',
+      }}>
         <div className="max-w-[1440px] mx-auto">
-          {/* Header skeleton */}
-          <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
-            <div className="h-[28px] w-[80px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+          <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+            <div className="h-[28px] w-[80px] bg-white/30 rounded-[8px] animate-pulse" />
           </div>
           <div className="px-5 md:px-[120px] py-[32px] md:py-[64px]">
             <div className="max-w-[1400px] mx-auto">
-              {/* Title */}
               <div className="mb-[24px] space-y-[12px]">
-                <div className="h-[56px] md:h-[72px] w-[70%] bg-[#e8e8e8] rounded-[12px] animate-pulse" />
-                <div className="h-[56px] md:h-[72px] w-[40%] bg-[#e8e8e8] rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[70%] bg-white/30 rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[40%] bg-white/30 rounded-[12px] animate-pulse" />
               </div>
-              {/* Meta */}
               <div className="flex gap-[48px] mb-[48px]">
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[100px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-white/30 rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[100px] bg-white/30 rounded-[8px] animate-pulse" />
                 </div>
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[120px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-white/30 rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[120px] bg-white/30 rounded-[8px] animate-pulse" />
                 </div>
               </div>
-              {/* Hero image */}
-              <div className="rounded-[28px] h-[240px] md:h-[479px] bg-[#e8e8e8] animate-pulse mb-[64px]" />
-              {/* Content */}
+              <div className="rounded-[28px] h-[240px] md:h-[479px] bg-white/30 animate-pulse mb-[64px]" />
               <div className="grid grid-cols-1 md:grid-cols-12 gap-[48px]">
                 <div className="col-span-8 space-y-[64px]">
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[140px] bg-[#e8e8e8] rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[90%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[75%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[140px] bg-white/30 rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[90%] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[75%] bg-white/30 rounded-[8px] animate-pulse" />
                   </div>
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[160px] bg-[#e8e8e8] rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[85%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[80%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[60%] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[160px] bg-white/30 rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[85%] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[80%] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[60%] bg-white/30 rounded-[8px] animate-pulse" />
                   </div>
                 </div>
                 <div className="col-span-4">
-                  <div className="bg-white/60 border border-white/50 rounded-[28px] p-[32px] space-y-[16px]">
-                    <div className="h-[28px] w-[120px] bg-[#e8e8e8] rounded-[8px] animate-pulse" />
-                    <div className="h-[18px] w-full bg-[#e8e8e8] rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[80%] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[90%] bg-[#e8e8e8] rounded-[6px] animate-pulse" />
+                  <div className="bg-white/20 backdrop-blur-2xl border border-white/30 rounded-[28px] p-[32px] space-y-[16px]">
+                    <div className="h-[28px] w-[120px] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[18px] w-full bg-white/30 rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[80%] bg-white/30 rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[90%] bg-white/30 rounded-[6px] animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -123,7 +140,7 @@ export default function CaseStudy() {
 
   if (!project) {
     return (
-      <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] size-full flex items-center justify-center">
+      <div className="bg-[#f5f5f7] size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
@@ -143,10 +160,13 @@ export default function CaseStudy() {
 
   return (
     <>
-    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] h-screen overflow-y-auto">
+    <div className="bg-[#f5f5f7] h-screen overflow-y-auto" style={{
+      opacity: phase === 'content' ? 1 : 0,
+      transition: 'opacity 150ms ease',
+    }}>
       <div className="max-w-[1440px] mx-auto">
-      {/* Header */}
-      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+      {/* Header — glass */}
+      <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
@@ -169,7 +189,7 @@ export default function CaseStudy() {
 
           <div className="flex gap-[24px] md:gap-[48px] mb-[32px] md:mb-[48px]">
             <div>
-              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
+              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
                 Продукт
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
@@ -177,7 +197,7 @@ export default function CaseStudy() {
               </p>
             </div>
             <div>
-              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
+              <p className="font-['SF_Pro',sans-serif] font-[590] text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
                 Платформа
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
@@ -188,7 +208,7 @@ export default function CaseStudy() {
 
           {/* Hero Image */}
           {project.imageUrl && (
-            <div className="rounded-[20px] md:rounded-[28px] overflow-hidden mb-[32px] md:mb-[64px] h-[240px] md:h-[479px] shadow-[0_8px_32px_rgba(0,0,0,0.10)]">
+            <div className="rounded-[20px] md:rounded-[28px] overflow-hidden mb-[32px] md:mb-[64px] h-[240px] md:h-[479px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-white/30">
               <img
                 alt={project.title}
                 className="w-full h-full object-cover block"
@@ -227,7 +247,7 @@ export default function CaseStudy() {
                     {project.caseImages.map((imageUrl, imgIndex) => (
                       <div
                         key={imgIndex}
-                        className="rounded-[20px] md:rounded-[28px] overflow-hidden w-full cursor-zoom-in shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                        className="rounded-[20px] md:rounded-[28px] overflow-hidden w-full cursor-zoom-in shadow-[0_4px_20px_rgba(0,0,0,0.08)] ring-1 ring-white/20"
                         onClick={() => setLightboxSrc(imageUrl)}
                       >
                         <img
@@ -244,10 +264,9 @@ export default function CaseStudy() {
               )}
             </div>
 
-            {/* Sidebar */}
+            {/* Sidebar — glass panel */}
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[104px] md:self-start">
-              {/* Results */}
-              <div className="bg-white/60 backdrop-blur-md border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.08)] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
+              <div className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   Результаты
                 </h3>
@@ -262,7 +281,6 @@ export default function CaseStudy() {
                   ))}
                 </ul>
               </div>
-
             </div>
           </div>
 
@@ -277,7 +295,7 @@ export default function CaseStudy() {
                   >
                     <ChevronLeft className="size-[18px] shrink-0 mt-[18px]" />
                     <div>
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[13px] mb-[2px]">Предыдущий проект</p>
+                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">Предыдущий проект</p>
                       <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index - 1].title}
                       </span>
@@ -292,7 +310,7 @@ export default function CaseStudy() {
                     className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
                   >
                     <div className="text-right">
-                      <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[13px] mb-[2px]">Следующий проект</p>
+                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">Следующий проект</p>
                       <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index + 1].title}
                       </span>
@@ -311,18 +329,18 @@ export default function CaseStudy() {
     {/* Lightbox */}
     {lightboxSrc && (
       <div
-        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8"
         onClick={() => setLightboxSrc(null)}
       >
         <img
           src={lightboxSrc}
           alt="Полный размер"
-          className="max-w-full max-h-full object-contain rounded-[16px]"
+          className="max-w-full max-h-full object-contain rounded-[16px] ring-1 ring-white/10"
           onClick={(e) => e.stopPropagation()}
         />
         <button
           onClick={() => setLightboxSrc(null)}
-          className="absolute top-4 right-4 text-white hover:opacity-60 transition-opacity text-[32px] leading-none"
+          className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors text-[32px] leading-none"
         >
           ×
         </button>

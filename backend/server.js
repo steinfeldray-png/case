@@ -142,7 +142,8 @@ app.get('/api/projects', async (req, res) => {
       results: project.results,
       tags: project.tags,
       imageUrl: project.image_url,
-      caseImages: project.case_images
+      caseImages: project.case_images,
+      inProgress: project.in_progress || false
     }));
 
     res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
@@ -177,7 +178,8 @@ app.get('/api/projects/:slug', async (req, res) => {
       results: project.results,
       tags: project.tags,
       imageUrl: project.image_url,
-      caseImages: project.case_images
+      caseImages: project.case_images,
+      inProgress: project.in_progress || false
     };
 
     res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
@@ -203,12 +205,12 @@ app.post('/api/projects', requireAdminKey, async (req, res) => {
       results: req.body.results,
       tags: req.body.tags,
       imageUrl: req.body.imageUrl,
-      caseImages: req.body.caseImages
+      caseImages: req.body.caseImages,
+      inProgress: req.body.inProgress
     };
 
     const newProject = await createProject(projectData);
 
-    // Convert snake_case to camelCase
     const formattedProject = {
       id: newProject.id,
       slug: newProject.slug,
@@ -222,7 +224,8 @@ app.post('/api/projects', requireAdminKey, async (req, res) => {
       results: newProject.results,
       tags: newProject.tags,
       imageUrl: newProject.image_url,
-      caseImages: newProject.case_images
+      caseImages: newProject.case_images,
+      inProgress: newProject.in_progress || false
     };
 
     res.json({ success: true, data: formattedProject });
@@ -249,7 +252,8 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
       results: req.body.results,
       tags: req.body.tags,
       imageUrl: req.body.imageUrl,
-      caseImages: req.body.caseImages
+      caseImages: req.body.caseImages,
+      inProgress: req.body.inProgress
     };
 
     const updatedProject = await updateProject(id, projectData);
@@ -258,7 +262,6 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
       return res.status(404).json({ success: false, error: 'Project not found' });
     }
 
-    // Convert snake_case to camelCase
     const formattedProject = {
       id: updatedProject.id,
       slug: updatedProject.slug,
@@ -272,7 +275,8 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
       results: updatedProject.results,
       tags: updatedProject.tags,
       imageUrl: updatedProject.image_url,
-      caseImages: updatedProject.case_images
+      caseImages: updatedProject.case_images,
+      inProgress: updatedProject.in_progress || false
     };
 
     res.json({ success: true, data: formattedProject });

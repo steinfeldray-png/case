@@ -12,6 +12,7 @@ interface Project {
   description: string;
   year: string;
   imageUrl?: string;
+  inProgress?: boolean;
 }
 
 interface Profile {
@@ -51,7 +52,6 @@ export default function HomePage() {
   const casesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Показываем закешированные данные мгновенно
     const cachedProjects = readCache<Project[]>('hp_projects');
     const cachedProfile = readCache<Profile>('hp_profile');
     if (cachedProjects) { setProjects(cachedProjects); setLoading(false); }
@@ -84,7 +84,7 @@ export default function HomePage() {
         }
       }
     } catch (error) {
-      console.error('❌ Error loading data:', error);
+      console.error('Error loading data:', error);
       if (!hasCache) { setProjects([]); setProfile({}); }
     } finally {
       setLoading(false);
@@ -96,9 +96,9 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] w-full min-h-screen">
-      {/* Header — full width */}
-      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] sticky top-0 z-[10] w-full">
+    <div className="bg-[#f5f5f7] w-full min-h-screen">
+      {/* Header — glass panel */}
+      <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 sticky top-0 z-[10] w-full">
         <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
           <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
             Alexander Petrov
@@ -121,7 +121,6 @@ export default function HomePage() {
       </div>
 
     <div className="flex flex-col items-start px-5 md:px-[120px] max-w-[1440px] mx-auto w-full">
-      {/* Main Content */}
       <div className="flex flex-col items-start py-[24px] md:py-[48px] relative shrink-0 w-full z-[1]">
 
         {/* Title Section */}
@@ -144,7 +143,7 @@ export default function HomePage() {
                 href={profile.telegramUrl || "https://t.me/saneuuu"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/90 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+                className="bg-white/20 backdrop-blur-2xl flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-white/50 shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z" fill="url(#paint0_linear)" />
@@ -163,7 +162,7 @@ export default function HomePage() {
               <a
                 href={profile.cvUrl ? `${API_BASE_URL}/api/download/cv` : "/cv.pdf"}
                 download="CV.pdf"
-                className="bg-white/60 backdrop-blur-md flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/90 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+                className="bg-white/20 backdrop-blur-2xl flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:bg-white/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-white/50 shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
               >
                 <svg className="shrink-0 size-[22px] md:size-[28px]" fill="none" viewBox="0 0 28 28">
                   <path d="M14 2C7.372 2 2 7.372 2 14C2 20.628 7.372 26 14 26C20.628 26 26 20.628 26 14C26 7.372 20.628 2 14 2ZM14 8C14.552 8 15 8.448 15 9V14.586L17.293 12.293C17.684 11.902 18.316 11.902 18.707 12.293C19.098 12.684 19.098 13.316 18.707 13.707L14.707 17.707C14.512 17.902 14.256 18 14 18C13.744 18 13.488 17.902 13.293 17.707L9.293 13.707C8.902 13.316 8.902 12.684 9.293 12.293C9.684 11.902 10.316 11.902 10.707 12.293L13 14.586V9C13 8.448 13.448 8 14 8ZM9 19C8.448 19 8 19.448 8 20C8 20.552 8.448 21 9 21H19C19.552 21 20 20.552 20 20C20 19.448 19.552 19 19 19H9Z" fill="#000000" />
@@ -176,7 +175,7 @@ export default function HomePage() {
           </div>
 
           {/* Photo */}
-          <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+          <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-white/30">
             {loading && (
               <div className="absolute inset-0 bg-[#e8e8e8] animate-pulse" />
             )}
@@ -194,24 +193,21 @@ export default function HomePage() {
           {loading ? (
             <>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse bg-white/50 rounded-[28px] p-5">
-                  {/* Title line */}
-                  <div className="pb-[12px] md:pb-[16px] border-b border-[#e8e8e8]">
-                    <div className="h-[22px] md:h-[28px] bg-[#e8e8e8] rounded-[6px] w-3/4" />
+                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse bg-white/20 backdrop-blur-2xl border border-white/30 rounded-[28px] p-5">
+                  <div className="pb-[12px] md:pb-[16px] border-b border-black/[0.06]">
+                    <div className="h-[22px] md:h-[28px] bg-white/30 rounded-[6px] w-3/4" />
                   </div>
-                  {/* Meta */}
                   <div className="flex gap-[24px] md:gap-[42px]">
                     <div className="flex flex-col gap-[6px]">
-                      <div className="h-[12px] bg-[#e8e8e8] rounded-[4px] w-[48px]" />
-                      <div className="h-[16px] bg-[#e8e8e8] rounded-[4px] w-[80px]" />
+                      <div className="h-[12px] bg-white/30 rounded-[4px] w-[48px]" />
+                      <div className="h-[16px] bg-white/30 rounded-[4px] w-[80px]" />
                     </div>
                     <div className="flex flex-col gap-[6px]">
-                      <div className="h-[12px] bg-[#e8e8e8] rounded-[4px] w-[56px]" />
-                      <div className="h-[16px] bg-[#e8e8e8] rounded-[4px] w-[64px]" />
+                      <div className="h-[12px] bg-white/30 rounded-[4px] w-[56px]" />
+                      <div className="h-[16px] bg-white/30 rounded-[4px] w-[64px]" />
                     </div>
                   </div>
-                  {/* Image placeholder */}
-                  <div className="aspect-[3/2] rounded-[12px] bg-[#e8e8e8]" />
+                  <div className="aspect-[3/2] rounded-[12px] bg-white/30" />
                 </div>
               ))}
             </>
@@ -220,54 +216,82 @@ export default function HomePage() {
               <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[24px]">Проекты не найдены</p>
             </div>
           ) : (
-            projects.map((project) => (
-              <Link
-                key={project.id}
-                to={`/case/${project.slug}`}
-                className="flex flex-col gap-[12px] md:gap-[16px] items-start w-full relative group cursor-pointer bg-white/50 backdrop-blur-sm border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[28px] p-5 hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:bg-white/70 transition-all duration-300"
-              >
-                <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
-                  <p className="flex-1 font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
-                    {project.title}
-                  </p>
-                </div>
-                <div className="flex gap-[24px] md:gap-[42px] items-start shrink-0 w-full">
-                  <div className="flex flex-col gap-[4px] items-start">
-                    <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px]">
-                      Продукт
-                    </p>
-                    <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[15px] md:text-[20px] tracking-[-0.45px]">
-                      {project.product}
+            projects.map((project) => {
+              const CardWrapper = project.inProgress ? 'div' : Link;
+              const wrapperProps = project.inProgress ? {} : { to: `/case/${project.slug}` };
+              return (
+                <CardWrapper
+                  key={project.id}
+                  {...wrapperProps as any}
+                  className={`flex flex-col gap-[12px] md:gap-[16px] items-start w-full relative group bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[28px] p-5 transition-all duration-300 ${
+                    project.inProgress
+                      ? 'cursor-default'
+                      : 'cursor-pointer hover:bg-white/35 hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:border-white/50'
+                  }`}
+                >
+                  <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
+                    <p className="flex-1 font-['SF_Pro',sans-serif] font-medium text-[#000000] text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden">
+                      {project.title}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-[4px] items-start">
-                    <p className="font-['SF_Pro',sans-serif] font-[590] text-[#9d9ea2] text-[13px] md:text-[17px] tracking-[-0.43px]">
-                      Платформа
-                    </p>
-                    <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[15px] md:text-[20px] tracking-[-0.45px]">
-                      {project.platform}
-                    </p>
-                  </div>
-                </div>
-                <div className="aspect-[3/2] relative rounded-[12px] w-full overflow-hidden">
-                  {project.imageUrl ? (
-                    <>
-                      <img
-                        alt={project.title}
-                        className="absolute max-w-none object-cover size-full group-hover:scale-[1.02] transition-transform duration-300"
-                        src={cloudinaryOptimize(project.imageUrl, 800)}
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </>
-                  ) : (
-                    <div className="absolute inset-0 bg-[#f2f2f2] flex items-center justify-center">
-                      <span className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[16px] md:text-[20px]">{project.title}</span>
+                  <div className="flex gap-[24px] md:gap-[42px] items-start shrink-0 w-full">
+                    <div className="flex flex-col items-start">
+                      <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px]">
+                        Продукт
+                      </p>
+                      <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[15px] md:text-[20px] tracking-[-0.45px]">
+                        {project.product}
+                      </p>
                     </div>
-                  )}
-                </div>
-              </Link>
-            ))
+                    <div className="flex flex-col items-start">
+                      <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px]">
+                        Платформа
+                      </p>
+                      <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[15px] md:text-[20px] tracking-[-0.45px]">
+                        {project.platform}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
+                    {project.imageUrl ? (
+                      <>
+                        <img
+                          alt={project.title}
+                          className={`absolute max-w-none object-cover size-full transition-transform duration-300 ${
+                            project.inProgress ? 'blur-[6px] scale-[1.05]' : 'group-hover:scale-[1.02]'
+                          }`}
+                          src={cloudinaryOptimize(project.imageUrl, 800)}
+                          loading="lazy"
+                        />
+                        {project.inProgress ? (
+                          <div className="absolute inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center">
+                            <div className="bg-white/60 backdrop-blur-2xl border border-white/50 rounded-[20px] px-[24px] py-[14px] shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+                              <p className="font-['SF_Pro',sans-serif] font-semibold text-[#000000] text-[15px] md:text-[17px] tracking-[-0.02em]">
+                                Скоро будет 🔮
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        )}
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 bg-white/10 flex items-center justify-center">
+                        {project.inProgress ? (
+                          <div className="bg-white/60 backdrop-blur-2xl border border-white/50 rounded-[20px] px-[24px] py-[14px] shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+                            <p className="font-['SF_Pro',sans-serif] font-semibold text-[#000000] text-[15px] md:text-[17px] tracking-[-0.02em]">
+                              Скоро будет 🔮
+                            </p>
+                          </div>
+                        ) : (
+                          <span className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[16px] md:text-[20px]">{project.title}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </CardWrapper>
+              );
+            })
           )}
         </div>
 

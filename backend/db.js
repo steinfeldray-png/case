@@ -63,9 +63,15 @@ export async function initDatabase() {
         tags JSONB DEFAULT '[]',
         image_url TEXT,
         case_images JSONB DEFAULT '[]',
+        in_progress BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
+    `);
+
+    // Add in_progress column if missing (migration for existing tables)
+    await client.query(`
+      ALTER TABLE projects ADD COLUMN IF NOT EXISTS in_progress BOOLEAN DEFAULT false
     `);
 
     // Create profile table
@@ -126,16 +132,16 @@ export async function getProjectById(id) {
 export async function createProject(projectData) {
   const {
     slug, title, product, platform, description, year,
-    challenge, solution, results, tags, imageUrl, caseImages
+    challenge, solution, results, tags, imageUrl, caseImages, inProgress
   } = projectData;
 
   const result = await pool.query(
-    `INSERT INTO projects 
-    (slug, title, product, platform, description, year, challenge, solution, results, tags, image_url, case_images)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    `INSERT INTO projects
+    (slug, title, product, platform, description, year, challenge, solution, results, tags, image_url, case_images, in_progress)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     RETURNING *`,
     [slug, title, product, platform, description, year, challenge, solution,
-     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null, JSON.stringify(caseImages || [])]
+     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null, JSON.stringify(caseImages || []), inProgress || false]
   );
   return result.rows[0];
 }
@@ -143,19 +149,19 @@ export async function createProject(projectData) {
 export async function updateProject(id, projectData) {
   const {
     slug, title, product, platform, description, year,
-    challenge, solution, results, tags, imageUrl, caseImages
+    challenge, solution, results, tags, imageUrl, caseImages, inProgress
   } = projectData;
 
   const result = await pool.query(
-    `UPDATE projects 
+    `UPDATE projects
     SET slug = $1, title = $2, product = $3, platform = $4, description = $5,
         year = $6, challenge = $7, solution = $8, results = $9, tags = $10,
-        image_url = $11, case_images = $12, updated_at = CURRENT_TIMESTAMP
-    WHERE id = $13
+        image_url = $11, case_images = $12, in_progress = $13, updated_at = CURRENT_TIMESTAMP
+    WHERE id = $14
     RETURNING *`,
     [slug, title, product, platform, description, year, challenge, solution,
-     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null, 
-     JSON.stringify(caseImages || []), id]
+     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null,
+     JSON.stringify(caseImages || []), inProgress || false, id]
   );
   return result.rows[0];
 }

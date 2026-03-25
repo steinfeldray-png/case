@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase } from 'lucide-react';
+import { ChevronLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase } from 'lucide-react';
 import { API_ENDPOINTS } from '/src/config/api';
 
 const getAdminKey = () => sessionStorage.getItem('adminKey') || '';
@@ -28,6 +28,7 @@ interface Project {
   tags: string[];
   imageUrl?: string;
   caseImages?: string[];
+  inProgress?: boolean;
 }
 
 interface Profile {
@@ -66,7 +67,6 @@ export default function Admin() {
     }
   }, []);
 
-  // Все хуки должны быть до условного return
   useEffect(() => {
     if (authorized) fetchProjects();
   }, [authorized]);
@@ -83,7 +83,8 @@ export default function Admin() {
     challenge: '',
     solution: '',
     results: [''],
-    tags: ['']
+    tags: [''],
+    inProgress: false
   };
 
   const fetchProjects = async () => {
@@ -105,7 +106,7 @@ export default function Admin() {
       const url = 'id' in project
         ? API_ENDPOINTS.projectById(project.id)
         : API_ENDPOINTS.projects;
-      
+
       const method = 'id' in project ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -145,46 +146,33 @@ export default function Admin() {
 
 
   return (
-    <div className="bg-gradient-to-br from-[#f0f5ff] via-[#f5f8ff] to-[#edf2ff] min-h-screen">
-      {/* Header */}
-      <div className="backdrop-blur-xl bg-white/70 border-b border-black/[0.06] flex items-center justify-between px-[48px] py-[16px] sticky top-0 z-10">
-        <div className="flex items-center gap-[24px]">
+    <div className="bg-[#f5f5f7] min-h-screen">
+      {/* Header — glass */}
+      <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 sticky top-0 z-[10] w-full">
+        <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
           <Link
             to="/"
             className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity"
           >
-            <ArrowLeft className="size-[24px]" />
-            <p className="font-['SF_Pro',sans-serif] font-normal leading-[34px] text-[28px] tracking-[0.38px]">
+            <ChevronLeft className="size-[20px] md:size-[24px]" />
+            <p className="font-['SF_Pro',sans-serif] font-normal text-[18px] md:text-[28px] tracking-[0.38px]">
               На главную
             </p>
           </Link>
         </div>
-        {!editingProject && !isCreating && (
-          <div className="flex gap-[12px]">
-            <button
-              onClick={() => {
-                setIsCreating(true);
-                setEditingProject({ ...emptyProject, id: 0 } as Project);
-              }}
-              className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity flex items-center gap-[8px]"
-            >
-              <Plus className="size-[20px]" />
-              Новый проект
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Content */}
-      <div className="px-[48px] py-[32px]">
-        {/* Tabs */}
+      <div className="px-5 md:px-[120px] py-[32px] max-w-[1440px] mx-auto">
+        {/* Tabs + New Project button */}
         {!editingProject && (
-          <div className="inline-flex bg-[#f5f0ef] p-[4px] rounded-[12px] mb-[32px]">
+          <div className="flex items-center justify-between mb-[32px]">
+            <div className="inline-flex bg-white/20 backdrop-blur-2xl border border-white/30 p-[4px] rounded-[12px]">
             <button
               onClick={() => setActiveTab('projects')}
               className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
                 activeTab === 'projects'
-                  ? 'bg-white text-[#000000] shadow-sm'
+                  ? 'bg-white/50 text-[#000000] shadow-sm'
                   : 'text-[#000000] hover:opacity-60'
               }`}
             >
@@ -195,18 +183,31 @@ export default function Admin() {
               onClick={() => setActiveTab('profile')}
               className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
                 activeTab === 'profile'
-                  ? 'bg-white text-[#000000] shadow-sm'
+                  ? 'bg-white/50 text-[#000000] shadow-sm'
                   : 'text-[#000000] hover:opacity-60'
               }`}
             >
               <User className="size-[16px]" />
               Настройки профиля
             </button>
+            </div>
+            {activeTab === 'projects' && !isCreating && (
+              <button
+                onClick={() => {
+                  setIsCreating(true);
+                  setEditingProject({ ...emptyProject, id: 0 } as Project);
+                }}
+                className="bg-[#007AFF] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:bg-[#0066DD] transition-colors shadow-[0_2px_12px_rgba(0,122,255,0.3)] flex items-center gap-[8px]"
+              >
+                <Plus className="size-[20px]" />
+                Новый проект
+              </button>
+            )}
           </div>
         )}
 
         {loading ? (
-          <p className="text-center font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[24px]">
+          <p className="text-center font-['SF_Pro',sans-serif] text-[#6e6e73] text-[24px]">
             Загрузка...
           </p>
         ) : activeTab === 'profile' ? (
@@ -223,31 +224,39 @@ export default function Admin() {
             onChange={setEditingProject}
           />
         ) : (
-          <div className="grid grid-cols-3 gap-[24px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] md:gap-[32px]">
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="bg-white border border-[#ccc] rounded-[24px] p-[24px] flex flex-col relative"
+                className="group flex flex-col gap-[12px] md:gap-[16px] items-start w-full bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[28px] p-5 hover:bg-white/35 hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:border-white/50 transition-all duration-300"
               >
-                {/* Action Buttons */}
-                <div className="absolute top-[16px] right-[16px] flex gap-[6px] z-10">
-                  <button
-                    onClick={() => setEditingProject(project)}
-                    className="p-[8px] rounded-[8px] bg-white/90 hover:bg-[#f5f0ef] transition-colors shadow-sm"
-                  >
-                    <Edit className="size-[16px] text-[#000000]" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(project.id)}
-                    className="p-[8px] rounded-[8px] bg-white/90 hover:bg-[#fee] transition-colors shadow-sm"
-                  >
-                    <Trash2 className="size-[16px] text-red-500" />
-                  </button>
+                {/* Title + Divider */}
+                <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
+                  <p className="flex-1 font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[22px] font-medium tracking-[-0.01em] leading-[1.2]">
+                    {project.title}
+                  </p>
+                  {project.inProgress && (
+                    <span className="ml-[8px] px-[10px] py-[3px] bg-[#FF9500]/15 text-[#FF9500] text-[12px] font-['SF_Pro',sans-serif] font-medium rounded-full whitespace-nowrap">
+                      В работе
+                    </span>
+                  )}
+                </div>
+
+                {/* Meta */}
+                <div className="flex gap-[24px] md:gap-[42px]">
+                  <div>
+                    <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px]">Продукт</p>
+                    <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[15px]">{project.product}</p>
+                  </div>
+                  <div>
+                    <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px]">Платформа</p>
+                    <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[15px]">{project.platform}</p>
+                  </div>
                 </div>
 
                 {/* Image */}
                 {project.imageUrl && (
-                  <div className="w-full h-[200px] rounded-[12px] overflow-hidden mb-[16px]">
+                  <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
                     <img
                       src={project.imageUrl}
                       alt={project.title}
@@ -256,18 +265,22 @@ export default function Admin() {
                     />
                   </div>
                 )}
-                
-                {/* Content */}
-                <div className="flex-1">
-                  <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] mb-[8px]">
-                    {project.title}
-                  </h2>
-                  <p className="font-['SF_Pro',sans-serif] text-[#9d9ea2] text-[15px] mb-[12px]">
-                    {project.product} • {project.platform} • {project.year}
-                  </p>
-                  <p className="font-['Roboto',sans-serif] text-[#000000] text-[15px] line-clamp-3">
-                    {project.description}
-                  </p>
+
+                {/* Action Buttons */}
+                <div className="flex gap-[8px] w-full pt-[4px]">
+                  <button
+                    onClick={() => setEditingProject(project)}
+                    className="flex-1 flex items-center justify-center gap-[6px] py-[8px] rounded-[12px] bg-white/30 backdrop-blur-xl hover:bg-white/50 transition-colors border border-white/30 font-['SF_Pro',sans-serif] text-[14px] text-[#000000]"
+                  >
+                    <Edit className="size-[14px]" />
+                    Редактировать
+                  </button>
+                  <button
+                    onClick={() => handleDelete(project.id)}
+                    className="py-[8px] px-[12px] rounded-[12px] bg-white/30 backdrop-blur-xl hover:bg-red-100/50 transition-colors border border-white/30"
+                  >
+                    <Trash2 className="size-[14px] text-red-500" />
+                  </button>
                 </div>
               </div>
             ))}
@@ -296,16 +309,12 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log('Файл выбран:', file.name, file.type, file.size);
-
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setUploadError('Неверный формат файла. Разрешены только изображения.');
       return;
     }
 
-    // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setUploadError('Размер файла превышает 5 МБ.');
@@ -319,8 +328,6 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       const formData = new FormData();
       formData.append('file', file);
 
-      console.log('Отправка запроса на сервер...');
-
       const response = await fetch(
         API_ENDPOINTS.upload,
         {
@@ -330,16 +337,11 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         }
       );
 
-      console.log('Ответ сервера статус:', response.status);
-
       const result = await response.json();
-      console.log('Ответ сервера:', result);
-      
+
       if (result.success && result.data?.url) {
-        console.log('Успешная загрузка! URL:', result.data.url);
         updateField('imageUrl', result.data.url);
       } else {
-        console.error('Ошибка в ответе сервера:', result);
         setUploadError(result.error || 'Ошибка загрузки изображения');
       }
     } catch (error) {
@@ -354,16 +356,12 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log('Файл выбран:', file.name, file.type, file.size);
-
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setCaseImageError('Неверный формат файла. Разрешены только изображения.');
       return;
     }
 
-    // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setCaseImageError('Размер файла превышает 5 МБ.');
@@ -377,8 +375,6 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       const formData = new FormData();
       formData.append('file', file);
 
-      console.log('Отправка запроса на сервер...');
-
       const response = await fetch(
         API_ENDPOINTS.upload,
         {
@@ -388,16 +384,11 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         }
       );
 
-      console.log('Ответ сервера статус:', response.status);
-
       const result = await response.json();
-      console.log('Ответ сервера:', result);
-      
+
       if (result.success && result.data?.url) {
-        console.log('Успешная загрузка! URL:', result.data.url);
         updateField('caseImages', [...(project.caseImages || []), result.data.url]);
       } else {
-        console.error('Ошибка в ответе сервера:', result);
         setCaseImageError(result.error || 'Ошибка загрузки изображения');
       }
     } catch (error) {
@@ -410,8 +401,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Clean up empty results and tags
+
     const cleanProject = {
       ...project,
       results: project.results.filter(r => r.trim() !== ''),
@@ -446,7 +436,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_8px_40px_rgba(0,0,0,0.08)] rounded-[28px] p-[48px] max-w-[1200px] mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.06)] rounded-[28px] p-[48px] max-w-[1200px] mx-auto">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           {isCreating ? 'Новый проект' : 'Редактирование проекта'}
@@ -455,16 +445,35 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           <button
             type="button"
             onClick={onCancel}
-            className="bg-[#f5f0ef] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px] hover:bg-[#e5e0df] transition-colors"
+            className="bg-white/20 backdrop-blur-xl border border-white/40 px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px] hover:bg-white/40 transition-all"
           >
             Отмена
           </button>
           <button
             type="submit"
-            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
+            className="bg-[#007AFF] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:bg-[#0066DD] transition-colors shadow-[0_2px_12px_rgba(0,122,255,0.3)]"
           >
             Сохранить
           </button>
+        </div>
+      </div>
+
+      {/* In Progress Toggle */}
+      <div className="flex items-center gap-[12px] mb-[24px] p-[16px] bg-white/10 rounded-[16px] border border-white/20">
+        <button
+          type="button"
+          onClick={() => updateField('inProgress', !project.inProgress)}
+          className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-200 ${
+            project.inProgress ? 'bg-[#FF9500]' : 'bg-black/10'
+          }`}
+        >
+          <span className={`absolute top-[2px] w-[27px] h-[27px] bg-white rounded-full shadow-[0_2px_4px_rgba(0,0,0,0.2)] transition-transform duration-200 ${
+            project.inProgress ? 'left-[22px]' : 'left-[2px]'
+          }`} />
+        </button>
+        <div>
+          <p className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">В работе</p>
+          <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px]">Кейс будет недоступен для просмотра на главной</p>
         </div>
       </div>
 
@@ -478,7 +487,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.title}
             onChange={(e) => updateField('title', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -492,7 +501,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             onChange={(e) => updateField('slug', e.target.value)}
             required
             placeholder="например: komus"
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -505,7 +514,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.product}
             onChange={(e) => updateField('product', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -518,7 +527,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.platform}
             onChange={(e) => updateField('platform', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -526,9 +535,9 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
             Изображение проекта
           </label>
-          
+
           {project.imageUrl ? (
-            <div className="relative rounded-[12px] overflow-hidden border border-[#ccc] w-[280px] h-[280px]">
+            <div className="relative rounded-[12px] overflow-hidden border border-white/30 w-[280px] h-[280px] ring-1 ring-white/20">
               <img
                 src={project.imageUrl}
                 alt="Превью"
@@ -538,14 +547,14 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               <button
                 type="button"
                 onClick={() => updateField('imageUrl', '')}
-                className="absolute top-[8px] right-[8px] p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors"
+                className="absolute top-[8px] right-[8px] p-[8px] bg-white/50 backdrop-blur-xl rounded-[8px] hover:bg-red-100/50 transition-colors"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
             </div>
           ) : (
-            <label className="w-full h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#000000]" />
+            <label className="w-full h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+              <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать файл для загрузки'}
               </span>
@@ -558,8 +567,8 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               />
             </label>
           )}
-          
-          <p className="mt-[8px] text-[#9d9ea2] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
+
+          <p className="mt-[8px] text-[#6e6e73] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
             Максимальный размер: 5 МБ<br />
             Форматы: JPG, PNG, WEBP, GIF
           </p>
@@ -579,7 +588,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.description}
             onChange={(e) => updateField('description', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -594,7 +603,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           onChange={(e) => updateField('challenge', e.target.value)}
           required
           rows={4}
-          className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+          className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
         />
       </div>
 
@@ -607,7 +616,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           onChange={(e) => updateField('solution', e.target.value)}
           required
           rows={4}
-          className="w-full px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+          className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
         />
       </div>
 
@@ -630,12 +639,12 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               type="text"
               value={result}
               onChange={(e) => updateArrayItem('results', index, e.target.value)}
-              className="flex-1 px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+              className="flex-1 px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
               onClick={() => removeArrayItem('results', index)}
-              className="p-[12px] rounded-[12px] hover:bg-[#fee] transition-colors"
+              className="p-[12px] rounded-[12px] hover:bg-red-100/30 transition-colors"
             >
               <X className="size-[20px] text-red-500" />
             </button>
@@ -662,12 +671,12 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               type="text"
               value={tag}
               onChange={(e) => updateArrayItem('tags', index, e.target.value)}
-              className="flex-1 px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+              className="flex-1 px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
               onClick={() => removeArrayItem('tags', index)}
-              className="p-[12px] rounded-[12px] hover:bg-[#fee] transition-colors"
+              className="p-[12px] rounded-[12px] hover:bg-red-100/30 transition-colors"
             >
               <X className="size-[20px] text-red-500" />
             </button>
@@ -676,13 +685,13 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
       </div>
 
       {/* Case Images Section */}
-      <div className="mb-[24px] border-t border-[#ccc] pt-[24px]">
+      <div className="mb-[24px] border-t border-black/[0.08] pt-[24px]">
         <div className="flex items-center justify-between mb-[12px]">
           <div>
             <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[4px]">
               Фотографии кейса
             </label>
-            <p className="text-[#9d9ea2] text-[14px] font-['SF_Pro',sans-serif]">
+            <p className="text-[#6e6e73] text-[14px] font-['SF_Pro',sans-serif]">
               Загрузите изображения для детального просмотра проекта
             </p>
           </div>
@@ -690,8 +699,8 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
         {/* File Upload */}
         <div className="mb-[12px]">
-          <label className="w-[280px] h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-            <ImageIcon className="size-[32px] text-[#000000]" />
+          <label className="w-[280px] h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+            <ImageIcon className="size-[32px] text-[#6e6e73]" />
             <span className="text-[#000000] text-center px-[16px]">
               {uploadingCaseImage ? 'Загрузка...' : 'Добавить фото кейса'}
             </span>
@@ -703,7 +712,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               className="hidden"
             />
           </label>
-          <p className="mt-[8px] text-[#9d9ea2] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
+          <p className="mt-[8px] text-[#6e6e73] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
             Максимальный размер: 5 МБ<br />
             Форматы: JPG, PNG, WEBP, GIF
           </p>
@@ -718,7 +727,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
         {project.caseImages && project.caseImages.length > 0 && (
           <div className="flex flex-wrap gap-[12px] mt-[16px]">
             {project.caseImages.map((imageUrl, index) => (
-              <div key={index} className="relative rounded-[12px] overflow-hidden border border-[#ccc] group w-[280px] h-[280px]">
+              <div key={index} className="relative rounded-[12px] overflow-hidden border border-white/30 group w-[280px] h-[280px] ring-1 ring-white/20">
                 <img
                   src={imageUrl}
                   alt={`Кейс фото ${index + 1}`}
@@ -733,11 +742,11 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
                     const newImages = project.caseImages?.filter((_, i) => i !== index) || [];
                     updateField('caseImages', newImages);
                   }}
-                  className="absolute top-[8px] right-[8px] p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
+                  className="absolute top-[8px] right-[8px] p-[8px] bg-white/50 backdrop-blur-xl rounded-[8px] hover:bg-red-100/50 transition-colors opacity-0 group-hover:opacity-100"
                 >
                   <X className="size-[16px] text-red-500" />
                 </button>
-                <div className="absolute bottom-[8px] left-[8px] px-[8px] py-[4px] bg-black/60 text-white text-[12px] rounded-[6px] font-['SF_Pro',sans-serif]">
+                <div className="absolute bottom-[8px] left-[8px] px-[8px] py-[4px] bg-black/40 backdrop-blur-xl text-white text-[12px] rounded-[6px] font-['SF_Pro',sans-serif]">
                   {index + 1}
                 </div>
               </div>
@@ -780,16 +789,12 @@ function ProfileSettings() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log('Файл выбран:', file.name, file.type, file.size);
-
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setUploadError('Неверный формат файла. Разрешены только изображения.');
       return;
     }
 
-    // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setUploadError('Размер файла превышает 5 МБ.');
@@ -803,8 +808,6 @@ function ProfileSettings() {
       const formData = new FormData();
       formData.append('file', file);
 
-      console.log('Отправка запроса на сервер...');
-
       const response = await fetch(
         API_ENDPOINTS.upload,
         {
@@ -814,16 +817,11 @@ function ProfileSettings() {
         }
       );
 
-      console.log('Ответ сервера статус:', response.status);
-
       const result = await response.json();
-      console.log('Ответ сервера:', result);
-      
+
       if (result.success && result.data?.url) {
-        console.log('Успешная загрузка! URL:', result.data.url);
         setProfile({ ...profile, photoUrl: result.data.url });
       } else {
-        console.error('Ошибка в ответе сервера:', result);
         setUploadError(result.error || 'Ошибка загрузки изображения');
       }
     } catch (error) {
@@ -838,16 +836,12 @@ function ProfileSettings() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log('Файл выбран:', file.name, file.type, file.size);
-
-    // Validate file type
     const allowedTypes = ['application/pdf'];
     if (!allowedTypes.includes(file.type)) {
       setCvUploadError('Неверный формат файла. Разрешены только PDF.');
       return;
     }
 
-    // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setCvUploadError('Размер файла превышает 5 МБ.');
@@ -861,8 +855,6 @@ function ProfileSettings() {
       const formData = new FormData();
       formData.append('file', file);
 
-      console.log('Отправка запроса на сервер...');
-
       const response = await fetch(
         API_ENDPOINTS.upload,
         {
@@ -872,16 +864,11 @@ function ProfileSettings() {
         }
       );
 
-      console.log('Ответ сервера статус:', response.status);
-
       const result = await response.json();
-      console.log('Ответ сервера:', result);
-      
+
       if (result.success && result.data?.url) {
-        console.log('Успешная загрузка! URL:', result.data.url);
         setProfile({ ...profile, cvUrl: result.data.url });
       } else {
-        console.error('Ошибка в ответе сервера:', result);
         setCvUploadError(result.error || 'Ошибка загрузки файла');
       }
     } catch (error) {
@@ -895,7 +882,7 @@ function ProfileSettings() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    
+
     try {
       const response = await fetch(
         API_ENDPOINTS.profile,
@@ -925,7 +912,7 @@ function ProfileSettings() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_8px_40px_rgba(0,0,0,0.08)] rounded-[28px] p-[48px]">
+    <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.06)] rounded-[28px] p-[48px]">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           Настройки профиля
@@ -933,7 +920,7 @@ function ProfileSettings() {
         <div className="flex gap-[12px]">
           <button
             type="submit"
-            className="bg-[#000000] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:opacity-80 transition-opacity"
+            className="bg-[#007AFF] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:bg-[#0066DD] transition-colors shadow-[0_2px_12px_rgba(0,122,255,0.3)]"
           >
             Сохранить
           </button>
@@ -941,16 +928,14 @@ function ProfileSettings() {
       </div>
 
       <div>
-        {/* Form Fields Section */}
-        
         {/* Photo Section */}
         <div className="mb-[24px]">
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             Фото профиля
           </label>
-          
+
           {profile.photoUrl ? (
-            <div className="relative rounded-[12px] overflow-hidden border border-[#ccc] w-[280px] h-[280px]">
+            <div className="relative rounded-[12px] overflow-hidden border border-white/30 w-[280px] h-[280px] ring-1 ring-white/20">
               <img
                 src={profile.photoUrl}
                 alt="Превью"
@@ -960,14 +945,14 @@ function ProfileSettings() {
               <button
                 type="button"
                 onClick={() => updateField('photoUrl', '')}
-                className="absolute top-[8px] right-[8px] p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors"
+                className="absolute top-[8px] right-[8px] p-[8px] bg-white/50 backdrop-blur-xl rounded-[8px] hover:bg-red-100/50 transition-colors"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
             </div>
           ) : (
-            <label className="w-[280px] h-[280px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#000000]" />
+            <label className="w-[280px] h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+              <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать фото'}
               </span>
@@ -980,8 +965,8 @@ function ProfileSettings() {
               />
             </label>
           )}
-          
-          <p className="mt-[8px] text-[#9d9ea2] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
+
+          <p className="mt-[8px] text-[#6e6e73] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
             Максимальный размер: 5 МБ<br />
             Форматы: JPG, PNG, WEBP, GIF
           </p>
@@ -1001,7 +986,7 @@ function ProfileSettings() {
             onChange={(e) => updateField('about', e.target.value)}
             placeholder="Введите информацию о себе"
             rows={4}
-            className="w-[280px] px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-[280px] px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -1015,7 +1000,7 @@ function ProfileSettings() {
             value={profile.telegramUrl || ''}
             onChange={(e) => updateField('telegramUrl', e.target.value)}
             placeholder="https://t.me/username"
-            className="w-[280px] px-[16px] py-[12px] border border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF]"
+            className="w-[280px] px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -1024,9 +1009,9 @@ function ProfileSettings() {
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[12px]">
             Резюме
           </label>
-          
+
           {profile.cvUrl ? (
-            <div className="flex items-center gap-[12px] p-[16px] border border-[#ccc] rounded-[12px] bg-[#f5f0ef] w-fit">
+            <div className="flex items-center gap-[12px] p-[16px] border border-white/30 rounded-[12px] bg-white/20 backdrop-blur-xl w-fit">
               <a
                 href={profile.cvUrl}
                 target="_blank"
@@ -1035,7 +1020,7 @@ function ProfileSettings() {
               >
                 {profile.cvUrl.split('/').pop() || 'Резюме'}
               </a>
-              <label className="cursor-pointer p-[8px] bg-white rounded-[8px] hover:bg-[#e5e0df] transition-colors" title="Заменить">
+              <label className="cursor-pointer p-[8px] bg-white/30 backdrop-blur-xl rounded-[8px] hover:bg-white/50 transition-colors border border-white/30" title="Заменить">
                 <Upload className="size-[16px] text-[#000000]" />
                 <input
                   type="file"
@@ -1048,15 +1033,15 @@ function ProfileSettings() {
               <button
                 type="button"
                 onClick={() => updateField('cvUrl', '')}
-                className="p-[8px] bg-white rounded-[8px] hover:bg-red-50 transition-colors"
+                className="p-[8px] bg-white/30 backdrop-blur-xl rounded-[8px] hover:bg-red-100/50 transition-colors border border-white/30"
                 title="Удалить"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
             </div>
           ) : (
-            <label className="w-[280px] h-[120px] border-2 border-dashed border-[#ccc] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF] transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#f5f0ef] hover:bg-[#e5e0df]">
-              <Upload className="size-[32px] text-[#000000]" />
+            <label className="w-[280px] h-[120px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+              <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploadingCV ? 'Загрузка...' : 'Выбрать резюме'}
               </span>
@@ -1069,8 +1054,8 @@ function ProfileSettings() {
               />
             </label>
           )}
-          
-          <p className="mt-[8px] text-[#9d9ea2] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
+
+          <p className="mt-[8px] text-[#6e6e73] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
             Максимальный размер: 5 МБ<br />
             Формат: PDF
           </p>
