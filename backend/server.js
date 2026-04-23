@@ -146,7 +146,7 @@ app.get('/api/projects', async (req, res) => {
       inProgress: project.in_progress || false
     }));
 
-    res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
+    res.set('Cache-Control', 'no-store');
     res.json({ success: true, data: formattedProjects });
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -182,7 +182,7 @@ app.get('/api/projects/:slug', async (req, res) => {
       inProgress: project.in_progress || false
     };
 
-    res.set('Cache-Control', 'public, max-age=300, s-maxage=300, stale-while-revalidate=60');
+    res.set('Cache-Control', 'no-store');
     res.json({ success: true, data: formattedProject });
   } catch (error) {
     console.error('Error fetching project:', error);
