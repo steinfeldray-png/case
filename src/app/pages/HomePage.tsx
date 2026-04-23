@@ -180,7 +180,7 @@ export default function HomePage() {
           </div>
 
           {/* Photo */}
-          <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] h-[240px] md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-white/30">
+          <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] aspect-square md:aspect-auto md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-white/30">
             {loading && (
               <div className="absolute inset-0 bg-[#e8e8e8] animate-pulse" />
             )}
