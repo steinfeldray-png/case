@@ -65,6 +65,12 @@ function RichTextEditor({ value, onChange, label }: {
           ref={editorRef}
           contentEditable
           onInput={sync}
+          onPaste={(e) => {
+            e.preventDefault();
+            // Вставляем только чистый текст, без стилей из буфера
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+          }}
           suppressContentEditableWarning
           data-placeholder="Введите текст..."
           className="w-full min-h-[140px] px-[16px] py-[12px] text-[17px] leading-[1.7] focus:outline-none font-['SF_Pro',sans-serif] text-[#000000] [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_ul]:list-disc [&_ul]:pl-[20px] [&_li]:my-[2px] empty:before:content-[attr(data-placeholder)] empty:before:text-[#6e6e73]"
