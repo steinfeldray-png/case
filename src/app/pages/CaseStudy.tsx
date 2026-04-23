@@ -235,7 +235,7 @@ export default function CaseStudy() {
                   Задача
                 </h2>
                 <div
-                  className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
+                  className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.challenge)) }}
                 />
               </section>
@@ -246,7 +246,7 @@ export default function CaseStudy() {
                   Решение
                 </h2>
                 <div
-                  className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
+                  className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.solution)) }}
                 />
               </section>
@@ -285,7 +285,7 @@ export default function CaseStudy() {
                   {(project.results || []).map((result, idx) => (
                     <li key={idx} className="flex items-start gap-[10px] md:gap-[12px]">
                       <span className="text-[#007AFF] text-[18px] md:text-[24px] mt-[-2px] md:mt-[-4px]">✓</span>
-                      <span className="font-['Roboto',sans-serif] text-[#000000] text-[15px] md:text-[20px] leading-[1.4]">
+                      <span className="font-['SF_Pro',sans-serif] text-[#000000] text-[15px] md:text-[20px] leading-[1.4]">
                         {result}
                       </span>
                     </li>

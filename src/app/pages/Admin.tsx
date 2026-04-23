@@ -724,7 +724,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
               type="text"
               value={result}
               onChange={(e) => updateArrayItem('results', index, e.target.value)}
-              className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+              className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
