@@ -1,109 +1,79 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase, Eye, Code } from 'lucide-react';
-import DOMPurify from 'dompurify';
+import { ChevronLeft, Plus, Edit, Trash2, X, Upload, Image as ImageIcon } from 'lucide-react';
 
-// HTML Editor with live preview
-function HtmlEditor({ value, onChange, label, required }: {
+// WYSIWYG Rich Text Editor — форматирование без кода
+function RichTextEditor({ value, onChange, label }: {
   value: string;
   onChange: (v: string) => void;
   label: string;
-  required?: boolean;
 }) {
-  const [mode, setMode] = useState<'edit' | 'preview'>('edit');
+  const editorRef = useRef<HTMLDivElement>(null);
+  const initialized = useRef(false);
+
+  // Инициализация контента только один раз при монтировании
+  useEffect(() => {
+    if (editorRef.current && !initialized.current) {
+      editorRef.current.innerHTML = value || '';
+      initialized.current = true;
+    }
+  }, []);
+
+  const sync = () => {
+    if (!editorRef.current) return;
+    const html = editorRef.current.innerHTML;
+    onChange(html === '<br>' ? '' : html);
+  };
+
+  const exec = (command: string, arg?: string) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, arg);
+    sync();
+  };
 
   const toolbar = [
-    { label: 'B', title: 'Bold', tag: 'b' },
-    { label: 'I', title: 'Italic', tag: 'i' },
-    { label: 'H2', title: 'Heading', tag: 'h2' },
-    { label: 'UL', title: 'List', tag: 'ul-li' },
-    { label: 'A', title: 'Link', tag: 'a' },
+    { label: 'Ж', title: 'Жирный (Ctrl+B)', command: 'bold', style: 'font-bold' },
+    { label: 'К', title: 'Курсив (Ctrl+I)', command: 'italic', style: 'italic' },
+    { label: '• Список', title: 'Маркированный список', command: 'insertUnorderedList', style: '' },
   ];
-
-  const insertTag = (tag: string) => {
-    const ta = document.getElementById(`html-editor-${label}`) as HTMLTextAreaElement;
-    if (!ta) return;
-    const start = ta.selectionStart;
-    const end = ta.selectionEnd;
-    const selected = value.slice(start, end);
-
-    let insert = '';
-    if (tag === 'ul-li') {
-      insert = `<ul>\n  <li>${selected || 'Пункт'}</li>\n</ul>`;
-    } else if (tag === 'a') {
-      insert = `<a href="https://">${selected || 'Ссылка'}</a>`;
-    } else {
-      insert = `<${tag}>${selected || 'текст'}</${tag}>`;
-    }
-
-    const newVal = value.slice(0, start) + insert + value.slice(end);
-    onChange(newVal);
-    setTimeout(() => {
-      ta.focus();
-      ta.setSelectionRange(start + insert.length, start + insert.length);
-    }, 0);
-  };
 
   return (
     <div className="mb-[24px]">
-      <div className="flex items-center justify-between mb-[8px]">
-        <label className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">
-          {label}{required && ' *'}
-        </label>
-        <div className="flex items-center gap-[4px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[8px] p-[3px]">
-          <button
-            type="button"
-            onClick={() => setMode('edit')}
-            className={`flex items-center gap-[4px] px-[10px] py-[4px] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] transition-all ${mode === 'edit' ? 'bg-white shadow-sm text-[#000000]' : 'text-[#6e6e73]'}`}
-          >
-            <Code className="size-[12px]" /> HTML
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('preview')}
-            className={`flex items-center gap-[4px] px-[10px] py-[4px] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] transition-all ${mode === 'preview' ? 'bg-white shadow-sm text-[#000000]' : 'text-[#6e6e73]'}`}
-          >
-            <Eye className="size-[12px]" /> Превью
-          </button>
+      <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
+        {label}
+      </label>
+      <div className="border border-[#e5e5ea] rounded-[12px] overflow-hidden bg-[#f5f5f7] focus-within:border-[#007AFF] focus-within:ring-1 focus-within:ring-[#007AFF]/30 transition-all">
+        {/* Toolbar */}
+        <div className="flex gap-[2px] px-[10px] py-[6px] border-b border-[#e5e5ea] bg-white">
+          {toolbar.map(({ label: l, title, command, style }) => (
+            <button
+              key={command}
+              type="button"
+              title={title}
+              onMouseDown={(e) => {
+                e.preventDefault(); // сохраняем фокус в редакторе
+                exec(command);
+              }}
+              className={`px-[10px] py-[4px] rounded-[6px] text-[14px] font-['SF_Pro',sans-serif] hover:bg-[#f5f5f7] transition-colors text-[#000000] ${style}`}
+            >
+              {l}
+            </button>
+          ))}
         </div>
-      </div>
-
-      {mode === 'edit' && (
-        <>
-          <div className="flex gap-[6px] mb-[8px] flex-wrap">
-            {toolbar.map(({ label: l, title, tag }) => (
-              <button
-                key={tag}
-                type="button"
-                title={title}
-                onClick={() => insertTag(tag)}
-                className="px-[10px] py-[4px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] font-medium hover:bg-white hover:border-[#d1d1d6] transition-all"
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-          <textarea
-            id={`html-editor-${label}`}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            required={required}
-            rows={6}
-            placeholder="Введите текст или HTML..."
-            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-mono text-[14px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all resize-y"
-          />
-        </>
-      )}
-
-      {mode === 'preview' && (
+        {/* Редактируемая область */}
         <div
-          className="w-full min-h-[120px] px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['Roboto',sans-serif] text-[17px] leading-[1.6] prose prose-sm max-w-none"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
+          ref={editorRef}
+          contentEditable
+          onInput={sync}
+          suppressContentEditableWarning
+          data-placeholder="Введите текст..."
+          className="w-full min-h-[140px] px-[16px] py-[12px] text-[17px] leading-[1.7] focus:outline-none font-['SF_Pro',sans-serif] text-[#000000] [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_ul]:list-disc [&_ul]:pl-[20px] [&_li]:my-[2px] empty:before:content-[attr(data-placeholder)] empty:before:text-[#6e6e73]"
         />
-      )}
+      </div>
     </div>
   );
 }
+
 import { API_ENDPOINTS } from '/src/config/api';
 
 const getAdminKey = () => sessionStorage.getItem('adminKey') || '';
@@ -723,18 +693,16 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
 
       </div>
 
-      <HtmlEditor
+      <RichTextEditor
         label="Задача"
         value={project.challenge}
         onChange={(v) => updateField('challenge', v)}
-        required
       />
 
-      <HtmlEditor
+      <RichTextEditor
         label="Решение"
         value={project.solution}
         onChange={(v) => updateField('solution', v)}
-        required
       />
 
       <div className="mb-[24px]">
