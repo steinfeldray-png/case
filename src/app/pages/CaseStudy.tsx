@@ -225,7 +225,7 @@ export default function CaseStudy() {
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.challenge)) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.challenge), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
                 />
               </section>
 
@@ -236,7 +236,7 @@ export default function CaseStudy() {
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.solution)) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.solution), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
                 />
               </section>
 
