@@ -215,17 +215,6 @@ export default function CaseStudy() {
             </div>
           </div>
 
-          {/* Hero Image */}
-          {project.imageUrl && (
-            <div className="rounded-[20px] md:rounded-[28px] overflow-hidden mb-[32px] md:mb-[64px] aspect-video shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-white/30">
-              <img
-                alt={project.title}
-                className="w-full h-full object-cover block"
-                src={cloudinaryOptimize(project.imageUrl, 1200)}
-              />
-            </div>
-          )}
-
           {/* Content Sections */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-[32px] md:gap-[48px]">
             <div className="col-span-1 md:col-span-8">
