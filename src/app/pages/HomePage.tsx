@@ -212,7 +212,7 @@ export default function HomePage() {
                       <div className="h-[16px] bg-[#f0f0f0] rounded-[4px] w-[64px]" />
                     </div>
                   </div>
-                  <div className="aspect-[3/2] rounded-[12px] bg-[#f0f0f0]" />
+                  <div className="aspect-video rounded-[12px] bg-[#f0f0f0]" />
                 </div>
               ))}
             </>
@@ -267,7 +267,7 @@ export default function HomePage() {
                       </p>
                     </div>
                   </div>
-                  <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
+                  <div className="aspect-video relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
                     {project.imageUrl ? (
                       <>
                         <img

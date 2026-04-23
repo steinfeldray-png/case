@@ -339,7 +339,7 @@ export default function Admin() {
                 </div>
 
                 {/* Image — always show */}
-                <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
+                <div className="aspect-video relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
                   {project.imageUrl ? (
                     <img
                       src={project.imageUrl}
