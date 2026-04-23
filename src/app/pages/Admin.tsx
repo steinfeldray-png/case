@@ -67,9 +67,19 @@ function RichTextEditor({ value, onChange, label }: {
           onInput={sync}
           onPaste={(e) => {
             e.preventDefault();
-            // Вставляем только чистый текст, без стилей из буфера
             const text = e.clipboardData.getData('text/plain');
-            document.execCommand('insertText', false, text);
+            const sel = window.getSelection();
+            if (!sel || sel.rangeCount === 0) return;
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+            // Вставляем текстовый узел — без HTML, без стилей
+            const textNode = document.createTextNode(text);
+            range.insertNode(textNode);
+            range.setStartAfter(textNode);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            sync();
           }}
           suppressContentEditableWarning
           data-placeholder="Введите текст..."
