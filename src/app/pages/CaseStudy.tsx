@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '/src/config/api';
@@ -81,53 +82,53 @@ export default function CaseStudy() {
 
   if (loading) {
     return (
-      <div className="bg-[#f5f5f7] h-screen overflow-y-auto" style={{
+      <div className="bg-white h-screen overflow-y-auto" style={{
         opacity: phase === 'skeleton-in' ? 0 : phase === 'skeleton-out' ? 0 : 1,
         transition: 'opacity 150ms ease',
       }}>
         <div className="max-w-[1440px] mx-auto">
           <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
-            <div className="h-[28px] w-[80px] bg-white/30 rounded-[8px] animate-pulse" />
+            <div className="h-[28px] w-[80px] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
           </div>
           <div className="px-5 md:px-[120px] py-[32px] md:py-[64px]">
             <div className="max-w-[1400px] mx-auto">
               <div className="mb-[24px] space-y-[12px]">
-                <div className="h-[56px] md:h-[72px] w-[70%] bg-white/30 rounded-[12px] animate-pulse" />
-                <div className="h-[56px] md:h-[72px] w-[40%] bg-white/30 rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[70%] bg-[#f0f0f0] rounded-[12px] animate-pulse" />
+                <div className="h-[56px] md:h-[72px] w-[40%] bg-[#f0f0f0] rounded-[12px] animate-pulse" />
               </div>
               <div className="flex gap-[48px] mb-[48px]">
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-white/30 rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[100px] bg-white/30 rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-[#f0f0f0] rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[100px] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
                 </div>
                 <div className="space-y-[8px]">
-                  <div className="h-[14px] w-[60px] bg-white/30 rounded-[6px] animate-pulse" />
-                  <div className="h-[22px] w-[120px] bg-white/30 rounded-[8px] animate-pulse" />
+                  <div className="h-[14px] w-[60px] bg-[#f0f0f0] rounded-[6px] animate-pulse" />
+                  <div className="h-[22px] w-[120px] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
                 </div>
               </div>
               <div className="rounded-[28px] h-[240px] md:h-[479px] bg-white/30 animate-pulse mb-[64px]" />
               <div className="grid grid-cols-1 md:grid-cols-12 gap-[48px]">
                 <div className="col-span-8 space-y-[64px]">
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[140px] bg-white/30 rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[90%] bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[75%] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[140px] bg-[#f0f0f0] rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[90%] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[75%] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
                   </div>
                   <div className="space-y-[16px]">
-                    <div className="h-[42px] w-[160px] bg-white/30 rounded-[10px] animate-pulse" />
-                    <div className="h-[20px] w-full bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[85%] bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[80%] bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[20px] w-[60%] bg-white/30 rounded-[8px] animate-pulse" />
+                    <div className="h-[42px] w-[160px] bg-[#f0f0f0] rounded-[10px] animate-pulse" />
+                    <div className="h-[20px] w-full bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[85%] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[80%] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[20px] w-[60%] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
                   </div>
                 </div>
                 <div className="col-span-4">
                   <div className="bg-white/20 backdrop-blur-2xl border border-white/30 rounded-[28px] p-[32px] space-y-[16px]">
-                    <div className="h-[28px] w-[120px] bg-white/30 rounded-[8px] animate-pulse" />
-                    <div className="h-[18px] w-full bg-white/30 rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[80%] bg-white/30 rounded-[6px] animate-pulse" />
-                    <div className="h-[18px] w-[90%] bg-white/30 rounded-[6px] animate-pulse" />
+                    <div className="h-[28px] w-[120px] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
+                    <div className="h-[18px] w-full bg-[#f0f0f0] rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[80%] bg-[#f0f0f0] rounded-[6px] animate-pulse" />
+                    <div className="h-[18px] w-[90%] bg-[#f0f0f0] rounded-[6px] animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -140,7 +141,7 @@ export default function CaseStudy() {
 
   if (!project) {
     return (
-      <div className="bg-[#f5f5f7] size-full flex items-center justify-center">
+      <div className="bg-white size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
             Кейс не найден
@@ -160,7 +161,7 @@ export default function CaseStudy() {
 
   return (
     <>
-    <div className="bg-[#f5f5f7] h-screen overflow-y-auto" style={{
+    <div className="bg-white h-screen overflow-y-auto" style={{
       opacity: phase === 'content' ? 1 : 0,
       transition: 'opacity 150ms ease',
     }}>
@@ -225,9 +226,10 @@ export default function CaseStudy() {
                 <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
                   Задача
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6]">
-                  {project.challenge}
-                </p>
+                <div
+                  className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.challenge) }}
+                />
               </section>
 
               {/* Solution */}
@@ -235,9 +237,10 @@ export default function CaseStudy() {
                 <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
                   Решение
                 </h2>
-                <p className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6]">
-                  {project.solution}
-                </p>
+                <div
+                  className="font-['Roboto',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.solution) }}
+                />
               </section>
 
               {/* Images */}
@@ -266,8 +269,8 @@ export default function CaseStudy() {
 
             {/* Sidebar — glass panel */}
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[104px] md:self-start">
-              <div className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[32px] mb-[24px] md:mb-[32px]">
-                <h3 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
+              <div className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[20px] md:rounded-[28px] p-[16.67px] md:p-[16.67px] mb-[24px] md:mb-[32px]">
+                <h3 className="font-['SF_Pro',sans-serif] font-medium text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   Результаты
                 </h3>
                 <ul className="space-y-[12px] md:space-y-[16px]">

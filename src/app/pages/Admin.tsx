@@ -1,6 +1,109 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase } from 'lucide-react';
+import { ChevronLeft, Plus, Edit, Trash2, Save, X, Upload, Image as ImageIcon, User, Briefcase, Eye, Code } from 'lucide-react';
+import DOMPurify from 'dompurify';
+
+// HTML Editor with live preview
+function HtmlEditor({ value, onChange, label, required }: {
+  value: string;
+  onChange: (v: string) => void;
+  label: string;
+  required?: boolean;
+}) {
+  const [mode, setMode] = useState<'edit' | 'preview'>('edit');
+
+  const toolbar = [
+    { label: 'B', title: 'Bold', tag: 'b' },
+    { label: 'I', title: 'Italic', tag: 'i' },
+    { label: 'H2', title: 'Heading', tag: 'h2' },
+    { label: 'UL', title: 'List', tag: 'ul-li' },
+    { label: 'A', title: 'Link', tag: 'a' },
+  ];
+
+  const insertTag = (tag: string) => {
+    const ta = document.getElementById(`html-editor-${label}`) as HTMLTextAreaElement;
+    if (!ta) return;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const selected = value.slice(start, end);
+
+    let insert = '';
+    if (tag === 'ul-li') {
+      insert = `<ul>\n  <li>${selected || 'Пункт'}</li>\n</ul>`;
+    } else if (tag === 'a') {
+      insert = `<a href="https://">${selected || 'Ссылка'}</a>`;
+    } else {
+      insert = `<${tag}>${selected || 'текст'}</${tag}>`;
+    }
+
+    const newVal = value.slice(0, start) + insert + value.slice(end);
+    onChange(newVal);
+    setTimeout(() => {
+      ta.focus();
+      ta.setSelectionRange(start + insert.length, start + insert.length);
+    }, 0);
+  };
+
+  return (
+    <div className="mb-[24px]">
+      <div className="flex items-center justify-between mb-[8px]">
+        <label className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">
+          {label}{required && ' *'}
+        </label>
+        <div className="flex items-center gap-[4px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[8px] p-[3px]">
+          <button
+            type="button"
+            onClick={() => setMode('edit')}
+            className={`flex items-center gap-[4px] px-[10px] py-[4px] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] transition-all ${mode === 'edit' ? 'bg-white shadow-sm text-[#000000]' : 'text-[#6e6e73]'}`}
+          >
+            <Code className="size-[12px]" /> HTML
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('preview')}
+            className={`flex items-center gap-[4px] px-[10px] py-[4px] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] transition-all ${mode === 'preview' ? 'bg-white shadow-sm text-[#000000]' : 'text-[#6e6e73]'}`}
+          >
+            <Eye className="size-[12px]" /> Превью
+          </button>
+        </div>
+      </div>
+
+      {mode === 'edit' && (
+        <>
+          <div className="flex gap-[6px] mb-[8px] flex-wrap">
+            {toolbar.map(({ label: l, title, tag }) => (
+              <button
+                key={tag}
+                type="button"
+                title={title}
+                onClick={() => insertTag(tag)}
+                className="px-[10px] py-[4px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[6px] text-[13px] font-['SF_Pro',sans-serif] font-medium hover:bg-white hover:border-[#d1d1d6] transition-all"
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+          <textarea
+            id={`html-editor-${label}`}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            required={required}
+            rows={6}
+            placeholder="Введите текст или HTML..."
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-mono text-[14px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all resize-y"
+          />
+        </>
+      )}
+
+      {mode === 'preview' && (
+        <div
+          className="w-full min-h-[120px] px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['Roboto',sans-serif] text-[17px] leading-[1.6] prose prose-sm max-w-none"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
+        />
+      )}
+    </div>
+  );
+}
 import { API_ENDPOINTS } from '/src/config/api';
 
 const getAdminKey = () => sessionStorage.getItem('adminKey') || '';
@@ -48,6 +151,8 @@ export default function Admin() {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [activeTab, setActiveTab] = useState<'projects' | 'profile'>('projects');
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const urlKey = searchParams.get('key');
@@ -102,6 +207,8 @@ export default function Admin() {
   };
 
   const handleSave = async (project: Project | Omit<Project, 'id'>) => {
+    setSaveError(null);
+    setSaving(true);
     try {
       const url = 'id' in project
         ? API_ENDPOINTS.projectById(project.id)
@@ -120,9 +227,15 @@ export default function Admin() {
         await fetchProjects();
         setEditingProject(null);
         setIsCreating(false);
+        setSaveError(null);
+      } else {
+        setSaveError(result.error || 'Ошибка при сохранении');
       }
     } catch (error) {
       console.error('Error saving project:', error);
+      setSaveError('Ошибка соединения с сервером');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -146,9 +259,9 @@ export default function Admin() {
 
 
   return (
-    <div className="bg-[#f5f5f7] min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Header — glass */}
-      <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 sticky top-0 z-[10] w-full">
+      <div className="bg-white/80 backdrop-blur-2xl border-b border-black/[0.08] sticky top-0 z-[10] w-full">
         <div className="flex items-center justify-between py-[16px] px-5 md:px-[120px] max-w-[1440px] mx-auto">
           <Link
             to="/"
@@ -167,27 +280,25 @@ export default function Admin() {
         {/* Tabs + New Project button */}
         {!editingProject && (
           <div className="flex items-center justify-between mb-[32px]">
-            <div className="inline-flex bg-white/20 backdrop-blur-2xl border border-white/30 p-[4px] rounded-[12px]">
+            <div className="inline-flex bg-[#f5f5f7] p-[4px] rounded-[12px]">
             <button
               onClick={() => setActiveTab('projects')}
-              className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
+              className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all ${
                 activeTab === 'projects'
-                  ? 'bg-white/50 text-[#000000] shadow-sm'
+                  ? 'bg-white text-[#000000] shadow-sm'
                   : 'text-[#000000] hover:opacity-60'
               }`}
             >
-              <Briefcase className="size-[16px]" />
               Проекты
             </button>
             <button
               onClick={() => setActiveTab('profile')}
-              className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all flex items-center gap-[6px] ${
+              className={`px-[24px] py-[8px] rounded-[8px] font-['SF_Pro',sans-serif] text-[15px] transition-all ${
                 activeTab === 'profile'
-                  ? 'bg-white/50 text-[#000000] shadow-sm'
+                  ? 'bg-white text-[#000000] shadow-sm'
                   : 'text-[#000000] hover:opacity-60'
               }`}
             >
-              <User className="size-[16px]" />
               Настройки профиля
             </button>
             </div>
@@ -220,23 +331,26 @@ export default function Admin() {
             onCancel={() => {
               setEditingProject(null);
               setIsCreating(false);
+              setSaveError(null);
             }}
             onChange={setEditingProject}
+            saving={saving}
+            saveError={saveError}
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] md:gap-[32px]">
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="group flex flex-col gap-[12px] md:gap-[16px] items-start w-full bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[28px] p-5 hover:bg-white/35 hover:shadow-[0_8px_40px_rgba(0,0,0,0.10)] hover:border-white/50 transition-all duration-300"
+                className="group flex flex-col gap-[12px] md:gap-[16px] items-start w-full bg-white border border-[#e5e5ea]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[28px] p-5 hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:border-[#e5e5ea] transition-all duration-300"
               >
-                {/* Title + Divider */}
-                <div className="flex items-center pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
+                {/* Title + Badge */}
+                <div className="flex items-start pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
                   <p className="flex-1 font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[22px] font-medium tracking-[-0.01em] leading-[1.2]">
                     {project.title}
                   </p>
                   {project.inProgress && (
-                    <span className="ml-[8px] px-[10px] py-[3px] bg-[#FF9500]/15 text-[#FF9500] text-[12px] font-['SF_Pro',sans-serif] font-medium rounded-full whitespace-nowrap">
+                    <span className="ml-[8px] mt-[2px] px-[10px] py-[3px] bg-[#FF9500]/15 text-[#FF9500] text-[12px] font-['SF_Pro',sans-serif] font-medium rounded-full whitespace-nowrap shrink-0">
                       В работе
                     </span>
                   )}
@@ -254,30 +368,37 @@ export default function Admin() {
                   </div>
                 </div>
 
-                {/* Image */}
-                {project.imageUrl && (
-                  <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
+                {/* Image — always show */}
+                <div className="aspect-[3/2] relative rounded-[16px] w-full overflow-hidden ring-1 ring-black/[0.04]">
+                  {project.imageUrl ? (
                     <img
                       src={project.imageUrl}
                       alt={project.title}
                       className="w-full h-full object-cover"
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className="absolute inset-0 bg-black/[0.03] flex items-center justify-center">
+                      <span className="font-['SF_Pro',sans-serif] text-black/20 text-[14px]">Нет превью</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Spacer to push buttons down */}
+                <div className="flex-1" />
 
                 {/* Action Buttons */}
-                <div className="flex gap-[8px] w-full pt-[4px]">
+                <div className="flex gap-[8px] w-full pt-[4px] mt-auto">
                   <button
                     onClick={() => setEditingProject(project)}
-                    className="flex-1 flex items-center justify-center gap-[6px] py-[8px] rounded-[12px] bg-white/30 backdrop-blur-xl hover:bg-white/50 transition-colors border border-white/30 font-['SF_Pro',sans-serif] text-[14px] text-[#000000]"
+                    className="flex-1 flex items-center justify-center gap-[6px] py-[8px] rounded-[12px] bg-[#f5f5f7] hover:bg-[#ebebed] transition-colors font-['SF_Pro',sans-serif] text-[14px] text-[#000000]"
                   >
                     <Edit className="size-[14px]" />
                     Редактировать
                   </button>
                   <button
                     onClick={() => handleDelete(project.id)}
-                    className="py-[8px] px-[12px] rounded-[12px] bg-white/30 backdrop-blur-xl hover:bg-red-100/50 transition-colors border border-white/30"
+                    className="py-[8px] px-[12px] rounded-[12px] bg-[#f5f5f7] hover:bg-red-50 transition-colors"
                   >
                     <Trash2 className="size-[14px] text-red-500" />
                   </button>
@@ -297,9 +418,11 @@ interface ProjectFormProps {
   onSave: (project: Project | Omit<Project, 'id'>) => void;
   onCancel: () => void;
   onChange: (project: Project) => void;
+  saving?: boolean;
+  saveError?: string | null;
 }
 
-function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: ProjectFormProps) {
+function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, saveError }: ProjectFormProps) {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadingCaseImage, setUploadingCaseImage] = useState(false);
@@ -436,45 +559,51 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.06)] rounded-[28px] p-[48px] max-w-[1200px] mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white border border-[#e5e5ea]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[28px] p-[48px] max-w-[1200px] mx-auto">
       <div className="flex items-center justify-between mb-[32px]">
-        <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
-          {isCreating ? 'Новый проект' : 'Редактирование проекта'}
-        </h2>
+        <div>
+          <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
+            {isCreating ? 'Новый проект' : 'Редактирование проекта'}
+          </h2>
+          {saveError && (
+            <p className="mt-[6px] text-red-500 text-[14px] font-['SF_Pro',sans-serif]">
+              ⚠ {saveError}
+            </p>
+          )}
+        </div>
         <div className="flex gap-[12px]">
           <button
             type="button"
             onClick={onCancel}
-            className="bg-white/20 backdrop-blur-xl border border-white/40 px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px] hover:bg-white/40 transition-all"
+            disabled={saving}
+            className="bg-[#f5f5f7] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-[#000000] text-[17px] hover:bg-[#e5e5ea] transition-all disabled:opacity-40"
           >
             Отмена
           </button>
           <button
             type="submit"
-            className="bg-[#007AFF] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:bg-[#0066DD] transition-colors shadow-[0_2px_12px_rgba(0,122,255,0.3)]"
+            disabled={saving}
+            className="bg-[#007AFF] px-[24px] py-[12px] rounded-[100px] font-['SF_Pro',sans-serif] text-white text-[17px] hover:bg-[#0066DD] transition-colors shadow-[0_2px_12px_rgba(0,122,255,0.3)] disabled:opacity-60"
           >
-            Сохранить
+            {saving ? 'Сохранение...' : 'Сохранить'}
           </button>
         </div>
       </div>
 
       {/* In Progress Toggle */}
-      <div className="flex items-center gap-[12px] mb-[24px] p-[16px] bg-white/10 rounded-[16px] border border-white/20">
+      <div className="flex items-center gap-[12px] mb-[24px]">
         <button
           type="button"
           onClick={() => updateField('inProgress', !project.inProgress)}
-          className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-200 ${
-            project.inProgress ? 'bg-[#FF9500]' : 'bg-black/10'
+          className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-200 shrink-0 ${
+            project.inProgress ? 'bg-[#007AFF]' : 'bg-black/10'
           }`}
         >
           <span className={`absolute top-[2px] w-[27px] h-[27px] bg-white rounded-full shadow-[0_2px_4px_rgba(0,0,0,0.2)] transition-transform duration-200 ${
             project.inProgress ? 'left-[22px]' : 'left-[2px]'
           }`} />
         </button>
-        <div>
-          <p className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">В работе</p>
-          <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px]">Кейс будет недоступен для просмотра на главной</p>
-        </div>
+        <p className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">В работе</p>
       </div>
 
       <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
@@ -487,7 +616,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.title}
             onChange={(e) => updateField('title', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -501,7 +630,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             onChange={(e) => updateField('slug', e.target.value)}
             required
             placeholder="например: komus"
-            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -514,7 +643,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.product}
             onChange={(e) => updateField('product', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -527,7 +656,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.platform}
             onChange={(e) => updateField('platform', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
@@ -537,7 +666,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
           </label>
 
           {project.imageUrl ? (
-            <div className="relative rounded-[12px] overflow-hidden border border-white/30 w-[280px] h-[280px] ring-1 ring-white/20">
+            <div className="relative rounded-[12px] overflow-hidden border border-[#e5e5ea] w-[280px] h-[280px]">
               <img
                 src={project.imageUrl}
                 alt="Превью"
@@ -553,7 +682,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               </button>
             </div>
           ) : (
-            <label className="w-full h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+            <label className="w-full h-[280px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#fafafa] hover:bg-[#f0f0f2]">
               <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать файл для загрузки'}
@@ -588,37 +717,25 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
             value={project.description}
             onChange={(e) => updateField('description', e.target.value)}
             required
-            className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+            className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
       </div>
 
-      <div className="mb-[24px]">
-        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-          Задача *
-        </label>
-        <textarea
-          value={project.challenge}
-          onChange={(e) => updateField('challenge', e.target.value)}
-          required
-          rows={4}
-          className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
-        />
-      </div>
+      <HtmlEditor
+        label="Задача"
+        value={project.challenge}
+        onChange={(v) => updateField('challenge', v)}
+        required
+      />
 
-      <div className="mb-[24px]">
-        <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-          Решение *
-        </label>
-        <textarea
-          value={project.solution}
-          onChange={(e) => updateField('solution', e.target.value)}
-          required
-          rows={4}
-          className="w-full px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
-        />
-      </div>
+      <HtmlEditor
+        label="Решение"
+        value={project.solution}
+        onChange={(v) => updateField('solution', v)}
+        required
+      />
 
       <div className="mb-[24px]">
         <div className="flex items-center justify-between mb-[8px]">
@@ -639,7 +756,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               type="text"
               value={result}
               onChange={(e) => updateArrayItem('results', index, e.target.value)}
-              className="flex-1 px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+              className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['Roboto',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
@@ -671,7 +788,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
               type="text"
               value={tag}
               onChange={(e) => updateArrayItem('tags', index, e.target.value)}
-              className="flex-1 px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
+              className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
@@ -699,7 +816,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange }: Projec
 
         {/* File Upload */}
         <div className="mb-[12px]">
-          <label className="w-[280px] h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+          <label className="w-[280px] h-[280px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#fafafa] hover:bg-[#f0f0f2]">
             <ImageIcon className="size-[32px] text-[#6e6e73]" />
             <span className="text-[#000000] text-center px-[16px]">
               {uploadingCaseImage ? 'Загрузка...' : 'Добавить фото кейса'}
@@ -912,7 +1029,7 @@ function ProfileSettings() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_40px_rgba(0,0,0,0.06)] rounded-[28px] p-[48px]">
+    <form onSubmit={handleSubmit} className="bg-white border border-[#e5e5ea]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[28px] p-[48px]">
       <div className="flex items-center justify-between mb-[32px]">
         <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[34px]">
           Настройки профиля
@@ -935,7 +1052,7 @@ function ProfileSettings() {
           </label>
 
           {profile.photoUrl ? (
-            <div className="relative rounded-[12px] overflow-hidden border border-white/30 w-[280px] h-[280px] ring-1 ring-white/20">
+            <div className="relative rounded-[12px] overflow-hidden border border-[#e5e5ea] w-[280px] h-[280px]">
               <img
                 src={profile.photoUrl}
                 alt="Превью"
@@ -951,7 +1068,7 @@ function ProfileSettings() {
               </button>
             </div>
           ) : (
-            <label className="w-[280px] h-[280px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+            <label className="w-[280px] h-[280px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#fafafa] hover:bg-[#f0f0f2]">
               <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploading ? 'Загрузка...' : 'Выбрать фото'}
@@ -986,7 +1103,7 @@ function ProfileSettings() {
             onChange={(e) => updateField('about', e.target.value)}
             placeholder="Введите информацию о себе"
             rows={4}
-            className="w-[280px] px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
+            className="w-[280px] px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -1000,7 +1117,7 @@ function ProfileSettings() {
             value={profile.telegramUrl || ''}
             onChange={(e) => updateField('telegramUrl', e.target.value)}
             placeholder="https://t.me/username"
-            className="w-[280px] px-[16px] py-[12px] bg-white/30 backdrop-blur-xl border border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
+            className="w-[280px] px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
           />
         </div>
 
@@ -1011,7 +1128,7 @@ function ProfileSettings() {
           </label>
 
           {profile.cvUrl ? (
-            <div className="flex items-center gap-[12px] p-[16px] border border-white/30 rounded-[12px] bg-white/20 backdrop-blur-xl w-fit">
+            <div className="flex items-center gap-[12px] p-[16px] border border-[#e5e5ea] rounded-[12px] bg-[#f5f5f7] w-fit">
               <a
                 href={profile.cvUrl}
                 target="_blank"
@@ -1020,7 +1137,7 @@ function ProfileSettings() {
               >
                 {profile.cvUrl.split('/').pop() || 'Резюме'}
               </a>
-              <label className="cursor-pointer p-[8px] bg-white/30 backdrop-blur-xl rounded-[8px] hover:bg-white/50 transition-colors border border-white/30" title="Заменить">
+              <label className="cursor-pointer p-[8px] bg-[#f5f5f7] rounded-[8px] hover:bg-[#e5e5ea] transition-colors border border-[#e5e5ea]" title="Заменить">
                 <Upload className="size-[16px] text-[#000000]" />
                 <input
                   type="file"
@@ -1033,14 +1150,14 @@ function ProfileSettings() {
               <button
                 type="button"
                 onClick={() => updateField('cvUrl', '')}
-                className="p-[8px] bg-white/30 backdrop-blur-xl rounded-[8px] hover:bg-red-100/50 transition-colors border border-white/30"
+                className="p-[8px] bg-[#f5f5f7] rounded-[8px] hover:bg-red-50 transition-colors border border-[#e5e5ea]"
                 title="Удалить"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
             </div>
           ) : (
-            <label className="w-[280px] h-[120px] border-2 border-dashed border-white/40 rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-white/10 hover:bg-white/20">
+            <label className="w-[280px] h-[120px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#fafafa] hover:bg-[#f0f0f2]">
               <Upload className="size-[32px] text-[#6e6e73]" />
               <span className="text-[#000000] text-center px-[16px]">
                 {uploadingCV ? 'Загрузка...' : 'Выбрать резюме'}
