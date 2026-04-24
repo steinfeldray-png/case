@@ -1111,54 +1111,51 @@ function ProfileSettings() {
             Резюме
           </label>
 
-          {profile.cvUrl ? (
-            <div className="flex items-center gap-[12px] p-[16px] border border-[#e5e5ea] rounded-[12px] bg-[#f5f5f7] w-fit">
-              <a
-                href={profile.cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-['SF_Pro',sans-serif] text-[#007AFF] text-[15px] underline max-w-[200px] truncate"
-              >
-                {profile.cvUrl.split('/').pop() || 'Резюме'}
-              </a>
-              <label className="cursor-pointer p-[8px] bg-[#f5f5f7] rounded-[8px] hover:bg-[#e5e5ea] transition-colors border border-[#e5e5ea]" title="Заменить">
-                <Upload className="size-[16px] text-[#000000]" />
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  onChange={handleCVUpload}
-                  disabled={uploadingCV}
-                  className="hidden"
-                />
-              </label>
+          {/* URL input — paste any public link */}
+          <div className="flex gap-[8px] mb-[12px] max-w-[480px]">
+            <input
+              type="url"
+              value={profile.cvUrl || ''}
+              onChange={(e) => updateField('cvUrl', e.target.value)}
+              placeholder="https://... вставьте прямую ссылку на PDF"
+              className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[15px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all placeholder:text-[#6e6e73]/60"
+            />
+            {profile.cvUrl && (
               <button
                 type="button"
                 onClick={() => updateField('cvUrl', '')}
-                className="p-[8px] bg-[#f5f5f7] rounded-[8px] hover:bg-red-50 transition-colors border border-[#e5e5ea]"
+                className="p-[12px] bg-[#f5f5f7] rounded-[12px] hover:bg-red-50 transition-colors border border-[#e5e5ea]"
                 title="Удалить"
               >
                 <X className="size-[16px] text-red-500" />
               </button>
-            </div>
-          ) : (
-            <label className="w-[280px] h-[120px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[12px] bg-[#fafafa] hover:bg-[#f0f0f2]">
-              <Upload className="size-[32px] text-[#6e6e73]" />
-              <span className="text-[#000000] text-center px-[16px]">
-                {uploadingCV ? 'Загрузка...' : 'Выбрать резюме'}
-              </span>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={handleCVUpload}
-                disabled={uploadingCV}
-                className="hidden"
-              />
-            </label>
-          )}
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-[12px] max-w-[480px] mb-[12px]">
+            <div className="flex-1 h-px bg-[#e5e5ea]" />
+            <span className="font-['SF_Pro',sans-serif] text-[13px] text-[#6e6e73]">или загрузить файл</span>
+            <div className="flex-1 h-px bg-[#e5e5ea]" />
+          </div>
+
+          {/* File upload */}
+          <label className="w-[280px] h-[100px] border-2 border-dashed border-[#d1d1d6] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] hover:border-[#007AFF]/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-[8px] bg-[#fafafa] hover:bg-[#f0f0f2]">
+            <Upload className="size-[24px] text-[#6e6e73]" />
+            <span className="text-[#000000] text-center px-[16px] text-[15px]">
+              {uploadingCV ? 'Загрузка...' : 'Загрузить PDF'}
+            </span>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={handleCVUpload}
+              disabled={uploadingCV}
+              className="hidden"
+            />
+          </label>
 
           <p className="mt-[8px] text-[#6e6e73] text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">
-            Максимальный размер: 5 МБ<br />
-            Формат: PDF
+            Максимальный размер: 5 МБ · Формат: PDF
           </p>
           {cvUploadError && (
             <p className="mt-[4px] text-red-500 text-[13px] font-['SF_Pro',sans-serif] max-w-[280px]">

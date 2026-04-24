@@ -327,8 +327,18 @@ app.get('/api/download/cv', async (req, res) => {
     const cvUrl = profile.cv_url;
     if (!cvUrl) return res.status(404).send('CV not found');
 
-    const response = await fetch(cvUrl);
-    if (!response.ok) return res.status(502).send('Failed to fetch CV');
+    // For Cloudinary raw URLs, append fl_attachment flag to force public download
+    let fetchUrl = cvUrl;
+    if (cvUrl.includes('res.cloudinary.com') && cvUrl.includes('/raw/upload/')) {
+      fetchUrl = cvUrl.replace('/raw/upload/', '/raw/upload/fl_attachment/');
+    }
+
+    const response = await fetch(fetchUrl);
+    if (!response.ok) {
+      console.error(`CV fetch failed: ${response.status} ${response.statusText} for ${fetchUrl}`);
+      // Fallback: redirect browser directly to the original URL
+      return res.redirect(302, cvUrl);
+    }
 
     const filename = cvUrl.split('/').pop()?.split('?')[0] || 'CV.pdf';
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
@@ -388,6 +398,8 @@ app.post('/api/upload', requireAdminKey, upload.single('file'), async (req, res)
         const stream = cloudinary.uploader.upload_stream(
           {
             resource_type: isPdf ? 'raw' : 'image',
+            type: 'upload',
+            access_mode: 'public',
             folder: 'portfolio',
             use_filename: true,
             unique_filename: true,
