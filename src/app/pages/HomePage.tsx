@@ -168,13 +168,20 @@ export default function HomePage() {
                 type="button"
                 onClick={async () => {
                   const url = profile.cvUrl || '/cv.pdf';
-                  const res = await fetch(url);
-                  const blob = await res.blob();
-                  const a = document.createElement('a');
-                  a.href = URL.createObjectURL(blob);
-                  a.download = 'CV.pdf';
-                  a.click();
-                  URL.revokeObjectURL(a.href);
+                  try {
+                    const res = await fetch(url);
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = 'CV.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                  } catch {
+                    window.open(url, '_blank');
+                  }
                 }}
                 className="bg-white flex gap-[8px] items-center justify-center px-[16px] md:px-[24px] py-[10px] md:py-[12px] rounded-[100px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:border-[#d1d1d6] hover:scale-[1.02] transition-all duration-200 cursor-pointer border border-[#e5e5ea]/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
               >
