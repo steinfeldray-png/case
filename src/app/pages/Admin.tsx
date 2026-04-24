@@ -365,7 +365,7 @@ export default function Admin() {
                 }`}
               >
                 {/* Title + Badge */}
-                <div className="flex items-start pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">
+                <div className="flex items-start relative shrink-0 w-full">
                   <p className="flex-1 font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[22px] font-medium tracking-[-0.01em] leading-[1.2]">
                     {project.title}
                   </p>
@@ -376,8 +376,11 @@ export default function Admin() {
                   )}
                 </div>
 
+                {/* Spacer — pushes meta+image+buttons to bottom */}
+                <div className="flex-1" />
+
                 {/* Meta */}
-                <div className="flex gap-[24px] md:gap-[42px]">
+                <div className="flex gap-[24px] md:gap-[42px] w-full border-t border-black/[0.08] group-hover:border-black/20 transition-colors duration-300 pt-[12px] md:pt-[16px]">
                   <div>
                     <p className="font-['SF_Pro',sans-serif] font-normal text-[#6e6e73] text-[13px]">Продукт</p>
                     <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[15px]">{project.product}</p>
@@ -404,8 +407,6 @@ export default function Admin() {
                   )}
                 </div>
 
-                {/* Spacer to push buttons down */}
-                <div className="flex-1" />
 
                 {/* Action Buttons */}
                 <div className="flex gap-[8px] w-full pt-[4px] mt-auto">
