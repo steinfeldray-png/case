@@ -236,6 +236,21 @@ app.post('/api/projects', requireAdminKey, async (req, res) => {
   }
 });
 
+// Reorder projects — must be before /:id to avoid route conflict
+app.put('/api/projects/reorder', requireAdminKey, async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids)) {
+      return res.status(400).json({ success: false, error: 'ids must be an array' });
+    }
+    await reorderProjects(ids);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error reordering projects:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Update project
 app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
   try {
@@ -283,21 +298,6 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
     res.json({ success: true, data: formattedProject });
   } catch (error) {
     console.error('Error updating project:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// Reorder projects
-app.put('/api/projects/reorder', requireAdminKey, async (req, res) => {
-  try {
-    const { ids } = req.body;
-    if (!Array.isArray(ids)) {
-      return res.status(400).json({ success: false, error: 'ids must be an array' });
-    }
-    await reorderProjects(ids);
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error reordering projects:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
