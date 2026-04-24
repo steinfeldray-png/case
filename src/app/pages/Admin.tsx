@@ -139,6 +139,8 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState<'projects' | 'profile'>('projects');
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const urlKey = searchParams.get('key');
@@ -176,6 +178,23 @@ export default function Admin() {
     results: [''],
     tags: [''],
     inProgress: false
+  };
+
+  const handleReorder = async (from: number, to: number) => {
+    if (from === to) return;
+    const reordered = [...projects];
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(to, 0, moved);
+    setProjects(reordered);
+    try {
+      await fetch(API_ENDPOINTS.projectsReorder, {
+        method: 'PUT',
+        headers: adminHeaders(),
+        body: JSON.stringify({ ids: reordered.map(p => p.id) })
+      });
+    } catch (e) {
+      console.error('Reorder failed', e);
+    }
   };
 
   const fetchProjects = async () => {
@@ -325,10 +344,25 @@ export default function Admin() {
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] md:gap-[32px]">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <div
                 key={project.id}
-                className="group flex flex-col gap-[12px] md:gap-[16px] items-start w-full bg-white border border-[#e5e5ea]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[28px] p-5 hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:border-[#e5e5ea] transition-all duration-300"
+                draggable
+                onDragStart={() => setDragIndex(index)}
+                onDragOver={(e) => { e.preventDefault(); setOverIndex(index); }}
+                onDrop={() => {
+                  if (dragIndex !== null) handleReorder(dragIndex, index);
+                  setDragIndex(null);
+                  setOverIndex(null);
+                }}
+                onDragEnd={() => { setDragIndex(null); setOverIndex(null); }}
+                className={`group flex flex-col gap-[12px] md:gap-[16px] items-start w-full bg-white border rounded-[28px] p-5 transition-all duration-300 cursor-grab active:cursor-grabbing ${
+                  overIndex === index && dragIndex !== index
+                    ? 'border-[#007AFF] shadow-[0_0_0_2px_rgba(0,122,255,0.2)]'
+                    : dragIndex === index
+                    ? 'opacity-40 border-[#e5e5ea]/50 shadow-none'
+                    : 'border-[#e5e5ea]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:border-[#e5e5ea]'
+                }`}
               >
                 {/* Title + Badge */}
                 <div className="flex items-start pb-[12px] md:pb-[16px] relative shrink-0 w-full border-b border-black/[0.08] group-hover:border-black/20 transition-colors duration-300">

@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
   projectById: (id: number) => `${API_BASE_URL}/api/projects/${id}`,
   profile: `${API_BASE_URL}/api/profile`,
   upload: `${API_BASE_URL}/api/upload`,
+  projectsReorder: `${API_BASE_URL}/api/projects/reorder`,
   init: `${API_BASE_URL}/api/init`,
   health: `${API_BASE_URL}/health`,
 };

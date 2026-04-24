@@ -74,6 +74,16 @@ export async function initDatabase() {
       ALTER TABLE projects ADD COLUMN IF NOT EXISTS in_progress BOOLEAN DEFAULT false
     `);
 
+    // Add sort_order column if missing
+    await client.query(`
+      ALTER TABLE projects ADD COLUMN IF NOT EXISTS sort_order INTEGER
+    `);
+
+    // Initialize sort_order from id for existing rows
+    await client.query(`
+      UPDATE projects SET sort_order = id WHERE sort_order IS NULL
+    `);
+
     // Create profile table
     await client.query(`
       CREATE TABLE IF NOT EXISTS profile (
@@ -108,9 +118,28 @@ export async function initDatabase() {
 // Helper functions for projects
 export async function getAllProjects() {
   const result = await pool.query(
-    'SELECT * FROM projects ORDER BY id ASC'
+    'SELECT * FROM projects ORDER BY sort_order ASC NULLS LAST, id ASC'
   );
   return result.rows;
+}
+
+export async function reorderProjects(orderedIds) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    for (let i = 0; i < orderedIds.length; i++) {
+      await client.query(
+        'UPDATE projects SET sort_order = $1 WHERE id = $2',
+        [i, orderedIds[i]]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 export async function getProjectBySlug(slug) {
