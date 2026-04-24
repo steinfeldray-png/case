@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_fYfg9mzyIbf3awC6mmws5JAf7BdZ",
+  "orgId": "team_fBUhTLS9wac0xtC9yr29DmG9",
+  "projectName": "case",
+  "settings": {
+    "createdAt": 1773241089911,
+    "framework": "vite",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
