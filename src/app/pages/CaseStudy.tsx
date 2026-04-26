@@ -29,11 +29,18 @@ interface Project {
   tags: string[];
   imageUrl?: string;
   caseImages?: string[];
+  titleEn?: string;
+  productEn?: string;
+  platformEn?: string;
+  challengeEn?: string;
+  solutionEn?: string;
+  resultsEn?: string[];
 }
 
 export default function CaseStudy() {
   const { lang, toggle } = useLang();
   const tr = t[lang];
+  const loc = (ru: string, en?: string) => lang === 'en' && en ? en : ru;
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
@@ -196,7 +203,7 @@ export default function CaseStudy() {
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-[16px] md:mb-[24px]">
             <h1 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[40px] md:text-[72px] leading-[1.1] tracking-[-1.5px] md:tracking-[-3px]">
-              {project.title}
+              {loc(project.title, project.titleEn)}
             </h1>
           </div>
 
@@ -206,7 +213,7 @@ export default function CaseStudy() {
                 {tr.label_product}
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
-                {project.product}
+                {loc(project.product, project.productEn)}
               </p>
             </div>
             <div>
@@ -214,7 +221,7 @@ export default function CaseStudy() {
                 {tr.label_platform}
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
-                {project.platform}
+                {loc(project.platform, project.platformEn)}
               </p>
             </div>
           </div>
@@ -229,7 +236,7 @@ export default function CaseStudy() {
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.challenge), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(loc(project.challenge, project.challengeEn)), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
                 />
               </section>
 
@@ -240,7 +247,7 @@ export default function CaseStudy() {
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(project.solution), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(toHtml(loc(project.solution, project.solutionEn)), { FORBID_ATTR: ['style', 'class', 'color', 'face', 'size'] }) }}
                 />
               </section>
 
@@ -275,7 +282,7 @@ export default function CaseStudy() {
                   {tr.section_results}
                 </h3>
                 <ul className="space-y-[12px] md:space-y-[16px]">
-                  {(project.results || []).map((result, idx) => (
+                  {(lang === 'en' && project.resultsEn?.length ? project.resultsEn : project.results || []).map((result, idx) => (
                     <li key={idx} className="flex items-start gap-[10px] md:gap-[12px]">
                       <span className="text-[#007AFF] text-[18px] md:text-[24px] mt-[-2px] md:mt-[-4px]">✓</span>
                       <span className="font-['SF_Pro',sans-serif] text-[#000000] text-[15px] md:text-[20px] leading-[1.4]">

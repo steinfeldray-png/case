@@ -84,6 +84,15 @@ export async function initDatabase() {
       UPDATE projects SET sort_order = id WHERE sort_order IS NULL
     `);
 
+    // Add EN translation columns if missing
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS title_en VARCHAR(255)`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS product_en VARCHAR(255)`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS platform_en VARCHAR(255)`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS description_en TEXT`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS challenge_en TEXT`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS solution_en TEXT`);
+    await client.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS results_en JSONB DEFAULT '[]'`);
+
     // Create profile table
     await client.query(`
       CREATE TABLE IF NOT EXISTS profile (
@@ -161,16 +170,20 @@ export async function getProjectById(id) {
 export async function createProject(projectData) {
   const {
     slug, title, product, platform, description, year,
-    challenge, solution, results, tags, imageUrl, caseImages, inProgress
+    challenge, solution, results, tags, imageUrl, caseImages, inProgress,
+    titleEn, productEn, platformEn, descriptionEn, challengeEn, solutionEn, resultsEn
   } = projectData;
 
   const result = await pool.query(
     `INSERT INTO projects
-    (slug, title, product, platform, description, year, challenge, solution, results, tags, image_url, case_images, in_progress)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    (slug, title, product, platform, description, year, challenge, solution, results, tags, image_url, case_images, in_progress,
+     title_en, product_en, platform_en, description_en, challenge_en, solution_en, results_en)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
     RETURNING *`,
     [slug, title, product, platform, description, year, challenge, solution,
-     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null, JSON.stringify(caseImages || []), inProgress || false]
+     JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null, JSON.stringify(caseImages || []), inProgress || false,
+     titleEn || null, productEn || null, platformEn || null, descriptionEn || null,
+     challengeEn || null, solutionEn || null, JSON.stringify(resultsEn || [])]
   );
   return result.rows[0];
 }
@@ -178,19 +191,26 @@ export async function createProject(projectData) {
 export async function updateProject(id, projectData) {
   const {
     slug, title, product, platform, description, year,
-    challenge, solution, results, tags, imageUrl, caseImages, inProgress
+    challenge, solution, results, tags, imageUrl, caseImages, inProgress,
+    titleEn, productEn, platformEn, descriptionEn, challengeEn, solutionEn, resultsEn
   } = projectData;
 
   const result = await pool.query(
     `UPDATE projects
     SET slug = $1, title = $2, product = $3, platform = $4, description = $5,
         year = $6, challenge = $7, solution = $8, results = $9, tags = $10,
-        image_url = $11, case_images = $12, in_progress = $13, updated_at = CURRENT_TIMESTAMP
-    WHERE id = $14
+        image_url = $11, case_images = $12, in_progress = $13,
+        title_en = $14, product_en = $15, platform_en = $16, description_en = $17,
+        challenge_en = $18, solution_en = $19, results_en = $20,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = $21
     RETURNING *`,
     [slug, title, product, platform, description, year, challenge, solution,
      JSON.stringify(results || []), JSON.stringify(tags || []), imageUrl || null,
-     JSON.stringify(caseImages || []), inProgress || false, id]
+     JSON.stringify(caseImages || []), inProgress || false,
+     titleEn || null, productEn || null, platformEn || null, descriptionEn || null,
+     challengeEn || null, solutionEn || null, JSON.stringify(resultsEn || []),
+     id]
   );
   return result.rows[0];
 }

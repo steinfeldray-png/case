@@ -15,6 +15,9 @@ interface Project {
   year: string;
   imageUrl?: string;
   inProgress?: boolean;
+  titleEn?: string;
+  productEn?: string;
+  platformEn?: string;
 }
 
 interface Profile {
@@ -48,6 +51,8 @@ function writeCache(key: string, data: unknown) {
 export default function HomePage() {
   const { lang, toggle } = useLang();
   const tr = t[lang];
+  // Return EN value if lang=en and EN value exists, otherwise fall back to RU
+  const loc = (ru: string, en?: string) => lang === 'en' && en ? en : ru;
   const [projects, setProjects] = useState<Project[]>([]);
   const [profile, setProfile] = useState<Profile>({});
   const [loading, setLoading] = useState(true);
@@ -267,7 +272,7 @@ export default function HomePage() {
                     <p className={`flex-1 font-['SF_Pro',sans-serif] font-medium text-[20px] md:text-[28px] text-ellipsis tracking-[0.38px] whitespace-nowrap overflow-hidden ${
                       project.inProgress ? 'text-black/30' : 'text-[#000000]'
                     }`}>
-                      {project.title}
+                      {loc(project.title, project.titleEn)}
                     </p>
                   </div>
                   <div className="flex gap-[24px] md:gap-[42px] items-start shrink-0 w-full">
@@ -280,7 +285,7 @@ export default function HomePage() {
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[15px] md:text-[20px] tracking-[-0.45px] ${
                         project.inProgress ? 'text-black/30' : 'text-[#000000]'
                       }`}>
-                        {project.product}
+                        {loc(project.product, project.productEn)}
                       </p>
                     </div>
                     <div className="flex flex-col items-start">
@@ -292,7 +297,7 @@ export default function HomePage() {
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[15px] md:text-[20px] tracking-[-0.45px] ${
                         project.inProgress ? 'text-black/30' : 'text-[#000000]'
                       }`}>
-                        {project.platform}
+                        {loc(project.platform, project.platformEn)}
                       </p>
                     </div>
                   </div>

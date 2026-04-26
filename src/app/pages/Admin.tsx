@@ -118,6 +118,13 @@ interface Project {
   imageUrl?: string;
   caseImages?: string[];
   inProgress?: boolean;
+  titleEn?: string;
+  productEn?: string;
+  platformEn?: string;
+  descriptionEn?: string;
+  challengeEn?: string;
+  solutionEn?: string;
+  resultsEn?: string[];
 }
 
 interface Profile {
@@ -177,7 +184,14 @@ export default function Admin() {
     solution: '',
     results: [''],
     tags: [''],
-    inProgress: false
+    inProgress: false,
+    titleEn: '',
+    productEn: '',
+    platformEn: '',
+    descriptionEn: '',
+    challengeEn: '',
+    solutionEn: '',
+    resultsEn: [''],
   };
 
   const handleReorder = async (from: number, to: number) => {
@@ -444,6 +458,7 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, saveError }: ProjectFormProps) {
+  const [formLang, setFormLang] = useState<'ru' | 'en'>('ru');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadingCaseImage, setUploadingCaseImage] = useState(false);
@@ -564,18 +579,18 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
     onChange({ ...project, [field]: value });
   };
 
-  const addArrayItem = (field: 'results' | 'tags') => {
-    updateField(field, [...project[field], '']);
+  const addArrayItem = (field: 'results' | 'tags' | 'resultsEn') => {
+    updateField(field, [...(project[field] || []), '']);
   };
 
-  const updateArrayItem = (field: 'results' | 'tags', index: number, value: string) => {
-    const newArray = [...project[field]];
+  const updateArrayItem = (field: 'results' | 'tags' | 'resultsEn', index: number, value: string) => {
+    const newArray = [...(project[field] || [])];
     newArray[index] = value;
     updateField(field, newArray);
   };
 
-  const removeArrayItem = (field: 'results' | 'tags', index: number) => {
-    const newArray = project[field].filter((_, i) => i !== index);
+  const removeArrayItem = (field: 'results' | 'tags' | 'resultsEn', index: number) => {
+    const newArray = (project[field] || []).filter((_: any, i: number) => i !== index);
     updateField(field, newArray);
   };
 
@@ -612,7 +627,7 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
       </div>
 
       {/* In Progress Toggle */}
-      <div className="flex items-center gap-[12px] mb-[24px]">
+      <div className="flex items-center gap-[12px] mb-[32px]">
         <button
           type="button"
           onClick={() => updateField('inProgress', !project.inProgress)}
@@ -627,16 +642,34 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
         <p className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">В работе</p>
       </div>
 
+      {/* Language Tab */}
+      <div className="flex items-center gap-[4px] bg-[#f5f5f7] rounded-[12px] p-[4px] w-fit mb-[28px]">
+        {(['ru', 'en'] as const).map(l => (
+          <button
+            key={l}
+            type="button"
+            onClick={() => setFormLang(l)}
+            className={`px-[20px] py-[8px] rounded-[10px] font-['SF_Pro',sans-serif] font-medium text-[15px] transition-all ${
+              formLang === l
+                ? 'bg-white text-[#000000] shadow-[0_1px_4px_rgba(0,0,0,0.12)]'
+                : 'text-[#6e6e73] hover:text-[#000000]'
+            }`}
+          >
+            {l.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
         <div>
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-            Название проекта *
+            {formLang === 'ru' ? 'Название проекта *' : 'Project title (EN)'}
           </label>
           <input
             type="text"
-            value={project.title}
-            onChange={(e) => updateField('title', e.target.value)}
-            required
+            value={formLang === 'ru' ? project.title : (project.titleEn || '')}
+            onChange={(e) => updateField(formLang === 'ru' ? 'title' : 'titleEn', e.target.value)}
+            required={formLang === 'ru'}
             className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
@@ -657,26 +690,26 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
 
         <div>
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-            Продукт *
+            {formLang === 'ru' ? 'Продукт *' : 'Product (EN)'}
           </label>
           <input
             type="text"
-            value={project.product}
-            onChange={(e) => updateField('product', e.target.value)}
-            required
+            value={formLang === 'ru' ? project.product : (project.productEn || '')}
+            onChange={(e) => updateField(formLang === 'ru' ? 'product' : 'productEn', e.target.value)}
+            required={formLang === 'ru'}
             className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
         <div>
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-            Платформа *
+            {formLang === 'ru' ? 'Платформа *' : 'Platform (EN)'}
           </label>
           <input
             type="text"
-            value={project.platform}
-            onChange={(e) => updateField('platform', e.target.value)}
-            required
+            value={formLang === 'ru' ? project.platform : (project.platformEn || '')}
+            onChange={(e) => updateField(formLang === 'ru' ? 'platform' : 'platformEn', e.target.value)}
+            required={formLang === 'ru'}
             className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
@@ -731,55 +764,73 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
 
         <div className="col-span-2">
           <label className="block font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px] mb-[8px]">
-            Краткое описание *
+            {formLang === 'ru' ? 'Краткое описание *' : 'Short description (EN)'}
           </label>
           <input
             type="text"
-            value={project.description}
-            onChange={(e) => updateField('description', e.target.value)}
-            required
+            value={formLang === 'ru' ? project.description : (project.descriptionEn || '')}
+            onChange={(e) => updateField(formLang === 'ru' ? 'description' : 'descriptionEn', e.target.value)}
+            required={formLang === 'ru'}
             className="w-full px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
           />
         </div>
 
       </div>
 
-      <RichTextEditor
-        label="Задача"
-        value={project.challenge}
-        onChange={(v) => updateField('challenge', v)}
-      />
+      <div style={{ display: formLang === 'ru' ? 'block' : 'none' }}>
+        <RichTextEditor
+          label="Задача"
+          value={project.challenge}
+          onChange={(v) => updateField('challenge', v)}
+        />
+      </div>
+      <div style={{ display: formLang === 'en' ? 'block' : 'none' }}>
+        <RichTextEditor
+          label="Challenge (EN)"
+          value={project.challengeEn || ''}
+          onChange={(v) => updateField('challengeEn', v)}
+        />
+      </div>
 
-      <RichTextEditor
-        label="Решение"
-        value={project.solution}
-        onChange={(v) => updateField('solution', v)}
-      />
+      <div style={{ display: formLang === 'ru' ? 'block' : 'none' }}>
+        <RichTextEditor
+          label="Решение"
+          value={project.solution}
+          onChange={(v) => updateField('solution', v)}
+        />
+      </div>
+      <div style={{ display: formLang === 'en' ? 'block' : 'none' }}>
+        <RichTextEditor
+          label="Solution (EN)"
+          value={project.solutionEn || ''}
+          onChange={(v) => updateField('solutionEn', v)}
+        />
+      </div>
 
       <div className="mb-[24px]">
         <div className="flex items-center justify-between mb-[8px]">
           <label className="font-['SF_Pro',sans-serif] font-[590] text-[#000000] text-[17px]">
-            Результаты
+            {formLang === 'ru' ? 'Результаты' : 'Results (EN)'}
           </label>
           <button
             type="button"
-            onClick={() => addArrayItem('results')}
+            onClick={() => addArrayItem(formLang === 'ru' ? 'results' : 'resultsEn')}
             className="text-[#007AFF] font-['SF_Pro',sans-serif] text-[15px] hover:opacity-60"
           >
-            + Добавить результат
+            + {formLang === 'ru' ? 'Добавить результат' : 'Add result'}
           </button>
         </div>
-        {project.results.map((result, index) => (
+        {(formLang === 'ru' ? project.results : (project.resultsEn || [])).map((result, index) => (
           <div key={index} className="flex gap-[8px] mb-[8px]">
             <input
               type="text"
               value={result}
-              onChange={(e) => updateArrayItem('results', index, e.target.value)}
+              onChange={(e) => updateArrayItem(formLang === 'ru' ? 'results' : 'resultsEn', index, e.target.value)}
               className="flex-1 px-[16px] py-[12px] bg-[#f5f5f7] border border-[#e5e5ea] rounded-[12px] font-['SF_Pro',sans-serif] text-[17px] focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF]/30 transition-all"
             />
             <button
               type="button"
-              onClick={() => removeArrayItem('results', index)}
+              onClick={() => removeArrayItem(formLang === 'ru' ? 'results' : 'resultsEn', index)}
               className="p-[12px] rounded-[12px] hover:bg-red-100/30 transition-colors"
             >
               <X className="size-[20px] text-red-500" />

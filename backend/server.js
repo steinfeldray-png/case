@@ -124,28 +124,39 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Helper: DB row → camelCase for frontend
+function formatProject(p) {
+  return {
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    product: p.product,
+    platform: p.platform,
+    description: p.description,
+    year: p.year,
+    challenge: p.challenge,
+    solution: p.solution,
+    results: p.results,
+    tags: p.tags,
+    imageUrl: p.image_url,
+    caseImages: p.case_images,
+    inProgress: p.in_progress || false,
+    titleEn: p.title_en || '',
+    productEn: p.product_en || '',
+    platformEn: p.platform_en || '',
+    descriptionEn: p.description_en || '',
+    challengeEn: p.challenge_en || '',
+    solutionEn: p.solution_en || '',
+    resultsEn: p.results_en || [],
+  };
+}
+
 // Get all projects
 app.get('/api/projects', async (req, res) => {
   try {
     const projects = await getAllProjects();
     
-    // Convert snake_case to camelCase for frontend compatibility
-    const formattedProjects = projects.map(project => ({
-      id: project.id,
-      slug: project.slug,
-      title: project.title,
-      product: project.product,
-      platform: project.platform,
-      description: project.description,
-      year: project.year,
-      challenge: project.challenge,
-      solution: project.solution,
-      results: project.results,
-      tags: project.tags,
-      imageUrl: project.image_url,
-      caseImages: project.case_images,
-      inProgress: project.in_progress || false
-    }));
+    const formattedProjects = projects.map(formatProject);
 
     res.set('Cache-Control', 'no-store');
     res.json({ success: true, data: formattedProjects });
@@ -165,26 +176,8 @@ app.get('/api/projects/:slug', async (req, res) => {
       return res.status(404).json({ success: false, error: 'Project not found' });
     }
 
-    // Convert snake_case to camelCase
-    const formattedProject = {
-      id: project.id,
-      slug: project.slug,
-      title: project.title,
-      product: project.product,
-      platform: project.platform,
-      description: project.description,
-      year: project.year,
-      challenge: project.challenge,
-      solution: project.solution,
-      results: project.results,
-      tags: project.tags,
-      imageUrl: project.image_url,
-      caseImages: project.case_images,
-      inProgress: project.in_progress || false
-    };
-
     res.set('Cache-Control', 'no-store');
-    res.json({ success: true, data: formattedProject });
+    res.json({ success: true, data: formatProject(project) });
   } catch (error) {
     console.error('Error fetching project:', error);
     res.status(500).json({ success: false, error: error.message });
@@ -207,29 +200,18 @@ app.post('/api/projects', requireAdminKey, async (req, res) => {
       tags: req.body.tags,
       imageUrl: req.body.imageUrl,
       caseImages: req.body.caseImages,
-      inProgress: req.body.inProgress
+      inProgress: req.body.inProgress,
+      titleEn: req.body.titleEn,
+      productEn: req.body.productEn,
+      platformEn: req.body.platformEn,
+      descriptionEn: req.body.descriptionEn,
+      challengeEn: req.body.challengeEn,
+      solutionEn: req.body.solutionEn,
+      resultsEn: req.body.resultsEn,
     };
 
     const newProject = await createProject(projectData);
-
-    const formattedProject = {
-      id: newProject.id,
-      slug: newProject.slug,
-      title: newProject.title,
-      product: newProject.product,
-      platform: newProject.platform,
-      description: newProject.description,
-      year: newProject.year,
-      challenge: newProject.challenge,
-      solution: newProject.solution,
-      results: newProject.results,
-      tags: newProject.tags,
-      imageUrl: newProject.image_url,
-      caseImages: newProject.case_images,
-      inProgress: newProject.in_progress || false
-    };
-
-    res.json({ success: true, data: formattedProject });
+    res.json({ success: true, data: formatProject(newProject) });
   } catch (error) {
     console.error('Error creating project:', error);
     res.status(500).json({ success: false, error: error.message });
@@ -269,7 +251,14 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
       tags: req.body.tags,
       imageUrl: req.body.imageUrl,
       caseImages: req.body.caseImages,
-      inProgress: req.body.inProgress
+      inProgress: req.body.inProgress,
+      titleEn: req.body.titleEn,
+      productEn: req.body.productEn,
+      platformEn: req.body.platformEn,
+      descriptionEn: req.body.descriptionEn,
+      challengeEn: req.body.challengeEn,
+      solutionEn: req.body.solutionEn,
+      resultsEn: req.body.resultsEn,
     };
 
     const updatedProject = await updateProject(id, projectData);
@@ -278,24 +267,7 @@ app.put('/api/projects/:id', requireAdminKey, async (req, res) => {
       return res.status(404).json({ success: false, error: 'Project not found' });
     }
 
-    const formattedProject = {
-      id: updatedProject.id,
-      slug: updatedProject.slug,
-      title: updatedProject.title,
-      product: updatedProject.product,
-      platform: updatedProject.platform,
-      description: updatedProject.description,
-      year: updatedProject.year,
-      challenge: updatedProject.challenge,
-      solution: updatedProject.solution,
-      results: updatedProject.results,
-      tags: updatedProject.tags,
-      imageUrl: updatedProject.image_url,
-      caseImages: updatedProject.case_images,
-      inProgress: updatedProject.in_progress || false
-    };
-
-    res.json({ success: true, data: formattedProject });
+    res.json({ success: true, data: formatProject(updatedProject) });
   } catch (error) {
     console.error('Error updating project:', error);
     res.status(500).json({ success: false, error: error.message });
