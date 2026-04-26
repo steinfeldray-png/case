@@ -214,8 +214,8 @@ export default function HomePage() {
           {loading ? (
             <>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] w-full animate-pulse bg-white border border-[#e5e5ea]/60 rounded-[28px] p-5">
-                  <div className="pb-[12px] md:pb-[16px] border-b border-black/[0.06]">
+                <div key={i} className="flex flex-col gap-[12px] md:gap-[16px] items-start w-full animate-pulse bg-white border border-[#e5e5ea]/60 rounded-[28px] p-5 overflow-hidden">
+                  <div className="pb-[12px] md:pb-[16px] border-b border-black/[0.06] w-full">
                     <div className="h-[22px] md:h-[28px] bg-[#f0f0f0] rounded-[6px] w-3/4" />
                   </div>
                   <div className="flex gap-[24px] md:gap-[42px]">
@@ -228,7 +228,7 @@ export default function HomePage() {
                       <div className="h-[16px] bg-[#f0f0f0] rounded-[4px] w-[64px]" />
                     </div>
                   </div>
-                  <div className="aspect-video rounded-[12px] bg-[#f0f0f0]" />
+                  <div className="aspect-video w-full rounded-[16px] bg-[#f0f0f0]" />
                 </div>
               ))}
             </>
