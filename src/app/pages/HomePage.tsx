@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { API_ENDPOINTS, API_BASE_URL } from '/src/config/api';
 import { cloudinaryOptimize } from '/src/utils/cloudinary';
+import { useLang } from '/src/contexts/LanguageContext';
+import { t } from '/src/i18n/translations';
 
 interface Project {
   id: number;
@@ -44,6 +46,8 @@ function writeCache(key: string, data: unknown) {
 }
 
 export default function HomePage() {
+  const { lang, toggle } = useLang();
+  const tr = t[lang];
   const [projects, setProjects] = useState<Project[]>([]);
   const [profile, setProfile] = useState<Profile>({});
   const [loading, setLoading] = useState(true);
@@ -108,18 +112,26 @@ export default function HomePage() {
           <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
             Alexander Petrov
           </p>
-          <div className="flex font-['SF_Pro',sans-serif] font-normal gap-[16px] md:gap-[32px] items-start text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
+          <div className="flex font-['SF_Pro',sans-serif] font-normal gap-[16px] md:gap-[32px] items-center text-[#000000] text-[18px] md:text-[28px] tracking-[0.38px]">
             <button
               onClick={() => scrollToSection(casesRef)}
               className="cursor-pointer hover:opacity-60 transition-opacity"
             >
-              Кейсы
+              {tr.nav_cases}
             </button>
             <button
               onClick={() => scrollToSection(aboutRef)}
               className="cursor-pointer hover:opacity-60 transition-opacity"
             >
-              Обо мне
+              {tr.nav_about}
+            </button>
+            <button
+              onClick={toggle}
+              className="flex items-center gap-[4px] text-[14px] md:text-[16px] tracking-[0.02em] cursor-pointer select-none"
+            >
+              <span className={lang === 'ru' ? 'text-[#000000] font-medium' : 'text-[#8e8e93]'}>RU</span>
+              <span className="text-[#c7c7cc]">·</span>
+              <span className={lang === 'en' ? 'text-[#000000] font-medium' : 'text-[#8e8e93]'}>EN</span>
             </button>
           </div>
         </div>
@@ -140,7 +152,7 @@ export default function HomePage() {
                 Александр Петров
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[16px] md:text-[22px] tracking-[-0.26px]">
-                Москва, Россия
+                {tr.location}
               </p>
             </div>
             <div className="flex gap-[12px] md:gap-[16px] items-start mt-auto pt-[24px]">
@@ -234,7 +246,7 @@ export default function HomePage() {
             </>
           ) : projects.length === 0 ? (
             <div className="w-full text-center py-[48px]">
-              <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[24px]">Проекты не найдены</p>
+              <p className="font-['SF_Pro',sans-serif] text-[#000000] text-[20px] md:text-[24px]">{tr.no_projects}</p>
             </div>
           ) : (
             projects.map((project) => {
@@ -262,7 +274,7 @@ export default function HomePage() {
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[13px] md:text-[17px] tracking-[-0.43px] ${
                         project.inProgress ? 'text-black/20' : 'text-[#6e6e73]'
                       }`}>
-                        Продукт
+                        {tr.label_product}
                       </p>
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[15px] md:text-[20px] tracking-[-0.45px] ${
                         project.inProgress ? 'text-black/30' : 'text-[#000000]'
@@ -274,7 +286,7 @@ export default function HomePage() {
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[13px] md:text-[17px] tracking-[-0.43px] ${
                         project.inProgress ? 'text-black/20' : 'text-[#6e6e73]'
                       }`}>
-                        Платформа
+                        {tr.label_platform}
                       </p>
                       <p className={`font-['SF_Pro',sans-serif] font-normal text-[15px] md:text-[20px] tracking-[-0.45px] ${
                         project.inProgress ? 'text-black/30' : 'text-[#000000]'
@@ -298,7 +310,7 @@ export default function HomePage() {
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="bg-[#1c1c1e]/80 backdrop-blur-2xl rounded-full px-[20px] py-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
                               <p className="font-['SF_Pro',sans-serif] font-medium text-white/90 text-[14px] md:text-[16px] tracking-[-0.02em]">
-                                В работе
+                                {tr.in_progress}
                               </p>
                             </div>
                           </div>
@@ -329,7 +341,7 @@ export default function HomePage() {
         {/* About Me Section */}
         <div ref={aboutRef} className="flex flex-col font-normal gap-[24px] items-start py-[24px] md:py-[48px] relative shrink-0 text-black w-full z-[1]">
           <p className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[32px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] leading-none">
-            Обо мне
+            {tr.about_title}
           </p>
           <div className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.4] md:leading-[1.2] max-w-[996px]">
             {profile.about ? (
@@ -340,9 +352,9 @@ export default function HomePage() {
               ))
             ) : (
               <>
-                <p className="mb-[24px] md:mb-[32px]">Продуктовый дизайнер с фокусом на B2B e-commerce и внутренние сервисы. Проектирую сложные сценарии с высокой бизнес-нагрузкой и помогаю командам принимать решения на основе данных.</p>
-                <p className="mb-[24px] md:mb-[32px]">Работаю по полному циклу: от исследования и формирования гипотез до прототипирования, запуска и итераций на основе метрик. Участвую в discovery, приоритизации задач и формировании roadmap вместе с PM и аналитикой.</p>
-                <p>Использую аналитику, интервью и A/B-тесты, чтобы улучшать продукт измеримо. Выстраиваю дизайн-системы, веду design review и слежу за качеством реализации.</p>
+                <p className="mb-[24px] md:mb-[32px]">{tr.about_default_1}</p>
+                <p className="mb-[24px] md:mb-[32px]">{tr.about_default_2}</p>
+                <p>{tr.about_default_3}</p>
               </>
             )}
           </div>

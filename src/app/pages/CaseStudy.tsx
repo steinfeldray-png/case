@@ -1,6 +1,8 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { ChevronLeft } from 'lucide-react';
+import { useLang } from '/src/contexts/LanguageContext';
+import { t } from '/src/i18n/translations';
 
 // Если текст сохранён без HTML-тегов — конвертируем переносы строк в <br>
 // Если уже содержит HTML (от WYSIWYG редактора) — оставляем как есть
@@ -30,6 +32,8 @@ interface Project {
 }
 
 export default function CaseStudy() {
+  const { lang, toggle } = useLang();
+  const tr = t[lang];
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
@@ -152,13 +156,13 @@ export default function CaseStudy() {
       <div className="bg-white size-full flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-['SF_Pro',sans-serif] text-[48px] font-bold text-[#000000] mb-4">
-            Кейс не найден
+            {tr.case_not_found}
           </h1>
           <Link
             to="/"
             className="text-[#007AFF] hover:opacity-60 transition-opacity font-['SF_Pro',sans-serif] text-[20px]"
           >
-            Вернуться на главную
+            {tr.back_home}
           </Link>
         </div>
       </div>
@@ -182,8 +186,16 @@ export default function CaseStudy() {
         >
           <ChevronLeft className="size-[20px] md:size-[24px]" />
           <p className="font-['SF_Pro',sans-serif] font-normal text-[18px] md:text-[28px] tracking-[0.38px]">
-            Назад
+            {tr.nav_back}
           </p>
+        </button>
+        <button
+          onClick={toggle}
+          className="flex items-center gap-[4px] font-['SF_Pro',sans-serif] text-[14px] md:text-[16px] tracking-[0.02em] cursor-pointer select-none"
+        >
+          <span className={lang === 'ru' ? 'text-[#000000] font-medium' : 'text-[#8e8e93]'}>RU</span>
+          <span className="text-[#c7c7cc]">·</span>
+          <span className={lang === 'en' ? 'text-[#000000] font-medium' : 'text-[#8e8e93]'}>EN</span>
         </button>
       </div>
 
@@ -199,7 +211,7 @@ export default function CaseStudy() {
           <div className="flex gap-[24px] md:gap-[48px] mb-[32px] md:mb-[48px]">
             <div>
               <p className="font-['SF_Pro',sans-serif] font-[590] text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
-                Продукт
+                {tr.label_product}
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
                 {project.product}
@@ -207,7 +219,7 @@ export default function CaseStudy() {
             </div>
             <div>
               <p className="font-['SF_Pro',sans-serif] font-[590] text-[#6e6e73] text-[13px] md:text-[17px] tracking-[-0.43px] mb-[4px] md:mb-[8px]">
-                Платформа
+                {tr.label_platform}
               </p>
               <p className="font-['SF_Pro',sans-serif] font-normal text-[#000000] text-[16px] md:text-[22px]">
                 {project.platform}
@@ -221,7 +233,7 @@ export default function CaseStudy() {
               {/* Challenge */}
               <section className="mb-[40px] md:mb-[64px]">
                 <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
-                  Задача
+                  {tr.section_challenge}
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
@@ -232,7 +244,7 @@ export default function CaseStudy() {
               {/* Solution */}
               <section className="mb-[40px] md:mb-[64px]">
                 <h2 className="font-['SF_Pro',sans-serif] font-bold text-[#000000] text-[28px] md:text-[42px] tracking-[-0.5px] md:tracking-[-1px] mb-[16px] md:mb-[24px]">
-                  Решение
+                  {tr.section_solution}
                 </h2>
                 <div
                   className="font-['SF_Pro',sans-serif] text-[#000000] text-[16px] md:text-[24px] leading-[1.6] [&_h2]:font-bold [&_h2]:text-[22px] [&_h2]:md:text-[32px] [&_h2]:mb-[12px] [&_h2]:mt-[24px] [&_ul]:list-disc [&_ul]:pl-[24px] [&_ul]:space-y-[8px] [&_a]:text-[#007AFF] [&_a]:underline [&_b]:font-bold [&_i]:italic"
@@ -268,7 +280,7 @@ export default function CaseStudy() {
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[104px] md:self-start">
               <div className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[20px] md:rounded-[28px] p-[16.67px] md:p-[16.67px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-medium text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
-                  Результаты
+                  {tr.section_results}
                 </h3>
                 <ul className="space-y-[12px] md:space-y-[16px]">
                   {(project.results || []).map((result, idx) => (
@@ -295,7 +307,7 @@ export default function CaseStudy() {
                   >
                     <ChevronLeft className="size-[18px] shrink-0 mt-[18px]" />
                     <div>
-                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">Предыдущий проект</p>
+                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">{tr.prev_project}</p>
                       <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index - 1].title}
                       </span>
@@ -310,7 +322,7 @@ export default function CaseStudy() {
                     className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
                   >
                     <div className="text-right">
-                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">Следующий проект</p>
+                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">{tr.next_project}</p>
                       <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
                         {allProjects[index + 1].title}
                       </span>
@@ -334,7 +346,7 @@ export default function CaseStudy() {
       >
         <img
           src={lightboxSrc}
-          alt="Полный размер"
+          alt={tr.img_fullsize}
           className="max-w-full max-h-full object-contain rounded-[16px] ring-1 ring-white/10"
           onClick={(e) => e.stopPropagation()}
         />
