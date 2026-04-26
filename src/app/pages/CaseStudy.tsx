@@ -93,7 +93,7 @@ export default function CaseStudy() {
         transition: 'opacity 150ms ease',
       }}>
         <div className="max-w-[1440px] mx-auto">
-          <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+          <div className="bg-white/80 backdrop-blur-2xl border-b border-black/[0.08] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
             <div className="h-[28px] w-[80px] bg-[#f0f0f0] rounded-[8px] animate-pulse" />
           </div>
           <div className="px-5 md:px-[120px] py-[32px] md:py-[64px]">
@@ -171,7 +171,7 @@ export default function CaseStudy() {
     }}>
       <div className="max-w-[1440px] mx-auto">
       {/* Header — glass */}
-      <div className="backdrop-blur-2xl bg-white/20 border-b border-white/30 flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
+      <div className="bg-white/80 backdrop-blur-2xl border-b border-black/[0.08] flex items-center justify-between px-5 md:px-[120px] py-[16px] sticky top-0 z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-[8px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
