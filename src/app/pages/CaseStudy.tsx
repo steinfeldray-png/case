@@ -37,7 +37,6 @@ export default function CaseStudy() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
-  const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [phase, setPhase] = useState<'skeleton-in' | 'skeleton' | 'skeleton-out' | 'content-in' | 'content'>('skeleton-in');
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -61,14 +60,9 @@ export default function CaseStudy() {
     const fetchData = async () => {
       const start = Date.now();
       try {
-        const [projectResponse, allResponse] = await Promise.all([
-          fetch(API_ENDPOINTS.projectBySlug(slug!)),
-          fetch(API_ENDPOINTS.projects),
-        ]);
+        const projectResponse = await fetch(API_ENDPOINTS.projectBySlug(slug!));
         const projectResult = await projectResponse.json();
         if (projectResult.success) setProject(projectResult.data);
-        const allResult = await allResponse.json();
-        if (allResult.success) setAllProjects(allResult.data);
       } catch (error) {
         console.error('Error loading project:', error);
       } finally {
@@ -168,8 +162,6 @@ export default function CaseStudy() {
       </div>
     );
   }
-
-  const index = allProjects.findIndex(p => p.slug === slug);
 
   return (
     <>
@@ -296,43 +288,6 @@ export default function CaseStudy() {
             </div>
           </div>
 
-          {/* Next/Previous Projects */}
-          <div className="border-t border-black/[0.08] pt-[32px] md:pt-[48px] mt-[40px] md:mt-[64px]">
-            <div className="flex justify-between items-center gap-[16px]">
-              <div>
-                {index > 0 && (
-                  <Link
-                    to={`/case/${allProjects[index - 1].slug}`}
-                    className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
-                  >
-                    <ChevronLeft className="size-[18px] shrink-0 mt-[18px]" />
-                    <div>
-                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">{tr.prev_project}</p>
-                      <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
-                        {allProjects[index - 1].title}
-                      </span>
-                    </div>
-                  </Link>
-                )}
-              </div>
-              <div>
-                {index < allProjects.length - 1 && (
-                  <Link
-                    to={`/case/${allProjects[index + 1].slug}`}
-                    className="flex items-start gap-[4px] text-[#000000] hover:opacity-60 transition-opacity cursor-pointer"
-                  >
-                    <div className="text-right">
-                      <p className="font-['SF_Pro',sans-serif] text-[#6e6e73] text-[13px] mb-[2px]">{tr.next_project}</p>
-                      <span className="font-['SF_Pro',sans-serif] font-normal text-[17px] tracking-[0.38px]">
-                        {allProjects[index + 1].title}
-                      </span>
-                    </div>
-                    <ChevronLeft className="size-[18px] rotate-180 shrink-0 mt-[18px]" />
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       </div>
