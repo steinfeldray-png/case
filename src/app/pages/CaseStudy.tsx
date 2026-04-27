@@ -277,7 +277,7 @@ export default function CaseStudy() {
 
             {/* Sidebar — glass panel */}
             <div className="col-span-1 md:col-span-4 md:sticky md:top-[104px] md:self-start">
-              <div className="bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-[20px] md:rounded-[28px] p-[16.67px] md:p-[16.67px] mb-[24px] md:mb-[32px]">
+              <div className="bg-[#f5f5f7] border border-[#e5e5ea] rounded-[20px] md:rounded-[28px] p-[20px] md:p-[24px] mb-[24px] md:mb-[32px]">
                 <h3 className="font-['SF_Pro',sans-serif] font-medium text-[#000000] text-[22px] md:text-[28px] mb-[16px] md:mb-[24px]">
                   {tr.section_results}
                 </h3>
