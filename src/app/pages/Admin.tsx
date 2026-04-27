@@ -563,8 +563,9 @@ function ProjectForm({ project, isCreating, onSave, onCancel, onChange, saving, 
 
     const cleanProject = {
       ...project,
-      results: project.results.filter(r => r.trim() !== ''),
-      tags: project.tags.filter(t => t.trim() !== '')
+      results: (project.results || []).filter(r => r.trim() !== ''),
+      tags: (project.tags || []).filter(t => t.trim() !== ''),
+      resultsEn: (project.resultsEn || []).filter(r => r.trim() !== ''),
     };
 
     if (isCreating) {
