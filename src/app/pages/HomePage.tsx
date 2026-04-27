@@ -329,7 +329,7 @@ export default function HomePage() {
                         {project.inProgress ? (
                           <div className="bg-[#1c1c1e]/80 backdrop-blur-2xl rounded-full px-[20px] py-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
                             <p className="font-['SF_Pro',sans-serif] font-medium text-white/90 text-[14px] md:text-[16px] tracking-[-0.02em]">
-                              В работе
+                              {tr.in_progress}
                             </p>
                           </div>
                         ) : (
