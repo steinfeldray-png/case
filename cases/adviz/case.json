@@ -1,0 +1,25 @@
+{
+  "slug": "adviz",
+  "title": "Сервис автоматизации",
+  "product": "SaaS",
+  "platform": "Web",
+  "year": "2026",
+  "description": "B2B-инструмент для авитологов, автоматизирующий работу с объявлениями на Avito через API. В проекте я был единственным дизайнером: отвечал за UX/UI всего сервиса и административной панели.",
+  "challenge": "Существующий сервис устарел визуально и функционально. Интерфейс был перегружен, не поддерживал новые сценарии работы с объявлениями и не позволял эффективно управлять отзывами. Требовалась переработка под современные задачи и масштабирование функциональности.",
+  "solution": "<div>Я спроектировал обновлённый интерфейс с нуля на базе существующей дизайн-системы.</div><div><br></div><div><b>Основные модули:</b></div><ul><li>Личный кабинет пользователя</li><li>Статистика по объявлениям с фильтрами</li><li>Механика перепубликации и уникализации</li><li>Работа с отзывами (чтение, ответ)</li><li>Панель администратора (права, управление пользователями, тарифы)</li></ul><div><br></div><div>Интерфейс собран с учётом реальных сценариев пользователей, требований архитектора и ограничений backend-инфраструктуры.</div><div><br></div><div><b>Что сделал лично:</b></div><ul><li>Проанализировал старую версию сервиса и сценарии пользователей</li><li>Собрал требования от PM и CEO</li><li>Внедрил дизайн-систему в структуру интерфейса</li><li>Сделал интерфейс панели администратора с учётом безопасности и масштабируемости</li></ul>",
+  "results": [],
+  "tags": [],
+  "imageUrl": "cover.png",
+  "caseImages": [
+    "reviews.png",
+    "admin-users.png"
+  ],
+  "inProgress": true,
+  "titleEn": "Service Automation",
+  "productEn": "SaaS",
+  "platformEn": "Web",
+  "descriptionEn": "A B2B tool for Avito marketing specialists that automates listing management through the Avito API. I was the sole designer on the project, responsible for the UX/UI of the entire service and the admin panel.",
+  "challengeEn": "The existing service had become outdated both visually and functionally. The interface was overloaded, didn't support new listing workflows and made it hard to manage reviews effectively. It needed a rework to meet current needs and allow the functionality to scale.",
+  "solutionEn": "<div>I designed the updated interface from scratch on top of the existing design system.</div><div><br></div><div><b>Core modules:</b></div><ul><li>User account</li><li>Listing statistics with filters</li><li>Republishing and listing uniqueness tools</li><li>Review management (reading and replying)</li><li>Admin panel (permissions, user management, pricing plans)</li></ul><div><br></div><div>The interface was built around real user scenarios, the architect's requirements and backend infrastructure constraints.</div><div><br></div><div><b>What I did personally:</b></div><ul><li>Analyzed the previous version of the service and user scenarios</li><li>Gathered requirements from the PM and CEO</li><li>Integrated the design system into the interface structure</li><li>Designed the admin panel with security and scalability in mind</li></ul>",
+  "resultsEn": []
+}
