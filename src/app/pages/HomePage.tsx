@@ -215,14 +215,14 @@ export default function HomePage() {
 
           {/* Photo */}
           <div className="relative rounded-[28px] md:rounded-[48px] shrink-0 w-full md:w-[416px] aspect-square md:aspect-auto md:h-[416px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-white/30">
-            {loading && (
+            {!profile.photoUrl && (
               <div className="absolute inset-0 bg-[#e8e8e8] animate-pulse" />
             )}
             <img
               alt="Александр Петров"
-              className={`absolute inset-0 max-w-none object-cover pointer-events-none size-full transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
-              src={cloudinaryOptimize(profile.photoUrl, 832) || "https://drive.google.com/uc?export=view&id=13vYeZ6qlWxU25Wn-TEacoarS5E64F1VF"}
-              onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
+              className={`absolute inset-0 max-w-none object-cover pointer-events-none size-full transition-opacity duration-300 ${profile.photoUrl ? 'opacity-100' : 'opacity-0'}`}
+              src={cloudinaryOptimize(profile.photoUrl, 832) || undefined}
+              fetchPriority="high"
             />
           </div>
         </div>
