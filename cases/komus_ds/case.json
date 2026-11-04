@@ -16,17 +16,17 @@
   "imageUrl": "cover.png",
   "caseImages": [
     "s1-a.png",
-    "s1-b.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768598/portfolio/file_yktwis.png",
     "s2-a.png",
-    "s2-b.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768597/portfolio/file_z3mkxz.png",
     "s3-a.png",
-    "s3-b.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768598/portfolio/file_vdllu6.png",
     "s4-a.png",
-    "s4-b.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768597/portfolio/file_t1ocjs.png",
     "s5-a.png",
-    "s5-b.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768598/portfolio/file_fps0dy.png",
     "s6-a.png",
-    "s6-b.png"
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768598/portfolio/file_kxk8e4.png"
   ],
   "inProgress": false,
   "titleEn": "Komus Design System",
