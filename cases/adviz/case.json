@@ -11,13 +11,13 @@
   "tags": [],
   "imageUrl": "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768045/portfolio/file_qljglj.png",
   "caseImages": [
-    "reviews.png",
-    "reviews-reply.png",
-    "parser.png",
-    "admin-users.png",
-    "admin-modal.png"
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768594/portfolio/file_hdxjtf.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768594/portfolio/file_julec2.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768594/portfolio/file_sq756a.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768594/portfolio/file_a98gza.png",
+    "https://res.cloudinary.com/dnoc0hrh7/image/upload/v1793768594/portfolio/file_nntcsn.png"
   ],
-  "inProgress": true,
+  "inProgress": false,
   "titleEn": "Service Automation",
   "productEn": "SaaS",
   "platformEn": "Web",
