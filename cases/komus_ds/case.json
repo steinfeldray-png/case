@@ -1,0 +1,43 @@
+{
+  "slug": "komus_ds",
+  "title": "Дизайн-система Комус",
+  "product": "E-commerce",
+  "platform": "Web",
+  "year": "2024-2026",
+  "description": "Единая дизайн-система для крупнейшей B2B-платформы электронной коммерции в России. Обновил библиотеку компонентов и перевёл на неё весь сайт: от шрифтов и базовых стилей до Storybook для разработчиков.",
+  "challenge": "Комус — лидер российского B2B e-commerce с большим сайтом и большим объёмом параллельной разработки. При таком масштабе дизайнерам и разработчикам нужен был единый источник правды: унифицированная и поддерживаемая дизайн-система, с которой удобно работать обеим сторонам.",
+  "solution": "<div>Изменения в систему обсуждали всей командой, а компоненты я проектировал и внедрял сам.</div><div><br></div><div><b>Что сделал лично:</b></div><ul><li>Актуализировал все компоненты библиотеки</li><li>Навёл порядок в шрифтах</li><li>Внедрил компоненты на сайт</li><li>За два года перенёс весь сайт на актуальную дизайн-систему</li><li>Участвовал в запуске Storybook для разработчиков</li></ul>",
+  "results": [
+    "Все компоненты библиотеки актуализированы",
+    "Весь сайт переведён на единую поддерживаемую дизайн-систему",
+    "У разработчиков появился Storybook с компонентами"
+  ],
+  "tags": [],
+  "imageUrl": "cover.png",
+  "caseImages": [
+    "s1-a.png",
+    "s1-b.png",
+    "s2-a.png",
+    "s2-b.png",
+    "s3-a.png",
+    "s3-b.png",
+    "s4-a.png",
+    "s4-b.png",
+    "s5-a.png",
+    "s5-b.png",
+    "s6-a.png",
+    "s6-b.png"
+  ],
+  "inProgress": false,
+  "titleEn": "Komus Design System",
+  "productEn": "E-commerce",
+  "platformEn": "Web",
+  "descriptionEn": "A unified design system for Russia's largest B2B e-commerce platform. I rebuilt the component library and migrated the entire website to it, from fonts and foundations to Storybook for developers.",
+  "challengeEn": "Komus is the leader in Russian B2B e-commerce, with a large website and a high volume of parallel development. At this scale, designers and developers needed a single source of truth: a unified, maintainable design system that worked well for both.",
+  "solutionEn": "<div>We discussed improvements to the system as a team, while I designed and implemented the components myself.</div><div><br></div><div><b>What I did personally:</b></div><ul><li>Updated every component in the library</li><li>Sorted out the typography and fonts</li><li>Implemented the components on the website</li><li>Migrated the entire website to the current design system over two years</li><li>Took part in launching Storybook for developers</li></ul>",
+  "resultsEn": [
+    "All library components brought up to date",
+    "The entire website moved to a unified, maintainable design system",
+    "Developers gained a Storybook of components"
+  ]
+}
