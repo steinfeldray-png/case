@@ -1,0 +1,31 @@
+{
+  "slug": "xive",
+  "title": "XIVE: лендинг и майнинг-сервис",
+  "product": "Web3, Fintech",
+  "platform": "Web",
+  "year": "2023",
+  "description": "Сервис группового майнинга биткоина: пользователь покупает долю в майнинг-ферме и получает ежедневные выплаты в BTC. Я спроектировал лендинг и доработал дизайн самого сервиса: онбординг, оплату и личный кабинет.",
+  "challenge": "Групповой майнинг нужно объяснить просто: как устроено партнёрство, что покупает пользователь и как получает доход. Лендинг должен был донести эту модель и привести к покупке доли, а сервис — провести пользователя от регистрации до управления фермами и выводом средств.",
+  "solution": "<div><b>Что сделал лично:</b></div><ul><li>Спроектировал лендинг: первый экран, предложения ферм, схему «Как это работает», преимущества и FAQ</li><li>Доработал онбординг: регистрацию, подтверждение и вход</li><li>Доработал оплату: сводку заказа, оплату криптовалютой и с баланса, статусы платежа</li><li>Доработал личный кабинет: финансовую сводку, фермы пользователя, историю доходов и страницу фермы с графиком активности</li></ul>",
+  "results": [],
+  "tags": [],
+  "imageUrl": "cover.png",
+  "caseImages": [
+    "how.png",
+    "faq.png",
+    "signup.png",
+    "order.png",
+    "crypto.png",
+    "done.png",
+    "account.png",
+    "farm.png"
+  ],
+  "inProgress": false,
+  "titleEn": "XIVE: Landing Page and Mining Service",
+  "productEn": "Web3, Fintech",
+  "platformEn": "Web",
+  "descriptionEn": "A group Bitcoin mining service: users buy a share in a mining farm and receive daily BTC payouts. I designed the landing page and improved the service itself: onboarding, payments and the personal account.",
+  "challengeEn": "Group mining has to be explained simply: how the partnership works, what the user buys and how income is earned. The landing page had to communicate this model and lead to a purchase, while the service had to guide users from sign-up to managing their farms and withdrawals.",
+  "solutionEn": "<div><b>What I did personally:</b></div><ul><li>Designed the landing page: hero, farm offers, the “How it works” flow, benefits and FAQ</li><li>Improved onboarding: sign-up, verification and sign-in</li><li>Improved payments: order summary, paying with crypto or balance, payment statuses</li><li>Improved the personal account: finance overview, user farms, income history and a farm page with an activity chart</li></ul>",
+  "resultsEn": []
+}
