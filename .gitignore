@@ -8,6 +8,9 @@ dist/
 # Environment variables (contain secrets!)
 .env
 .env.local
+.env.*.local
+.env.vercel
+.vercel/
 backend/.env
 backend/.env.local
 
